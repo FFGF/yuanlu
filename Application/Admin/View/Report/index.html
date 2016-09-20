@@ -1,0 +1,95 @@
+<extend name="Public/base"/>
+
+<block name="style"><link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/></block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>{$branch}部门日报录入</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+            <div class="recordCou">
+                <form method="post" action="{:U('admin/Report/saveData')}">
+                      <table class="table" cellspacing="0" cellpadding="0">
+                          <thead>
+                              <th width="9%" class="leftradiu"></th>
+                              <th width="9%" class="lan">资产现金</th>
+                              <th width="9%">资产品</th>
+                              <th width="14%" class="lan">融资负债/授信</th>
+                              <th width="5%">应收</th>
+                              <th width="8%" class="lan">应付</th>
+                              <th width="8%" class="rightradiu">备注</th>
+                          </thead>
+                          <tbody>
+                          <volist name="project_cunhuo" id="vo">
+                              <tr>
+                                  <td>{$vo.name_project}</td>
+                                  <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                  <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                  <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                  <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                  <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                  <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                              </tr>
+                          </volist>
+                          <volist name="project_bank" id="vo">
+                              <if condition="$power eq 2">
+                                  <tr>
+                                      <td>{$vo.name_project}</td>
+                                      <td>20.0</td>
+                                      <td>20.0</td>
+                                      <td>20.0</td>
+                                      <td>20.0</td>
+                                      <td>20.0</td>
+                                      <td>20.0</td>
+                                  </tr>
+                                  <else/>
+                                  <tr>
+                                      <td>{$vo.name_project}</td>
+                                      <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                      <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                      <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                      <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                      <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                      <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                                  </tr>
+                              </if>
+                          </volist>
+                          </tbody>
+                      </table>
+                      <table class="table" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <th width="9%" class="leftradiu"></th>
+                            <th width="9%" class="lan">可用资金</th>
+                            <th width="9%">保证金</th>
+                            <th width="14%" class="lan">融资负债/授信</th>
+                            <th width="5%">应收</th>
+                            <th width="8%" class="lan">应付</th>
+                            <th width="8%">备注</th>
+                        </thead>
+                          <tbody>
+                        <volist name="project_qihuo" id="vo">
+                            <tr>
+                                <td>{$vo.name_project}</td>
+                                <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                            </tr>
+                        </volist>
+                          </tbody>
+                    </table>
+                    <div class="derivedata">
+                            <input type="submit" value="提交">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>

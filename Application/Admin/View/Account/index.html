@@ -1,0 +1,149 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>账户、公司、项目</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+
+
+
+
+            <!--  添加账号    -->
+            <div class="recordCou">
+
+                <form name="form1" method="post" action="{:U('admin/Account/saveData')}">
+                    <table border="1">
+                        <tr >
+                            <th>姓名</th>
+                            <th>密码</th>
+                            <th>部门</th>
+                            <th>是否为经理</th>
+                            <th>value</th>
+                        </tr>
+                        <tr >
+                            <td><input type="text" name="user_name"></td>
+                            <td><input type="text" name="user_password"></td>
+
+                            <td >
+
+                                <!--
+                               <form name="form2" method="post" action="{:U('admin/Account/saveaccoData')}">
+                              -->
+                                <select name="branch_id">
+
+                                    <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+
+                                    <volist name="branchlist" id="vo">
+                                        <option> {$vo.name}</option>
+                                    </volist>
+
+
+                                </select>
+
+                                <!--  </form>   -->
+                            </td>
+
+
+
+                            <td width="100 px" name="branch_manager1">
+                                <input type="radio" name="branch_manager" value="1">yes
+
+                                <input type="radio" name="branch_manager" value="0">no
+                            </td>
+
+
+                            <td><input type="text" name="value"></td>
+
+                        </tr>
+
+                    </table>
+
+
+                    <input type="submit" value="提交">
+
+                </form>
+
+            </div>
+
+            </br>
+            </br>
+
+            <!--  添加公司    -->
+            <div class="recordCou">
+
+                <form method="post" action="{:U('admin/Account/saveData2')}">
+                    <table border="1">
+                        <tr >
+                            <th>公司名</th>
+                        </tr>
+
+                        <tr >
+                            <td><input type="text" name="name"></td>
+                        </tr>
+
+                    </table>
+
+                    <input type="submit" value="提交">
+                </form>
+            </div>
+
+
+
+            </br>
+            </br>
+            <!--  添加项目    -->
+            <div class="recordCou">
+
+                <form method="post" action="{:U('admin/Account/saveData3')}">
+                    <table border="1">
+                        <tr >
+                            <td>项目名称</td>
+                            <td>部门</td>
+                            <td>银行账号</td>
+
+                        </tr>
+
+                        <tr >
+                            <td><input type="text" name="name"></td>
+
+                            <td >
+
+                                <select name="branch_id">
+                                    <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+                                    <volist name="branchlist" id="vo">
+                                        <option> {$vo.name}</option>
+                                    </volist>
+                                </select>
+
+                            </td>
+
+
+                            <td><input type="text" name="bank_number"></td>
+
+                        </tr>
+
+                    </table>
+
+                    <input type="submit" value="提交">
+                </form>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>

@@ -1,0 +1,196 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin: 0; padding: 0; }
+body { font-family: "微软雅黑",Arial; font-size: 12px; color: #000; background-color: #f5f5f5;}
+html,body{height:100%;min-width:1200px;}
+ul, li { list-style: none;}
+img { border: 0; vertical-align: top; }
+input{ border: 0;}
+input[type=button]{ cursor: pointer;}
+a { text-decoration: none; outline: none; }
+i,b{ font-style: normal; font-weight: 100;}
+.wrap{ width: 1196px; margin: 0 auto;}
+.clear{ clear: both;}
+.white{ background: white;}
+.mt_30{ clear: both; margin-top: 30px;}
+.mt_50{ clear: both; margin-top: 50px;}
+.mr_60{ margin-left: 60px;}
+
+.platLeft{width: 200px; background-color: #34495e; height: 100%; position: fixed; top: 0; left: 50%;margin-left: -598px;}
+.platRight{float: right;}
+.platLogo{ width: 200px; height: 90px;}
+.platNav{ width: 200px;}
+.platNav>li{ width: 200px; line-height: 65px; font-size: 16px; color: #cecece; text-align: center; position: relative;}
+.platNav>li.active{ background-color: #223442; color: #fff;}
+.platNav>li .arrow{ background: url(../Images/platbtn.png) no-repeat -10px -137px; width: 8px; height: 13px; position: absolute; right: 20px; top: 26px;}
+.platNav>li.active .arrow{ background-position: 0px -137px;}
+.platNav>li.active.arrowDown .arrow{ background-position: -20px -137px; width: 13px; height: 8px;}
+.icon1,.icon2,.icon3,.icon4{ background: url(../Images/platbtn.png) no-repeat 0px 0px; width: 31px; height: 29px; position: absolute; left: 20px; top: 18px;}
+.icon1{ background-position: 0px 0px}
+.icon2{ background-position: 0px -35px}
+.icon3{ background-position: 0px -66px}
+.icon4{ background-position: 0px -99px}
+.platNav li{ cursor: pointer;}
+.platNav>li.active .icon1{ background-position: -34px 0px}
+.platNav>li.active .icon2{ background-position: -34px -35px}
+.platNav>li.active .icon3{ background-position: -34px -66px}
+.platNav>li.active .icon4{ background-position: -34px -99px}
+.childLi{ display: none;}
+.childLi li{ height: 40px; line-height: 40px; font-size: 14px; color: #fff;}
+.childLi li a{color: #fff;}
+.childLi li:hover a{color: #2e97de;}
+.childLi li.now a{ color: #2e97de;}
+.platTop{ width: 996px; background: #fff; height: 90px; line-height: 90px;text-indent: 30px;}
+.platTop span{ font-size: 22px; color: #444; font-weight: bold; }
+.platTop a{ float: right; margin-right: 45px; font-size: 16px; color: #2e97de;}
+.platCon{ width: 980px; margin-top: 30px; margin-left: 16px;}
+.platState{ width: 100%; padding-bottom: 40px; position: relative;}
+.refresh{ width: 24px; height: 25px; position: absolute; display: inline-block; right: 20px; top: 20px; background: url(../Images/platbtn.png) no-repeat -40px -137px; cursor: pointer;}
+.platTitle{ height: 35px; margin-left: 50px; line-height: 32px;}
+.platTitle h2{ border-top:3px solid #2e97de; display: inline-block; font-size: 18px;}
+.platStateCon li{ font-size: 16px; height: 15px; border-left: 3px solid #2e97de; line-height: 15px; margin-top: 20px; margin-left: 80px; text-indent: 1em;}
+.chart{ width: 800px; height: 348px; background: #2e97de; margin-left: 80px; margin-top: 20px;}
+/* 添加客户页面 */
+.bySelf{ width: 790px; margin: 30px 0 30px 80px; }
+.bySelf i{ width: 3px; height: 15px; background: #2e97de; display: inline-block;}
+.bySelf span{ font-size: 16px; display: inline-block; padding: 0 15px;}
+.bySelfInput{ width: 430px; height: 35px; border: 1px solid #2e97de; border-radius: 4px; text-indent: 1em; margin-right: 46px;}
+.bySelfBtn{ width: 146px; height: 37px; background: #2e97de; border-radius: 4px; text-align: center; line-height: 37px; color: #fff; cursor: pointer; font-size: 16px; font-weight: bold;}
+.addCus{ width: 790px; float: left;margin-left: 80px; margin-top: 25px;}
+.agreement{ width: 790px;margin-left: 80px; margin-top: 50px; height: 37px; line-height: 37px;}
+.agreement a{ font-size: 16px; color: #2e97de;  }
+.agreement input{ font-size: 20px; color: #fff; width: 245px; height: 37px; float: right; background: #2e97de; border-radius: 4px; cursor: pointer;}
+/* 账务管理-提现记录 */
+.record{ margin-top: 60px;}
+.leftradiu{ border-radius: 5px 0 0 0;}
+.rightradiu{ border-radius: 0 5px 0 0;}
+.fina_rec{ border: 0px; width: 960px; margin: 0 auto;}
+.fina_rec thead tr th.lan{ background: #73c7ff;}
+.fina_rec thead tr th{ height: 50px; line-height: 50px; text-align: center; font-size: 16px; color: #fff; background: #2e97de; font-weight: 100;}
+.fina_rec tbody tr{ line-height: 30px; text-align: center; font-size: 12px; color: #666; }
+.fina_rec tbody tr td:nth-child(2n){background: #ebebeb;}
+.fina_rec tbody tr td:nth-child(2n+1){ background: #f6f6f6;}
+.fina_rec tbody tr:nth-child(2n) td:nth-child(2n){background: #ffffff;}
+.fina_rec tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}
+.fina_rec tfoot tr{ background: #34495e; height: 16px; width: 100%}
+.fina_rec tbody tr td:nth-child(1),.fina_rec thead tr th:nth-child(1){ font-weight: bold;}
+/* 生成优惠券页面 */
+.sort{ width: 10px; height: 18px; display: inline-block; margin-left: 2px; vertical-align: middle;}
+.asc,.desc{ width: 10px; height: 8px;  background: url(../Images/platbtn.png) no-repeat; display: inline-block; float: left; cursor: pointer; }
+.asc{ background-position:  -33px -186px; margin-bottom: 2px;}
+.desc{ background-position:  -33px -199px;}
+.asc.now{ background-position:  -44px -186px;}
+.desc.now{ background-position:  -44px -199px;}
+.coupon{ overflow: hidden;} 
+.coupon ul{ margin-left: 80px; margin-top: 40px; width: 790px;}
+.coupon ul li{ margin-bottom: 35px;}
+.coupon ul li i{ width: 3px; height: 15px; background: #2e97de; margin-right: 15px; display: inline-block; vertical-align: middle;}
+.coupon ul li input{ width: 200px; height: 35px; border: 1px solid #2e97de; border-radius: 4px; margin: 0 10px 0 30px; text-indent: 1em; vertical-align: middle; line-height: 35px;}
+.coupon ul li textarea{ width: 540px; height: 90px;vertical-align: middle; margin: 0 10px 0 30px; border: 1px solid #2e97de; padding: 5px;}
+.coupon ul li span{ font-size: 16px; color: #444;}
+.coupon ul li input.couponBtn{ float: right; width: 145px; height: 37px; line-height: 37px; text-align: center; color: #fff; background: #2e97de; font-size: 20px; font-weight: bold; text-indent: 0;}
+.Calendar{ margin-top: 20px; height: 38px; clear: both}
+.Calendar div{ width:366px; float: left;}
+.coupon ul li .Calendar input{ background: url(../Images/platbtn.png) no-repeat 210px -156px; padding-right: 50px;}
+.coupon ul li .Calendar button{ width: 70px; height: 37px; border: 0px; background: #2e97de; color: #fff;}
+/* 优惠券管理页面 */
+.recordCou{ margin-top: 40px;}
+.reSearch{ height: 32px; z-index: 2; width: 740px; margin: 0 auto 20px;}
+.reSearch input{ border-radius: 4px;}
+.couponState{ width: 165px;  height: 32px; position: relative; display: inline-block; *display: inline; *zoom:1;}
+.couponState i{ width: 13px; height: 8px; background: url(../Images/platbtn.png) no-repeat -20px -146px; display: block; position: absolute; right: 40px; top: 12px; cursor: pointer;}
+.couponState input{ width: 130px; height: 30px; border: 1px solid #cecece; text-indent: 1em; line-height: 30px;}
+.couSta{ width: 130px; line-height: 30px; border: 1px solid #cecece; position: absolute; border-top: 0px; display: none;}
+.couSta b{ width: 130px; display: block; color: #333; background: #fff; text-align: center;cursor: pointer;}
+.couSta b:hover{ background: #2e97de; color: #fff; }
+.changeDate{ width: 321px; display: inline-block; padding-left: 35px; background: url(../Images/platbtn.png) no-repeat 0px -158px; *display: inline; *zoom:1; font-size: 0;}
+.changeDate div{ display: inline-block; *display: inline; *zoom:1}
+.changeDate input{ width: 130px; height: 30px; border: 1px solid #cecece;  text-indent: 1em; line-height: 30px;}
+.changeDate input:nth-child(1){ margin-right: 20px;}
+.changeDate button{ display: none;}
+.reSearchM{ width: 0px; height: 0px;}
+.hide{ overflow: hidden;}
+.searchTo{ display: inline-block; width: 80px; height: 30px; background: #2e97de; color: #fff; margin-right: 15px;}
+.RCsearch{ width: 100%; height: 33px; display: inline-block; position: relative; *display: inline; *zoom:1; line-height: 30px; overflow: hidden;}
+.RCsearch input{ width: 300px; height: 30px; border: 1px solid #cecece; text-indent: 1em; line-height: 30px;}
+.RCsearch i{ width: 20px; height: 20px; background: url(../Images/platbtn.png) no-repeat 0px -192px; display: inline-block; cursor: pointer; vertical-align: middle; margin: 0 10px;}
+.RCsearchMore,.RCsearchSimple{ color: #2e97de; display: inline-block; font-size: 16px; float: right; }
+.coupon_rec{ border: 0px; width: 960px; margin:  0 auto; overflow: hidden;}
+.coupon_rec thead tr th.lan{ background: #73c7ff;}
+.coupon_rec thead tr th{ height: 50px; line-height: 50px; text-align: center; font-size: 16px; color: #fff; background: #2e97de; font-weight: 100;}
+.coupon_rec tbody tr{ line-height: 30px; text-align: center; font-size: 12px; color: #666; }
+.coupon_rec tbody tr td:nth-child(2n){background: #ebebeb;}
+.coupon_rec tbody tr td:nth-child(2n+1){ background: #f6f6f6;}
+.coupon_rec tbody tr:nth-child(2n) td:nth-child(2n){background: #ffffff;}
+.coupon_rec tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}
+.coupon_rec tfoot tr{ background: #34495e; height: 16px; width: 100%}
+.coupon_rec tbody tr td:nth-child(1),.coupon_rec thead tr th:nth-child(1){ font-weight: bold;}
+/* 客户管理-全部客户 */
+.Customer_all{ border: 0px; width: 960px; margin: 0 auto;}
+.Customer_all thead tr th.lan{ background: #73c7ff;}
+.Customer_all thead tr th{ height: 50px; line-height: 50px; text-align: center; font-size: 16px; color: #fff; background: #2e97de; font-weight: 100;}
+.Customer_all tbody tr{ line-height: 30px; text-align: center; font-size: 12px; color: #666; }
+.Customer_all tbody tr td a{ color: #2e97de;}
+.Customer_all tbody tr td:nth-child(2n){background: #ebebeb;}
+.Customer_all tbody tr td:nth-child(2n+1){ background: #f6f6f6;}
+.Customer_all tbody tr:nth-child(2n) td:nth-child(2n){background: #ffffff;}
+.Customer_all tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}
+.Customer_all tfoot tr{ background: #34495e; height: 16px; width: 100%}
+.Customer_all tbody tr td:nth-child(1),.Customer_all thead tr th:nth-child(1){ font-weight: bold;}
+.detailed{ position: absolute; top: 50%; left: 50%; margin-left: -330px; width: 660px; margin-top: -120px; display: none; z-index: 3;}
+.detailed_info{ border: 0px; width: 660px; margin-top: 12px;}
+.detailed_info thead tr th.lan{ background: #73c7ff;}
+.detailed_info thead tr th{ height: 50px; line-height: 50px; text-align: center; font-size: 16px; color: #fff; background: #2e97de; font-weight: 100;}
+.detailed_info tbody tr{ line-height: 30px; text-align: center; font-size: 12px; color: #666; }
+.detailed_info tbody tr td a{ color: #2e97de;}
+.detailed_info tbody tr td:nth-child(2n){background: #ebebeb;}
+.detailed_info tbody tr td:nth-child(2n+1){ background: #f6f6f6;}
+.detailed_info tbody tr:nth-child(2n) td:nth-child(2n){background: #ffffff;}
+.detailed_info tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}
+.detailed_info tfoot tr{ background: #34495e; height: 16px; width: 100%}
+.detailed_info tbody tr td:nth-child(1),.detailed_info thead tr th:nth-child(1){ font-weight: bold;}
+.detailed_info thead tr th:nth-child(1){ width: 100px;}
+.detailed_info thead tr th:nth-child(2){ width: 160px;}
+.detailed_info thead tr th:nth-child(3){ width: 200px;}
+.detailed_info thead tr th:nth-child(4){ width: 200px;}
+.info_close{ width: 24px; height: 24px; position: absolute; display: inline-block; right: -12px; top: 0px; background: url(../Images/platbtn.png) no-repeat 0px -215px; z-index: 3; cursor: pointer;}
+.info_bg{ width: 100%; height: 100%; background: #000; filter:alpha(opacity=80);opacity:.8; display: none; position: fixed; top: 0; left: 0; z-index: 1;}
+/* 客户管理-客户订单页面 */
+.customer_order{ border: 0px; width: 960px; margin: 0 auto;}
+.customer_order thead tr th.lan{ background: #73c7ff;}
+.customer_order thead tr th{ height: 50px; line-height: 50px; text-align: center; font-size: 16px; color: #fff; background: #2e97de; font-weight: 100;}
+.customer_order tbody tr{ line-height: 30px; text-align: center; font-size: 12px; color: #666; }
+.customer_order tbody tr td a{ color: #2e97de;}
+.customer_order tbody tr td:nth-child(2n){background: #ebebeb;}
+.customer_order tbody tr td:nth-child(2n+1){ background: #f6f6f6;}
+.customer_order tbody tr:nth-child(2n) td:nth-child(2n){background: #ffffff;}
+.customer_order tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}
+.customer_order tfoot tr{ background: #34495e; height: 16px; width: 100%}
+.customer_order tbody tr td:nth-child(1),.customer_order thead tr th:nth-child(1){ font-weight: bold;}
+/* 资料管理-我的证件 */
+.certificate{ width: 790px; margin-left: 80px; margin-bottom: 30px; margin-top: 20px;}
+.certId{ width: 360px; float: left;}
+.certId i{ width: 3px; height: 15px; background: #2e97de; display: inline-block; margin-right: 15px;}
+.certId span{ font-size: 16px; }
+.certId img{ margin-top: 15px;}
+/* 资料管理-银行帐户 */
+.certfBank{ width: 790px; margin-left: 80px; margin-top: 50px; overflow: hidden; margin-bottom: 100px;}
+.CBcon{ margin-bottom: 30px;}
+.CBcon i{ width: 3px; height: 15px; background: #2e97de; display: inline-block; vertical-align: middle;}
+.CBcon span{ width: 75px; margin-left: 15px; font-size: 16px; color: #444; display: inline-block; vertical-align: middle;}
+.CBcon input{ width: 200px; height: 35px; border: 1px solid #2e97de; border-radius: 4px; text-indent: 1em; vertical-align: middle; line-height: 35px;}
+.CBbtn{ margin-top: 200px;}
+.CBbtn input{ width: 145px; height: 37px; text-align: center; line-height: 37px; color: #fff; background: #2e97de; float: right; margin-right: 50px; border-radius: 5px;font-size: 20px;font-weight: bold;}
+/* 资料管理-我的资料 */
+.dataMyself{ overflow: hidden; width: 790px; margin-left: 80px; margin-top: 20px;}
+.dataMyself li{ font-size: 16px; color: #333; line-height: 35px; margin-bottom: 15px;}
+.dataMyself li i{ width: 3px; height: 15px;  background: #2e97de; display: inline-block;}
+.dataMyself li span{ width: 110px; display: inline-block; text-align: right; margin-right: 15px;}
+/* 分页按钮 */
+.page{ width: 100%; padding-top: 30px; padding-bottom: 30px; background: #fff; font-size: 0; text-align: center;}
+.page a,.current,.rows{ display: inline-block; padding: 0 8px; line-height: 22px; border: 1px solid #2e97de; margin: 0 1px; font-size: 12px; cursor: pointer; border-radius: 1px;  color: #2e97de;}
+.current{ background: #2e97de; color: #fff;}
+
+
+
+

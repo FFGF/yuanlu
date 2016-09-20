@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>源庐资产管理系统 V{$Think.THINK_VERSION} | 源庐</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css">
+    <script src="__JS__/jquery-1.11.0.min.js"></script>
+    <block name="style"></block>
+</head>
+
+<body>
+
+<div class="wrap">
+    <div class="platLeft">
+        <div class="platLogo"><a href="http://www.grandcloud.cn/"><img src="__IMG__/platLogo.png"></a></div>
+        <ul class="platNav">
+            <!--<li onclick="javascript:window.location.href='Examine'"  <if condition="CONTROLLER_NAME=='Examine'">class="active arrowDown"</if>><i class="icon icon1"></i>渠道商管理<i class="arrow"></i></li>-->
+            <!--<li onclick="javascript:window.location.href='Customer'" <if condition="CONTROLLER_NAME=='Customer'">class="active arrowDown"</if>><i class="icon icon2"></i>全部客户<i class="arrow"></i></li>-->
+            <!--<li <if condition="CONTROLLER_NAME=='Finance'">class="active arrowDown"</if>>-->
+                <!--<i class="icon icon3"></i>日报录入<i class="arrow"></i>-->
+                <!--<ul class="childLi">-->
+                    <!--<li <if condition="CONTROLLER_NAME=='Finance' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/finance/index')}">全部订单</a></li>-->
+                    <!--<li <if condition="CONTROLLER_NAME=='Finance' AND ACTION_NAME=='withdrawals'">class="now"</if>><a href="{:U('admin/finance/withdrawals')}">提现记录</a></li>-->
+                    <!--<li <if condition="CONTROLLER_NAME=='Finance' AND ACTION_NAME=='add'">class="now"</if>><a href="{:U('admin/finance/add')}">添加超额返佣</a></li>-->
+                    <!--<if condition="$is_root eq Y"><li ><if condition="CONTROLLER_NAME=='Finance' AND ACTION_NAME=='deduction'">class="now"</if>><a href="{:U('admin/finance/deduction')}">扣款记录</a></li></if>-->
+                    <!--<if condition="$is_root eq Y"><li ><if condition="CONTROLLER_NAME=='Finance' AND ACTION_NAME=='deduct'">class="now"</if>><a href="{:U('admin/finance/deduct')}">添加扣款</a></li></if>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <!--<if condition="$is_root eq Y"><li onclick="javascript:window.location.href='Root'" <if condition="CONTROLLER_NAME=='Root' AND ACTION_NAME=='index'">class="active arrowDown"</if>><i class="icon icon5"></i>添加管理员<i class="arrow"></i></li></if>-->
+            <!--<if condition="$is_root eq Y"><li onclick="javascript:window.location.href='Root-changePwd'" <if condition="CONTROLLER_NAME=='Root' AND ACTION_NAME=='changepwd'">class="active arrowDown"</if>><i class="icon"></i>修改密码<i class="arrow"></i></li></if>-->
+
+            <!--<li <if condition="CONTROLLER_NAME=='Message'">class="active arrowDown"</if>>-->
+            <!--<i class="icon icon6"></i>站内信<i class="arrow"></i>-->
+            <!--<ul class="childLi">-->
+                <!--<li <if condition="CONTROLLER_NAME=='Message' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/message/index')}">历史记录</a></li>-->
+                <!--<li <if condition="CONTROLLER_NAME=='Message' AND ACTION_NAME=='edit'">class="now"</if>><a href="{:U('admin/message/edit')}">发布消息</a></li>-->
+            <!--</ul>-->
+            <!--</li>-->
+
+            <li <if condition="CONTROLLER_NAME=='Report'">class="active arrowDown"</if>>
+            <i class="icon icon6"></i>日报录入<i class="arrow"></i>
+            <ul class="childLi">
+                <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/report/index')}">现货期货录入</a></li>
+                <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='bank'">class="now"</if>><a href="{:U('admin/report/bank')}">银行数据录入</a></li>
+            </ul>
+            </li>
+
+            <li <if condition="CONTROLLER_NAME=='Account'">class="active arrowDown"</if>>
+            <i class="icon icon6"></i>账户管理<i class="arrow"></i>
+            <ul class="childLi">
+                <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index')}">账户管理</a></li>
+            </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="platRight">
+        <div class="platTop">
+            <div class="Tit">源庐资产管理系统</div>
+            <div class="TopR">
+                <a href="{:U('admin/index/logout')}">退出</a>
+            </div>
+        </div>
+        <block name="body"></block>
+    </div>
+</div>
+<script type="text/javascript" src="__JS__/platform.js"></script>
+<script>
+    $('.sort > a').click(function(){
+        var link  = window.location.href.toString();
+        var type  = $(this).parent().attr('type');
+        var order = $(this).attr('class').split(' ')[0];
+        link = link.replace(/([?&-]type[=-])([^&-]*)/gi,"$1"+type);
+        link = link.replace(/([?&-]order[=-])([^&-]*)/gi,"$1"+order);
+        if(link.match(/[?&-]order[=-]/)==null){
+            link += (link.indexOf('?') == -1 ? '?' : '&') + "type="+type+"&order="+order;
+        }
+        window.location.href = link;
+    });
+</script>
+<block name="script"></block>
+</body>
+</html>

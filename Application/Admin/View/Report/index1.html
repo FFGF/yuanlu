@@ -1,0 +1,134 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>日报录入</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+            <div class="recordCou">
+                  <form method="post" action="{:U('admin/Report/saveData')}">
+
+                      <volist name="project_not_xianhuo" id="vo">
+                          <h4>{$vo.name_project}</h4>
+                          <table border="1">
+                              <tr>
+                                  <th>类别</th>
+                                  <th>期初投入</th>
+                                  <th>前日金额</th>
+                                  <th>当日金额</th>
+                                  <th>差额</th>
+                                  <th>备注</th>
+                              </tr>
+                              <tr>
+                                  <td>保证金</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_a' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_a'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_a'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_a'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_a'></td>
+                              </tr>
+                              <tr>
+                                  <td>可用资金</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_b' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_b'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_b'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_b'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_b'></td>
+                              </tr>
+                              <tr>
+                                  <td>客户权益</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_c' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_c'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_c'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_c'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_c'></td>
+                              </tr>
+                              <tr>
+                                  <td>非货币性抵押</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_d' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_d'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_d'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_d'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_d'></td>
+                              </tr>
+                              <tr>
+                                  <td>持仓授信</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_j' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_j'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_j'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_j'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_j'></td>
+                              </tr>
+                          </table>
+                      </volist>
+
+                      <volist name="project_xianhuo" id="vo">
+                          <h4>{$vo.name_project}</h4>
+                          <table border="1">
+                              <tr>
+                                  <th>类别</th>
+                                  <th>期初投入</th>
+                                  <th>前日金额</th>
+                                  <th>当日金额</th>
+                                  <th>差额</th>
+                                  <th>备注</th>
+                              </tr>
+                              <tr>
+                                  <td>其他货币资金（工行承兑汇票）</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_e' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_e'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_e'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_e'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_e'></td>
+                              </tr>
+                              <tr>
+                                  <td>{$vo.bank_number}</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_f' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_f'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_f'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_f'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_f'></td>
+                              </tr>
+                              <tr>
+                                  <td>存货总金额</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_g' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_g'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_g'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_g'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_g'></td>
+                              </tr>
+                              <tr>
+                                  <td>应收款</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_h' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_h'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_h'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_h'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_h'></td>
+                              </tr>
+                              <tr>
+                                  <td>应付款</td>
+                                  <td><input type="text" name='prime_invest<?php echo ($vo["id"]); ?>_i' ></td>
+                                  <td><input type="text" name='yesterday_money<?php echo ($vo["id"]); ?>_i'></td>
+                                  <td><input type="text" name='today_money<?php echo ($vo["id"]); ?>_i'></td>
+                                  <td><input type="text" name='subtract<?php echo ($vo["id"]); ?>_i'></td>
+                                  <td><input type="text" name='remark<?php echo ($vo["id"]); ?>_i'></td>
+                              </tr>
+                          </table>
+                      </volist>
+                      <input type="submit" value="提交">
+                  </form>
+            </div>
+        </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>
