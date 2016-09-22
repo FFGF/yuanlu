@@ -8,3 +8,7 @@ function getCategory($vo){
         }
     }
 }
+
+function rmbToDollar($value,$rate){
+    return $value * $rate;
+}

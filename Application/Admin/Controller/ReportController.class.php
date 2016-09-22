@@ -7,6 +7,8 @@
  */
 namespace Admin\Controller;
 
+use Think\Model;
+
 class ReportController extends ChannelsController{
     public function index(){
         $project = M('branch');
@@ -46,28 +48,74 @@ class ReportController extends ChannelsController{
         $project = M('project');
         $result = $project->join('branch on project.branch_id = branch.id')
             ->field('project.*,branch.name as branch_name')->select();
-
         $branch_name = M('branch')->getField('name',true);
-
         $formatData = [];
-
         foreach($branch_name as $key=>$value){
-            $formatData[$value] = $this->getBankData($result,$value);
+            $formatData[$value] = $this->getBankData($result,$value,'branch_name');
         }
         $this->assign('bankdata',$formatData);
         $this->display();
     }
 
-    public function getBankData($result,$value){
+    public function showData(){
+        $Model = new Model();
+        $select = "select b.id,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category,e.onshore_exchange_rate
+from branch b,perday_data_item pd,project p,exchange_rate e
+where pd.project_id = p.id and pd.branch_id = b.id and SUBSTRING(pd.date,1,10) = e.date
+and e.date='datetime'
+ORDER BY b.id;";
+        $result = $Model->query(str_replace('datetime','2016-09-16',$select));
+
+        $branch_name = M('branch')->where('id != 10')->getField('name',true);
+        $formatData = [];
+        foreach($branch_name as $key=>$value){
+            $formatData[$value] = $this->getBankData($result,$value,'name1');
+        }
+
+        $formatData['所有部门总和']['fuck'] = [];
+
+        foreach($formatData as $key=>$value){
+           $i = count($value);
+            if($key!='所有部门总和'){
+                $formatData[$key][$i] = [];
+                $formatData[$key][$i]['name'] = '部门总和';
+            }
+            foreach($value as $k=>$v){
+                if($v['bank_category'] == 1){
+                    $v['asset_money'] = $v['asset_money'] * $v['onshore_exchange_rate'];
+                    $v['asset_product'] =  $v['asset_product'] * $v['onshore_exchange_rate'];
+                    $v['finance_debt'] = $v['finance_debt'] * $v['onshore_exchange_rate'];
+                    $v['receivable'] =  $v['receivable'] * $v['onshore_exchange_rate'];
+                    $v['payable'] =  $v['payable'] * $v['onshore_exchange_rate'];
+                }
+                if($key!='所有部门总和'){
+                    $formatData[$key][$i]['asset_money'] =  $formatData[$key][$i]['asset_money'] +  $v['asset_money'];
+                    $formatData[$key][$i]['asset_product'] =  $formatData[$key][$i]['asset_product'] +  $v['asset_product'];
+                    $formatData[$key][$i]['finance_debt'] =  $formatData[$key][$i]['finance_debt'] +  $v['finance_debt'];
+                    $formatData[$key][$i]['receivable'] =  $formatData[$key][$i]['receivable'] +  $v['receivable'];
+                    $formatData[$key][$i]['payable'] =  $formatData[$key][$i]['payable'] +  $v['payable'];
+                }
+                $formatData['所有部门总和']['fuck']['asset_money'] =  $formatData['所有部门总和']['fuck']['asset_money'] + $v['asset_money'];
+                $formatData['所有部门总和']['fuck']['asset_product'] =  $formatData['所有部门总和']['fuck']['asset_product'] + $v['asset_product'];
+                $formatData['所有部门总和']['fuck']['finance_debt'] =  $formatData['所有部门总和']['fuck']['finance_debt'] + $v['finance_debt'];
+                $formatData['所有部门总和']['fuck']['receivable'] =  $formatData['所有部门总和']['fuck']['receivable'] + $v['receivable'];
+                $formatData['所有部门总和']['fuck']['payable'] =  $formatData['所有部门总和']['fuck']['payable'] + $v['payable'];
+            }
+        }
+//        dump($formatData);die();
+        $this->assign('formatdata',$formatData);
+        $this->display();
+//        dump($formatData);
+    }
+
+    public function getBankData($result,$value,$key_name){
         $data = [];
         foreach($result as $key=>$item) {
-            if ($item['branch_name'] == $value) {
+            if ($item[$key_name] == $value) {
                 $data[] = $item;
             }
         }
-
         return $data;
-
     }
 
     public function saveData(){
@@ -82,6 +130,8 @@ class ReportController extends ChannelsController{
         die();
 
     }
+
+
 
     //对前台传递过来的数据进行处理
     public function formatData($data){

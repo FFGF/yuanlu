@@ -11,137 +11,114 @@
         <div class="platState white">
             <div class="platTitle"><h2>账户、公司、项目</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
-
-
-
-
             <!--  添加账号    -->
             <div class="recordCou">
-
                 <form name="form1" method="post" action="{:U('admin/Account/saveData')}">
-                    <table border="1">
+                    <table  class="table" cellspacing="0" cellpadding="0">
+                        <thead>
                         <tr >
-                            <th>姓名</th>
-                            <th>密码</th>
-                            <th>部门</th>
-                            <th>是否为经理</th>
-                            <th>value</th>
+                            <th width="9%" class="leftradiu">姓名</th>
+                            <th width="9%" class="lan">密码</th>
+                            <th width="9%">部门</th>
+                            <th width="9%" class="lan">是否为经理</th>
+                            <th width="9%" class="rightradiu">权限等级</th>
                         </tr>
+                        </thead>
                         <tr >
                             <td><input type="text" name="user_name"></td>
                             <td><input type="text" name="user_password"></td>
-
                             <td >
-
-                                <!--
-                               <form name="form2" method="post" action="{:U('admin/Account/saveaccoData')}">
-                              -->
                                 <select name="branch_id">
-
                                     <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
-
                                     <volist name="branchlist" id="vo">
                                         <option> {$vo.name}</option>
                                     </volist>
-
-
                                 </select>
-
-                                <!--  </form>   -->
                             </td>
-
-
-
                             <td width="100 px" name="branch_manager1">
                                 <input type="radio" name="branch_manager" value="1">yes
-
                                 <input type="radio" name="branch_manager" value="0">no
                             </td>
-
-
-                            <td><input type="text" name="value"></td>
-
+                            <td><input type="text" name="power"></td>
                         </tr>
-
                     </table>
-
-
-                    <input type="submit" value="提交">
-
+                    <div class="derivedata">
+                        <input type="submit" value="提交">
+                    </div>
                 </form>
-
             </div>
-
             </br>
             </br>
 
             <!--  添加公司    -->
             <div class="recordCou">
-
                 <form method="post" action="{:U('admin/Account/saveData2')}">
-                    <table border="1">
+                    <table class="table" cellspacing="0" cellpadding="0">
+                        <thead>
                         <tr >
-                            <th>公司名</th>
+                            <th width="9%" class="leftradiu">部门名</th>
                         </tr>
-
+                        </thead>
                         <tr >
                             <td><input type="text" name="name"></td>
                         </tr>
-
                     </table>
-
-                    <input type="submit" value="提交">
+                    <div class="derivedata">
+                        <input type="submit" value="提交">
+                    </div>
                 </form>
             </div>
-
-
-
             </br>
             </br>
             <!--  添加项目    -->
             <div class="recordCou">
-
                 <form method="post" action="{:U('admin/Account/saveData3')}">
-                    <table border="1">
+                    <table class="table" cellspacing="0" cellpadding="0">
+                        <thead>
                         <tr >
-                            <td>项目名称</td>
-                            <td>部门</td>
-                            <td>银行账号</td>
-
+                            <th width="9%" class="leftradiu">项目名称</th>
+                            <th width="9%" class="lan">部门</th>
+                            <th width="9%">资金类型</th>
+                            <th width="9%" class="rightradiu">货币类型</th>
                         </tr>
-
+                        </thead>
                         <tr >
                             <td><input type="text" name="name"></td>
-
                             <td >
-
                                 <select name="branch_id">
                                     <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
                                     <volist name="branchlist" id="vo">
                                         <option> {$vo.name}</option>
                                     </volist>
                                 </select>
-
                             </td>
-
-
-                            <td><input type="text" name="bank_number"></td>
-
+                            <td>
+                                <!--<input type="text" name="category">-->
+                                <select name="category">
+                                    <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+                                    <option> 银行</option>
+                                    <option> 期货</option>
+                                    <option> 存货</option>
+                                </select>
+                            </td>
+                            <td>
+                                <!-- <input type="text" name="bank_category">-->
+                                <select name="bank_category">
+                                    <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+                                    <option> 中国</option>
+                                    <option> 美国</option>
+                                </select>
+                            </td>
                         </tr>
-
                     </table>
-
-                    <input type="submit" value="提交">
+                    <div class="derivedata">
+                        <input type="submit" value="提交">
+                    </div>
+                    <!--<input type="submit" value="提交">-->
                 </form>
             </div>
-
-
-
-
-
         </div>
     </div>
-
 </block>
 
 <block name="script">

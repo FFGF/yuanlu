@@ -15,7 +15,7 @@ class IndexController extends ChannelsController {
         }
         else{
             $password = I('admin_login_pwd');
-            if($admin['user_password'] != createPassword($password)){
+            if($admin['user_password'] != $password){
                 $this->error('密码错误！');
             }
             else{
