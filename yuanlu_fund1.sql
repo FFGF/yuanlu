@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-09-19 20:56:08
+Date: 2016-09-22 19:43:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `branch` (
   `name` varchar(100) DEFAULT NULL COMMENT '部门的名称',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of branch
@@ -36,9 +36,26 @@ INSERT INTO `branch` VALUES ('4', '对冲交易1', '2016-09-08 22:50:26');
 INSERT INTO `branch` VALUES ('5', '对冲交易2', '2016-09-08 22:50:44');
 INSERT INTO `branch` VALUES ('6', '期货投机1', '2016-09-08 22:51:20');
 INSERT INTO `branch` VALUES ('7', '海外现货1', '2016-09-08 22:51:28');
-INSERT INTO `branch` VALUES ('8', '银行资金1', '2016-09-08 22:51:40');
 INSERT INTO `branch` VALUES ('9', '现货4', '2016-09-08 22:51:50');
 INSERT INTO `branch` VALUES ('10', '超级管理员', '2016-09-08 23:03:53');
+INSERT INTO `branch` VALUES ('11', '测试部门', '2016-09-22 18:17:48');
+
+-- ----------------------------
+-- Table structure for `exchange_rate`
+-- ----------------------------
+DROP TABLE IF EXISTS `exchange_rate`;
+CREATE TABLE `exchange_rate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `onshore_exchange_rate` float DEFAULT NULL COMMENT '在岸汇率',
+  `offshore_exchange_rate` float DEFAULT NULL COMMENT '离岸汇率',
+  `date` date DEFAULT NULL COMMENT '日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of exchange_rate
+-- ----------------------------
+INSERT INTO `exchange_rate` VALUES ('1', '6.6908', '6.6906', '2016-09-16');
 
 -- ----------------------------
 -- Table structure for `perday_data_item`
@@ -99,7 +116,7 @@ CREATE TABLE `project` (
   `category` tinyint(4) DEFAULT NULL COMMENT '1：银行；2：期货；3：存货',
   `bank_category` tinyint(4) DEFAULT NULL COMMENT '0中国，1美国',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of project
@@ -128,6 +145,7 @@ INSERT INTO `project` VALUES ('21', 'YLI汇丰银行', '7', '2016-09-16 11:16:18
 INSERT INTO `project` VALUES ('22', '现货库存结存', '9', '2016-09-16 11:20:28', '3', '0');
 INSERT INTO `project` VALUES ('23', '民生银行（9782）', '9', '2016-09-16 11:19:53', '1', '0');
 INSERT INTO `project` VALUES ('24', '长江期货', '9', '2016-09-16 11:20:39', '2', '0');
+INSERT INTO `project` VALUES ('25', '测试项目', '11', '2016-09-22 18:20:44', '1', '1');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -142,19 +160,20 @@ CREATE TABLE `user` (
   `power` int(11) DEFAULT NULL COMMENT '设想用数字来设置用户权限',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '用户创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '10', '1', '冯郭飞', 'c2a5421a20b8d6a261151baf719cdae7', '1', '2016-09-08 22:54:40');
-INSERT INTO `user` VALUES ('2', '1', '0', '黄炳姜', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:23');
-INSERT INTO `user` VALUES ('3', '2', '0', '张雪良1', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:24');
-INSERT INTO `user` VALUES ('4', '3', '0', '张雪良2', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:26');
-INSERT INTO `user` VALUES ('5', '4', '0', '张雪良3', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:27');
-INSERT INTO `user` VALUES ('6', '5', '0', '汪旭琪', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:29');
-INSERT INTO `user` VALUES ('7', '6', '0', '张表强', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:30');
-INSERT INTO `user` VALUES ('8', '7', '0', '陈明杰1', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:33');
-INSERT INTO `user` VALUES ('9', '8', '0', '陈明杰2', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:34');
-INSERT INTO `user` VALUES ('10', '9', '0', '金坛', 'c2a5421a20b8d6a261151baf719cdae7', '3', '2016-09-14 20:03:38');
-INSERT INTO `user` VALUES ('11', null, '0', '银行', 'c2a5421a20b8d6a261151baf719cdae7', '2', '2016-09-19 12:12:38');
+INSERT INTO `user` VALUES ('1', '10', '1', '冯郭飞', '123456', '1', '2016-09-22 18:05:36');
+INSERT INTO `user` VALUES ('2', '1', '0', '黄炳姜', '123456', '3', '2016-09-22 18:05:38');
+INSERT INTO `user` VALUES ('3', '2', '0', '张雪良1', '123456', '3', '2016-09-22 18:05:40');
+INSERT INTO `user` VALUES ('4', '3', '0', '张雪良2', '123456', '3', '2016-09-22 18:05:42');
+INSERT INTO `user` VALUES ('5', '4', '0', '张雪良3', '123456', '3', '2016-09-22 18:05:45');
+INSERT INTO `user` VALUES ('6', '5', '0', '汪旭琪', '123456', '3', '2016-09-22 18:05:49');
+INSERT INTO `user` VALUES ('7', '6', '0', '张表强', '123456', '3', '2016-09-22 18:05:51');
+INSERT INTO `user` VALUES ('8', '7', '0', '陈明杰1', '123456', '3', '2016-09-22 18:05:53');
+INSERT INTO `user` VALUES ('9', '8', '0', '陈明杰2', '123456', '3', '2016-09-22 18:05:55');
+INSERT INTO `user` VALUES ('10', '9', '0', '金坛', '123456', '3', '2016-09-22 18:05:57');
+INSERT INTO `user` VALUES ('11', null, '0', '银行', '123456', '2', '2016-09-22 18:06:00');
+INSERT INTO `user` VALUES ('12', '11', '1', '张三', '123456', '2', '2016-09-22 18:19:40');
