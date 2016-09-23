@@ -57,14 +57,26 @@ class ReportController extends ChannelsController{
         $this->display();
     }
 
+    //插入汇率
+    public function rate(){
+
+        $this->display();
+
+    }
+    //银行数据的呈现
     public function showData(){
+        if(I('s_time')){
+            $date = date('Y-m-d',I('s_time'));//日报日期
+        }else{
+            $date = date('Y-m-d',time());
+        }
         $Model = new Model();
         $select = "select b.id,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category,e.onshore_exchange_rate
 from branch b,perday_data_item pd,project p,exchange_rate e
-where pd.project_id = p.id and pd.branch_id = b.id and SUBSTRING(pd.date,1,10) = e.date
-and e.date='datetime'
+where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+and e.effect_date='datetime'
 ORDER BY b.id;";
-        $result = $Model->query(str_replace('datetime','2016-09-16',$select));
+        $result = $Model->query(str_replace('datetime',$date,$select));
 
         $branch_name = M('branch')->where('id != 10')->getField('name',true);
         $formatData = [];
@@ -102,10 +114,8 @@ ORDER BY b.id;";
                 $formatData['所有部门总和']['fuck']['payable'] =  $formatData['所有部门总和']['fuck']['payable'] + $v['payable'];
             }
         }
-//        dump($formatData);die();
         $this->assign('formatdata',$formatData);
         $this->display();
-//        dump($formatData);
     }
 
     public function getBankData($result,$value,$key_name){
@@ -118,23 +128,25 @@ ORDER BY b.id;";
         return $data;
     }
 
+    //插入业务数据
     public function saveData(){
+        if(I('s_time')){
+            $date = date('Y-m-d',I('s_time'));//日报日期
+        }else{
+            $date = date('Y-m-d',time());
+        }
         $perday_data_item = M("perday_data_item");
         $data = I('post.');
-        $form_data = $this->formatData($data);
+        $form_data = $this->formatData($data,$date);
 
         foreach($form_data as $key=>$value){
            $perday_data_item->add($value);
         }
         $this->success("插入数据成功");
-        die();
-
     }
 
-
-
     //对前台传递过来的数据进行处理
-    public function formatData($data){
+    public function formatData($data,$date){
         $formatdata = [];
         $item = [];
         $i = 0;
@@ -145,6 +157,7 @@ ORDER BY b.id;";
                $item['project_id'] = preg_replace('/\D/s', '', $key);
                $item['user_id'] = session('admin')['id'];
                $item['branch_id'] = session('admin')['branch_id'];
+               $item['effect_date'] = $date;
                $formatdata[$i/6] = $item;
                $item = [];
            }

@@ -1,0 +1,33 @@
+<extend name="Public/base"/>
+
+<block name="style"><link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/></block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>{$branch}部门汇率录入</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+            <div class="recordCou">
+                <form method="post" action="{:U('admin/Report/saveData')}">
+
+                    <li><input type="hide" name="s_time" style="width:0px;">
+                        <div class="changeDateA">
+                            <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="日报日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                        </div></li>
+
+                  
+                    <div class="derivedata">
+                        <input type="submit" value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+</block>

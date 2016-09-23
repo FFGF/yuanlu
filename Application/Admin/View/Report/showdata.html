@@ -14,6 +14,13 @@
             <div class="platTitle"><h2>数据呈现</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
+                <form method="post" action="{:U('admin/Report/showdata')}">
+                    <input type="hide" name="s_time" style="width:0px;">
+                    <div class="changeDate">
+                        <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="开始时间" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                    </div>
+                    <input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');">
+                </form>
 
                 <volist name="formatdata" id="vo">
                     {$key}
