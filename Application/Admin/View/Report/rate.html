@@ -8,18 +8,48 @@
             <div class="platTitle"><h2>{$branch}部门汇率录入</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
-                <form method="post" action="{:U('admin/Report/saveData')}">
+                <form method="post" action="{:U('admin/Report/rate')}">
 
                     <li><input type="hide" name="s_time" style="width:0px;">
                         <div class="changeDateA">
                             <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="日报日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
                         </div></li>
-
-                  
+                    <table class="table" cellspacing="0" cellpadding="0">
+                        <thead>
+                        <th width="9%" class="leftradiu">当日在岸汇率</th>
+                        <th width="8%" class="lan">当日离岸汇率</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="text" size="15" name="onshore_exchange_rate"></td>
+                            <td><input type="text" size="15" name="offshore_exchange_rate"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <div class="derivedata">
                         <input type="submit" value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
                     </div>
                 </form>
+                <br/>
+                <br/>
+                <table class="table" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <th width="9%" class="leftradiu">序号</th>
+                    <th width="9%" class="lan">当日在岸汇率</th>
+                    <th width="9%">当日离岸汇率</th>
+                    <th width="14%" class="lan">日期</th>
+                    </thead>
+                    <tbody>
+                    <volist name="rate" id="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.onshore_exchange_rate}</td>
+                            <td>{$vo.offshore_exchange_rate}</td>
+                            <td>{$vo.effect_date}</td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -8,62 +8,100 @@
             <div class="platTitle"><h2>{$branch}部门日报录入</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
-                <form method="post" action="{:U('admin/Report/saveData')}">
 
-                    <li><input type="hide" name="s_time" style="width:0px;">
-                        <div class="changeDateA">
-                            <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="日报日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
-                        </div></li>
+                <form action="{:U('admin/Report/getUserData')}" method="post" onsubmit="return checkDate()">
+                <li><input type="hide" name="s_time" style="width:0px;">
+                    <div class="changeDateA">
+                        <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="日报日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                    </div><input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');"></li>
+                </form>
 
-                      <table class="table" cellspacing="0" cellpadding="0">
-                          <thead>
-                              <th width="9%" class="leftradiu"></th>
-                              <th width="9%" class="lan">资产现金</th>
-                              <th width="9%">资产品</th>
-                              <th width="14%" class="lan">融资负债/授信</th>
-                              <th width="5%">应收</th>
-                              <th width="8%" class="lan">应付</th>
-                              <th width="8%" class="rightradiu">备注</th>
-                          </thead>
-                          <tbody>
-                          <volist name="project_cunhuo" id="vo">
-                              <tr>
-                                  <td>{$vo.name_project}</td>
-                                  <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                  <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                  <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                  <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                  <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
-                                  <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
-                              </tr>
-                          </volist>
-                          <volist name="project_bank" id="vo">
-                              <if condition="$power eq 2">
-                                  <tr>
-                                      <td>{$vo.name_project}</td>
-                                      <td>20.0</td>
-                                      <td>20.0</td>
-                                      <td>20.0</td>
-                                      <td>20.0</td>
-                                      <td>20.0</td>
-                                      <td>20.0</td>
-                                  </tr>
-                                  <else/>
-                                  <tr>
-                                      <td>{$vo.name_project}</td>
-                                      <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                      <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                      <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                      <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                      <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
-                                      <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
-                                  </tr>
-                              </if>
-                          </volist>
-                          </tbody>
-                      </table>
-                      <table class="table" cellspacing="0" cellpadding="0">
+                <if condition="$flag eq 1">
+                    <table class="table" cellspacing="0" cellpadding="0">
                         <thead>
+                        <th width="5%" class="leftradiu lan">序号</th>
+                        <th width="9%" >项目</th>
+                        <th width="9%" class="lan">资产现金</th>
+                        <th width="9%">资产品</th>
+                        <th width="10%" class="lan">融资负债/授信</th>
+                        <th width="5%">应收</th>
+                        <th width="8%" class="lan">应付</th>
+                        <th width="8%">备注</th>
+                        <th width="8%" class="rightradiu lan" >操作</th>
+                        </thead>
+                        <tbody>
+                        <volist name="userdata" id="vo">
+                            <tr>
+                                <td>{$vo.project_id}</td>
+                                <td>{$vo.name}</td>
+                                <td>{$vo.asset_money}</td>
+                                <td>{$vo.asset_product}</td>
+                                <td>{$vo.finance_debt}</td>
+                                <td>{$vo.receivable}</td>
+                                <td>{$vo.payable}</td>
+                                <td>{$vo.remark}</td>
+                                <if  condition="($power eq 1) and ($vo.category neq 1)">
+                                    <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改"></td>
+                                    <else/>
+                                    <td></td>
+                                </if>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <else/>
+                    <form method="post" action="{:U('admin/Report/saveData')}" onsubmit="return checkDate1()">
+                        <input type="hide" name="s_time1" style="width:0px;">
+
+                        <table class="table" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <th width="9%" class="leftradiu"></th>
+                            <th width="9%" class="lan">资产现金</th>
+                            <th width="9%">资产品</th>
+                            <th width="14%" class="lan">融资负债/授信</th>
+                            <th width="5%">应收</th>
+                            <th width="8%" class="lan">应付</th>
+                            <th width="8%" class="rightradiu">备注</th>
+                            </thead>
+                            <tbody>
+                            <volist name="project_cunhuo" id="vo">
+                                <tr>
+                                    <td>{$vo.name_project}</td>
+                                    <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                                </tr>
+                            </volist>
+                            <volist name="project_bank" id="vo">
+                                <if condition="$power eq 1">
+                                    <tr>
+                                        <td>{$vo.name_project}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <else/>
+                                    <tr>
+                                        <td>{$vo.name_project}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </if>
+                            </volist>
+                            </tbody>
+                        </table>
+                        <table class="table" cellspacing="0" cellpadding="0">
+                            <thead>
                             <th width="9%" class="leftradiu"></th>
                             <th width="9%" class="lan">可用资金</th>
                             <th width="9%">保证金</th>
@@ -71,28 +109,65 @@
                             <th width="5%">应收</th>
                             <th width="8%" class="lan">应付</th>
                             <th width="8%">备注</th>
-                        </thead>
-                          <tbody>
-                        <volist name="project_qihuo" id="vo">
-                            <tr>
-                                <td>{$vo.name_project}</td>
-                                <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
-                                <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
-                            </tr>
-                        </volist>
-                          </tbody>
-                    </table>
-                    <div class="derivedata">
-                            <input type="submit" value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
-                    </div>
-                </form>
+                            </thead>
+                            <tbody>
+                            <volist name="project_qihuo" id="vo">
+                                <tr>
+                                    <td>{$vo.name_project}</td>
+                                    <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                        <div class="derivedata">
+                            <input type="submit"  value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                        </div>
+                    </form>
+                </if>
+
             </div>
         </div>
     </div>
+
+    <div class="auditingFrame">
+        <div class="aFtitle">等级修改</div>
+        <div class="aFcona">
+            <form>
+                <table class="table" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <th width="5%" class="leftradiu lan">序号</th>
+                    <th width="9%" >项目</th>
+                    <th width="9%" class="lan">可用资金</th>
+                    <th width="9%">保证金</th>
+                    <th width="14%" class="lan">融资负债/授信</th>
+                    <th width="5%">应收</th>
+                    <th width="8%" class="lan">应付</th>
+                    <th width="8%">备注</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td id="id" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
+                        <td id="name" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="asset_money" name="asset_money"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="asset_product" name="asset_product"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="finance_debt" name="finance_debt"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="receivable" name="receivable"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="payable" name="payable"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="remark" name="remark"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input id="update" type="button" name="update" value="更新" class="adopt" onclick="updateData()">
+            </form>
+        </div>
+        <i class="info_close"></i>
+    </div>
+    <div class="info_bg"></div>
 
 </block>
 
@@ -100,4 +175,82 @@
     <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
     <script src="__JS__/BeatPicker.min.js"></script>
     <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+        //关闭按钮
+        $(".info_close").click(function(){
+            $(".info_bg").hide();
+            $(".auditingFrame").hide();
+        })
+        //通修改按钮对table里的数据进行修改
+        function change(row,val) {
+            $("#id")[0].innerHTML = row.cells[0].innerHTML
+            $("#name")[0].innerHTML = row.cells[1].innerHTML
+            $("#asset_money").val(row.cells[2].innerHTML)
+            $("#asset_product").val(row.cells[3].innerHTML)
+            $("#finance_debt").val(row.cells[4].innerHTML)
+            $("#receivable").val(row.cells[5].innerHTML)
+            $("#payable").val(row.cells[6].innerHTML)
+            $("#remark").val(row.cells[7].innerHTML)
+            $("#fromlevel").val(val)
+            $(".info_bg").show();
+            $(".auditingFrame").show();
+            $(".auditingFrame").css({
+                top: function(index, value) {
+                    return $(window).scrollTop() + ($(window).height()/2);
+                }
+            });
+        }
+
+        function updateData(){
+            var data = {"id": $('#id')[0].innerHTML,
+                "asset_money":$('#asset_money').val(),
+                "asset_product":$('#asset_product').val(),
+                "finance_debt":$('#finance_debt').val(),
+                "receivable":$('#receivable').val(),
+                "payable":$('#payable').val(),
+                "remark":$('#remark').val()
+                };
+            var url = "/admin/" + "report-updatedata.html";
+            $.getJSON(url,data,function(response){
+                if(response.code==1){
+                    alert('数据更改成功');
+                    $(".info_bg").hide();
+                    $(".auditingFrame").hide();
+                    window.location.reload()//刷新当前页面.
+                }else if(response.code==0){
+                    alert('数据更改失败');
+                    $(".info_bg").hide();
+                    $(".auditingFrame").hide();
+                    window.location.reload()//刷新当前页面.
+                }
+            })
+        }
+
+        $(function () {
+          if("{:session('s_time')}"){
+              $('#s_time').val("{:date('Y-m-d',session('s_time'))}");
+              $("input[name='s_time1']").val("{:session('s_time')}")
+          }
+        })
+
+        function checkDate(){
+            if($("input[name='s_time']").val() == ''){
+                alert('日期不能为空')
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function checkDate1(){
+            if($("input[name='s_time1']").val() == ''){
+                alert('日期不能为空')
+                return false;
+            }else{
+               return true;
+            }
+        }
+
+
+    </script>
 </block>

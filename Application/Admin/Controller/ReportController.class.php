@@ -10,7 +10,10 @@ namespace Admin\Controller;
 use Think\Model;
 
 class ReportController extends ChannelsController{
-    public function index(){
+    public function index($date=null){
+        if($date!=1){
+            session('s_time',null);
+        }
         $project = M('branch');
         $maps['user.id'] = session('admin')['id'];
         $maps['project.category'] = array('eq','2');
@@ -41,8 +44,49 @@ class ReportController extends ChannelsController{
         $this->assign('project_qihuo', $result_qihuo);
         $this->assign('project_bank', $result_bank);
         $this->assign('project_cunhuo',$result_cunhuo);
-        $this->display();
+        $this->display('index');
 }
+    //获得个人负责项目的数据
+    public function getUserData(){
+        session('s_time',I('s_time'));
+
+        $date = date('Y-m-d',I('s_time'));//生效时间
+        $user_id = session('admin')['id'];
+        $power = M('user')->where("id=$user_id")->getField('power',true);
+        $Model = new Model();
+        $select = "select b.id,pd.id as project_id,p.category,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category
+from branch b,perday_data_item pd,project p
+where pd.project_id = p.id and pd.branch_id = b.id
+and pd.effect_date='$date' and pd.user_id=$user_id
+ORDER BY b.id;";
+        $branch = M('branch')->where('id='.session('admin')['branch_id'])->getField('name');
+
+        $result = $Model->query($select);
+        if(count($result) == 0){
+           $this->index('1');
+        }else{
+            $this->assign('userdata',$result);
+            $this->assign('branch',$branch);
+            $this->assign('power',$power[0]);
+            $flag = 1;
+            $this->assign('flag',$flag);
+            $this->display('index');
+        }
+    }
+
+    //更新数据
+    public function updateData(){
+        $map['id'] = I('id');
+        $data = I('get.');
+        unset($data['id']);
+        $perday_data_item = M('perday_data_item')->where($map)->save($data);
+        if($perday_data_item==false){
+            $json['code']=0;//说明更新失败
+        }else{
+            $json['code']=1;//说明更新成功
+        }
+        exit(json_encode($json));
+    }
 
     public function bank(){
         $project = M('project');
@@ -59,9 +103,16 @@ class ReportController extends ChannelsController{
 
     //插入汇率
     public function rate(){
-
+        $exchange_rate = M('exchange_rate');
+        if($_POST){
+            $data['effect_date']=date('Y-m-d',I('s_time'));//生效时间
+            $data['onshore_exchange_rate'] = I('onshore_exchange_rate');
+            $data['offshore_exchange_rate'] = I('offshore_exchange_rate');
+            $exchange_rate->add($data);
+        }
+        $result = $exchange_rate->order('effect_date desc')->select();
+        $this->assign('rate',$result);
         $this->display();
-
     }
     //银行数据的呈现
     public function showData(){
@@ -130,13 +181,14 @@ ORDER BY b.id;";
 
     //插入业务数据
     public function saveData(){
-        if(I('s_time')){
-            $date = date('Y-m-d',I('s_time'));//日报日期
+        if(I('s_time1')){
+            $date = date('Y-m-d',I('s_time1'));//日报日期
         }else{
             $date = date('Y-m-d',time());
         }
         $perday_data_item = M("perday_data_item");
         $data = I('post.');
+        unset($data['s_time1']);
         $form_data = $this->formatData($data,$date);
 
         foreach($form_data as $key=>$value){

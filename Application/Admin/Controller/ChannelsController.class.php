@@ -28,7 +28,7 @@ class ChannelsController extends Controller {
             }
         }else{
             if(CONTROLLER_NAME == 'Index' && ACTION_NAME!='logout')
-                redirect(__ROOT__.'/Admin/examine');
+                redirect(__ROOT__.'/Admin/report');
         }
     }
 

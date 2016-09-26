@@ -12,8 +12,8 @@ return array(
     'URL_PATHINFO_DEPR' => '-', //PATHINFO URL分割符
     
     /* SESSION 和 COOKIE 配置 **********************************************/
-    'SESSION_PREFIX' => 'channels_s_', //session前缀
-    'COOKIE_PREFIX' => 'channels_c_', // Cookie前缀 避免冲突
+//    'SESSION_PREFIX' => 'yuanlu_', //session前缀
+//    'COOKIE_PREFIX' => 'yuanlu_c_', // Cookie前缀 避免冲突
 
     /* 模板相关配置 **********************************************/
     'TMPL_PARSE_STRING' => array(

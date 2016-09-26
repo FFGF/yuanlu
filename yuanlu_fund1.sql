@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-09-23 16:39:16
+Date: 2016-09-26 20:05:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,22 +23,24 @@ CREATE TABLE `branch` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL COMMENT '部门的名称',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '日期',
+  `finish` tinyint(4) DEFAULT '1' COMMENT '1代表存在，0代表删除',
+  `finish_date` date DEFAULT NULL COMMENT '删除部门日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of branch
 -- ----------------------------
-INSERT INTO `branch` VALUES ('1', '现货1', '2016-09-08 22:49:57');
-INSERT INTO `branch` VALUES ('2', '现货2', '2016-09-08 22:50:03');
-INSERT INTO `branch` VALUES ('3', '现货3', '2016-09-08 22:50:10');
-INSERT INTO `branch` VALUES ('4', '对冲交易1', '2016-09-08 22:50:26');
-INSERT INTO `branch` VALUES ('5', '对冲交易2', '2016-09-08 22:50:44');
-INSERT INTO `branch` VALUES ('6', '期货投机1', '2016-09-08 22:51:20');
-INSERT INTO `branch` VALUES ('7', '海外现货1', '2016-09-08 22:51:28');
-INSERT INTO `branch` VALUES ('9', '现货4', '2016-09-08 22:51:50');
-INSERT INTO `branch` VALUES ('10', '超级管理员', '2016-09-08 23:03:53');
-INSERT INTO `branch` VALUES ('11', '测试部门', '2016-09-22 18:17:48');
+INSERT INTO `branch` VALUES ('1', '现货1', '2016-09-08 22:49:57', '1', null);
+INSERT INTO `branch` VALUES ('2', '现货2', '2016-09-08 22:50:03', '1', null);
+INSERT INTO `branch` VALUES ('3', '现货3', '2016-09-08 22:50:10', '1', null);
+INSERT INTO `branch` VALUES ('4', '对冲交易1', '2016-09-08 22:50:26', '1', null);
+INSERT INTO `branch` VALUES ('5', '对冲交易2', '2016-09-08 22:50:44', '1', null);
+INSERT INTO `branch` VALUES ('6', '期货投机1', '2016-09-08 22:51:20', '1', null);
+INSERT INTO `branch` VALUES ('7', '海外现货1', '2016-09-08 22:51:28', '1', null);
+INSERT INTO `branch` VALUES ('9', '现货4', '2016-09-08 22:51:50', '1', null);
+INSERT INTO `branch` VALUES ('10', '超级管理员', '2016-09-08 23:03:53', '1', null);
+INSERT INTO `branch` VALUES ('11', '测试部门', '2016-09-22 18:17:48', '1', null);
 
 -- ----------------------------
 -- Table structure for `exchange_rate`
@@ -51,13 +53,18 @@ CREATE TABLE `exchange_rate` (
   `effect_date` date DEFAULT NULL COMMENT '汇率正真日期',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '汇率插入数据库日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exchange_rate
 -- ----------------------------
 INSERT INTO `exchange_rate` VALUES ('1', '6.6908', '6.6906', '2016-09-16', '2016-09-16 00:00:00');
 INSERT INTO `exchange_rate` VALUES ('2', '7', '8', '2016-09-24', '2016-09-24 00:00:00');
+INSERT INTO `exchange_rate` VALUES ('4', '5.5555', '6.6666', '2016-09-29', '2016-09-23 17:08:52');
+INSERT INTO `exchange_rate` VALUES ('5', '5.5555', '7.2156', '2016-09-13', '2016-09-23 17:09:38');
+INSERT INTO `exchange_rate` VALUES ('6', '6.6666', '7.7777', '2016-09-30', '2016-09-23 17:23:14');
+INSERT INTO `exchange_rate` VALUES ('7', '6.6666', '7.2156', '2016-09-25', '2016-09-24 18:52:29');
+INSERT INTO `exchange_rate` VALUES ('8', '6.6666', '7.2156', '2016-09-26', '2016-09-26 11:01:20');
 
 -- ----------------------------
 -- Table structure for `perday_data_item`
@@ -77,7 +84,7 @@ CREATE TABLE `perday_data_item` (
   `effect_date` date DEFAULT NULL COMMENT '日报生效日期',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '数据插入时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of perday_data_item
@@ -111,6 +118,12 @@ INSERT INTO `perday_data_item` VALUES ('31', '4', '3', '8', '6.0000', '7.0000', 
 INSERT INTO `perday_data_item` VALUES ('32', '4', '3', '9', '1.0000', '0.0000', '0.0000', '5.0000', '0.0000', 'fuck', '2016-09-24', '2016-09-23 14:52:29');
 INSERT INTO `perday_data_item` VALUES ('33', '4', '3', '10', '0.0000', '2.0000', '0.0000', '0.0000', '5.0000', '', '2016-09-24', '2016-09-23 14:52:29');
 INSERT INTO `perday_data_item` VALUES ('34', '4', '3', '11', '0.0000', '0.0000', '4.0000', '0.0000', '0.0000', '', '2016-09-24', '2016-09-23 14:52:29');
+INSERT INTO `perday_data_item` VALUES ('35', '4', '3', '7', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', null, '2016-09-24', '2016-09-24 13:45:25');
+INSERT INTO `perday_data_item` VALUES ('36', '4', '3', '9', '1.0000', '0.0000', '0.0000', '1.0000', '0.0000', '今天数据', '2016-09-24', '2016-09-24 13:45:25');
+INSERT INTO `perday_data_item` VALUES ('37', '4', '3', '10', '0.0000', '2.0000', '4.0000', '1.0000', '1.0000', '', '2016-09-24', '2016-09-24 13:45:25');
+INSERT INTO `perday_data_item` VALUES ('38', '4', '3', '11', '0.0000', '0.0000', '3.0000', '0.0000', '1.0000', '', '2016-09-24', '2016-09-24 13:45:25');
+INSERT INTO `perday_data_item` VALUES ('41', '2', '1', '1', '2.0000', '1.0000', '1.0000', '1.0000', '1.0000', 'fgf1', '2016-09-27', '2016-09-26 18:08:15');
+INSERT INTO `perday_data_item` VALUES ('42', '2', '1', '3', '2.0000', '2.0000', '2.0000', '2.0000', '2.0000', '二块钱', '2016-09-27', '2016-09-26 11:37:48');
 
 -- ----------------------------
 -- Table structure for `project`
@@ -123,37 +136,40 @@ CREATE TABLE `project` (
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `category` tinyint(4) DEFAULT NULL COMMENT '1：银行；2：期货；3：存货',
   `bank_category` tinyint(4) DEFAULT NULL COMMENT '0中国，1美国',
+  `finish` tinyint(4) DEFAULT NULL COMMENT '1代表存在，0代表删除',
+  `finish_date` date DEFAULT NULL COMMENT '删除项目日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of project
 -- ----------------------------
-INSERT INTO `project` VALUES ('1', '现货库存结存', '1', '2016-09-14 17:37:54', '3', '0');
-INSERT INTO `project` VALUES ('2', '工行账号（4548）', '1', '2016-09-14 17:38:38', '1', '0');
-INSERT INTO `project` VALUES ('3', '建信期货', '1', '2016-09-14 17:39:05', '2', '0');
-INSERT INTO `project` VALUES ('4', '现货库存结存', '2', '2016-09-14 17:42:06', '3', '0');
-INSERT INTO `project` VALUES ('5', '建设川沙银行（5710）', '2', '2016-09-14 17:42:49', '1', '0');
-INSERT INTO `project` VALUES ('6', '一德子账户02 套期', '2', '2016-09-14 17:43:37', '2', '0');
-INSERT INTO `project` VALUES ('7', '现货库存结存', '3', '2016-09-14 17:44:16', '3', '0');
-INSERT INTO `project` VALUES ('8', '招商银行（0602）', '3', '2016-09-14 17:45:03', '1', '0');
-INSERT INTO `project` VALUES ('9', '一德子账户01 套期', '3', '2016-09-14 17:45:30', '2', '0');
-INSERT INTO `project` VALUES ('10', '五矿期货 套期', '3', '2016-09-14 17:45:58', '2', '0');
-INSERT INTO `project` VALUES ('11', '无锡不锈钢 套期', '3', '2016-09-14 17:46:18', '2', '0');
-INSERT INTO `project` VALUES ('12', '境内 申万', '4', '2016-09-14 20:31:07', '2', '0');
-INSERT INTO `project` VALUES ('13', '境外 FCS', '4', '2016-09-14 20:31:29', '2', '1');
-INSERT INTO `project` VALUES ('14', '境外 ED&F', '4', '2016-09-14 20:31:44', '2', '1');
-INSERT INTO `project` VALUES ('15', '境外 招商220子帐号', '4', '2016-09-16 11:10:15', '2', '1');
-INSERT INTO `project` VALUES ('16', '境内 建信1号子帐号', '5', '2016-09-16 11:12:27', '2', '0');
-INSERT INTO `project` VALUES ('17', '境外 招商221子帐号', '5', '2016-09-16 11:12:51', '2', '1');
-INSERT INTO `project` VALUES ('18', '境内 长江期货', '6', '2016-09-16 11:14:18', '2', '0');
-INSERT INTO `project` VALUES ('19', '现货库存结存', '7', '2016-09-16 11:20:36', '3', '1');
-INSERT INTO `project` VALUES ('20', '申源法巴银行', '7', '2016-09-16 11:15:49', '1', '1');
-INSERT INTO `project` VALUES ('21', 'YLI汇丰银行', '7', '2016-09-16 11:16:18', '1', '1');
-INSERT INTO `project` VALUES ('22', '现货库存结存', '9', '2016-09-16 11:20:28', '3', '0');
-INSERT INTO `project` VALUES ('23', '民生银行（9782）', '9', '2016-09-16 11:19:53', '1', '0');
-INSERT INTO `project` VALUES ('24', '长江期货', '9', '2016-09-16 11:20:39', '2', '0');
-INSERT INTO `project` VALUES ('25', '测试项目', '11', '2016-09-22 18:20:44', '1', '1');
+INSERT INTO `project` VALUES ('1', '现货库存结存', '1', '2016-09-14 17:37:54', '3', '0', null, null);
+INSERT INTO `project` VALUES ('2', '工行账号（4548）', '1', '2016-09-14 17:38:38', '1', '0', null, null);
+INSERT INTO `project` VALUES ('3', '建信期货', '1', '2016-09-14 17:39:05', '2', '0', null, null);
+INSERT INTO `project` VALUES ('4', '现货库存结存', '2', '2016-09-14 17:42:06', '3', '0', null, null);
+INSERT INTO `project` VALUES ('5', '建设川沙银行（5710）', '2', '2016-09-14 17:42:49', '1', '0', null, null);
+INSERT INTO `project` VALUES ('6', '一德子账户02 套期', '2', '2016-09-14 17:43:37', '2', '0', null, null);
+INSERT INTO `project` VALUES ('7', '现货库存结存', '3', '2016-09-14 17:44:16', '3', '0', null, null);
+INSERT INTO `project` VALUES ('8', '招商银行（0602）', '3', '2016-09-14 17:45:03', '1', '0', null, null);
+INSERT INTO `project` VALUES ('9', '一德子账户01 套期', '3', '2016-09-14 17:45:30', '2', '0', null, null);
+INSERT INTO `project` VALUES ('10', '五矿期货 套期', '3', '2016-09-14 17:45:58', '2', '0', null, null);
+INSERT INTO `project` VALUES ('11', '无锡不锈钢 套期', '3', '2016-09-14 17:46:18', '2', '0', null, null);
+INSERT INTO `project` VALUES ('12', '境内 申万', '4', '2016-09-14 20:31:07', '2', '0', null, null);
+INSERT INTO `project` VALUES ('13', '境外 FCS', '4', '2016-09-14 20:31:29', '2', '1', null, null);
+INSERT INTO `project` VALUES ('14', '境外 ED&F', '4', '2016-09-14 20:31:44', '2', '1', null, null);
+INSERT INTO `project` VALUES ('15', '境外 招商220子帐号', '4', '2016-09-16 11:10:15', '2', '1', null, null);
+INSERT INTO `project` VALUES ('16', '境内 建信1号子帐号', '5', '2016-09-16 11:12:27', '2', '0', null, null);
+INSERT INTO `project` VALUES ('17', '境外 招商221子帐号', '5', '2016-09-16 11:12:51', '2', '1', null, null);
+INSERT INTO `project` VALUES ('18', '境内 长江期货', '6', '2016-09-16 11:14:18', '2', '0', null, null);
+INSERT INTO `project` VALUES ('19', '现货库存结存', '7', '2016-09-16 11:20:36', '3', '1', null, null);
+INSERT INTO `project` VALUES ('20', '申源法巴银行', '7', '2016-09-16 11:15:49', '1', '1', null, null);
+INSERT INTO `project` VALUES ('21', 'YLI汇丰银行', '7', '2016-09-16 11:16:18', '1', '1', null, null);
+INSERT INTO `project` VALUES ('22', '现货库存结存', '9', '2016-09-16 11:20:28', '3', '0', null, null);
+INSERT INTO `project` VALUES ('23', '民生银行（9782）', '9', '2016-09-16 11:19:53', '1', '0', null, null);
+INSERT INTO `project` VALUES ('24', '长江期货', '9', '2016-09-16 11:20:39', '2', '0', null, null);
+INSERT INTO `project` VALUES ('25', '测试项目', '11', '2016-09-22 18:20:44', '1', '1', null, null);
+INSERT INTO `project` VALUES ('26', '其他货币资金（工行承兑汇票）', '1', '2016-09-26 18:32:22', '1', '0', null, null);
 
 -- ----------------------------
 -- Table structure for `user`
@@ -173,15 +189,15 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '10', '1', '冯郭飞', '123456', '1', '2016-09-22 18:05:36');
-INSERT INTO `user` VALUES ('2', '1', '0', '黄炳姜', '123456', '3', '2016-09-22 18:05:38');
-INSERT INTO `user` VALUES ('3', '2', '0', '张雪良1', '123456', '3', '2016-09-22 18:05:40');
-INSERT INTO `user` VALUES ('4', '3', '0', '张雪良2', '123456', '3', '2016-09-22 18:05:42');
-INSERT INTO `user` VALUES ('5', '4', '0', '张雪良3', '123456', '3', '2016-09-22 18:05:45');
-INSERT INTO `user` VALUES ('6', '5', '0', '汪旭琪', '123456', '3', '2016-09-22 18:05:49');
-INSERT INTO `user` VALUES ('7', '6', '0', '张表强', '123456', '3', '2016-09-22 18:05:51');
-INSERT INTO `user` VALUES ('8', '7', '0', '陈明杰1', '123456', '3', '2016-09-22 18:05:53');
-INSERT INTO `user` VALUES ('9', '8', '0', '陈明杰2', '123456', '3', '2016-09-22 18:05:55');
-INSERT INTO `user` VALUES ('10', '9', '0', '金坛', '123456', '3', '2016-09-22 18:05:57');
+INSERT INTO `user` VALUES ('1', '10', '1', '冯郭飞', '123456', '3', '2016-09-24 09:26:08');
+INSERT INTO `user` VALUES ('2', '1', '0', '黄炳姜', '123456', '1', '2016-09-24 09:25:54');
+INSERT INTO `user` VALUES ('3', '2', '0', '张雪良1', '123456', '1', '2016-09-24 09:25:56');
+INSERT INTO `user` VALUES ('4', '3', '0', '张雪良2', '123456', '1', '2016-09-24 09:25:57');
+INSERT INTO `user` VALUES ('5', '4', '0', '张雪良3', '123456', '1', '2016-09-24 09:25:59');
+INSERT INTO `user` VALUES ('6', '5', '0', '汪旭琪', '123456', '1', '2016-09-24 09:26:00');
+INSERT INTO `user` VALUES ('7', '6', '0', '张表强', '123456', '1', '2016-09-24 09:26:01');
+INSERT INTO `user` VALUES ('8', '7', '0', '陈明杰1', '123456', '1', '2016-09-24 09:26:02');
+INSERT INTO `user` VALUES ('9', '8', '0', '陈明杰2', '123456', '1', '2016-09-24 09:26:04');
+INSERT INTO `user` VALUES ('10', '9', '0', '金坛', '123456', '1', '2016-09-24 09:26:06');
 INSERT INTO `user` VALUES ('11', null, '0', '银行', '123456', '2', '2016-09-22 18:06:00');
-INSERT INTO `user` VALUES ('12', '11', '1', '张三', '123456', '2', '2016-09-22 18:19:40');
+INSERT INTO `user` VALUES ('12', '11', '1', '张三', '123456', '1', '2016-09-24 09:26:16');
