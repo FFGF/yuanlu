@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-09-26 20:05:33
+Date: 2016-09-28 14:44:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `branch` (
   `finish` tinyint(4) DEFAULT '1' COMMENT '1代表存在，0代表删除',
   `finish_date` date DEFAULT NULL COMMENT '删除部门日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of branch
@@ -41,6 +41,7 @@ INSERT INTO `branch` VALUES ('7', '海外现货1', '2016-09-08 22:51:28', '1', n
 INSERT INTO `branch` VALUES ('9', '现货4', '2016-09-08 22:51:50', '1', null);
 INSERT INTO `branch` VALUES ('10', '超级管理员', '2016-09-08 23:03:53', '1', null);
 INSERT INTO `branch` VALUES ('11', '测试部门', '2016-09-22 18:17:48', '1', null);
+INSERT INTO `branch` VALUES ('12', '银行部门', '2016-09-27 18:34:42', '1', null);
 
 -- ----------------------------
 -- Table structure for `exchange_rate`
@@ -53,7 +54,7 @@ CREATE TABLE `exchange_rate` (
   `effect_date` date DEFAULT NULL COMMENT '汇率正真日期',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '汇率插入数据库日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exchange_rate
@@ -65,6 +66,8 @@ INSERT INTO `exchange_rate` VALUES ('5', '5.5555', '7.2156', '2016-09-13', '2016
 INSERT INTO `exchange_rate` VALUES ('6', '6.6666', '7.7777', '2016-09-30', '2016-09-23 17:23:14');
 INSERT INTO `exchange_rate` VALUES ('7', '6.6666', '7.2156', '2016-09-25', '2016-09-24 18:52:29');
 INSERT INTO `exchange_rate` VALUES ('8', '6.6666', '7.2156', '2016-09-26', '2016-09-26 11:01:20');
+INSERT INTO `exchange_rate` VALUES ('9', '5.5555', '7.2156', '2016-09-27', '2016-09-27 18:30:59');
+INSERT INTO `exchange_rate` VALUES ('10', '5', '5', '2016-09-15', '2016-09-27 20:01:45');
 
 -- ----------------------------
 -- Table structure for `perday_data_item`
@@ -84,7 +87,7 @@ CREATE TABLE `perday_data_item` (
   `effect_date` date DEFAULT NULL COMMENT '日报生效日期',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '数据插入时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of perday_data_item
@@ -95,7 +98,7 @@ INSERT INTO `perday_data_item` VALUES ('3', '4', '3', '9', '-32319914.1600', '97
 INSERT INTO `perday_data_item` VALUES ('4', '4', '3', '10', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
 INSERT INTO `perday_data_item` VALUES ('5', '4', '3', '11', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
 INSERT INTO `perday_data_item` VALUES ('6', '2', '1', '1', '0.0000', '3437332.4400', '0.0000', '892661.4127', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
-INSERT INTO `perday_data_item` VALUES ('7', '2', '1', '2', '2500184.6200', '0.0000', '0.0000', '0.0000', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
+INSERT INTO `perday_data_item` VALUES ('7', '2', '1', '2', '2500184.6200', '0.0000', '0.0000', '0.0000', '0.0000', '加备注', '2016-09-16', '2016-09-27 15:28:07');
 INSERT INTO `perday_data_item` VALUES ('8', '2', '1', '3', '-168784.9800', '330615.0200', '499400.0000', '0.0000', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
 INSERT INTO `perday_data_item` VALUES ('9', '3', '2', '4', '0.0000', '10532233.5000', '0.0000', '363900.0000', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
 INSERT INTO `perday_data_item` VALUES ('10', '3', '2', '5', '4158083.3200', '0.0000', '0.0000', '0.0000', '0.0000', '', '2016-09-16', '2016-09-23 15:15:19');
@@ -124,6 +127,22 @@ INSERT INTO `perday_data_item` VALUES ('37', '4', '3', '10', '0.0000', '2.0000',
 INSERT INTO `perday_data_item` VALUES ('38', '4', '3', '11', '0.0000', '0.0000', '3.0000', '0.0000', '1.0000', '', '2016-09-24', '2016-09-24 13:45:25');
 INSERT INTO `perday_data_item` VALUES ('41', '2', '1', '1', '2.0000', '1.0000', '1.0000', '1.0000', '1.0000', 'fgf1', '2016-09-27', '2016-09-26 18:08:15');
 INSERT INTO `perday_data_item` VALUES ('42', '2', '1', '3', '2.0000', '2.0000', '2.0000', '2.0000', '2.0000', '二块钱', '2016-09-27', '2016-09-26 11:37:48');
+INSERT INTO `perday_data_item` VALUES ('51', '11', '1', '2', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '加备注', '2016-09-27', '2016-09-27 19:27:16');
+INSERT INTO `perday_data_item` VALUES ('52', '11', '1', '26', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-27', '2016-09-27 19:26:50');
+INSERT INTO `perday_data_item` VALUES ('53', '11', '2', '5', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-27', '2016-09-27 19:26:50');
+INSERT INTO `perday_data_item` VALUES ('54', '11', '3', '8', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-27', '2016-09-27 19:26:50');
+INSERT INTO `perday_data_item` VALUES ('55', '11', '7', '20', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-27', '2016-09-27 19:26:50');
+INSERT INTO `perday_data_item` VALUES ('56', '11', '7', '21', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-27', '2016-09-27 19:26:50');
+INSERT INTO `perday_data_item` VALUES ('57', '11', '9', '23', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-27', '2016-09-27 19:26:51');
+INSERT INTO `perday_data_item` VALUES ('58', '11', '11', '25', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '2016-09-27', '2016-09-27 19:26:51');
+INSERT INTO `perday_data_item` VALUES ('59', '11', '1', '2', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:06');
+INSERT INTO `perday_data_item` VALUES ('60', '11', '1', '26', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:07');
+INSERT INTO `perday_data_item` VALUES ('61', '11', '2', '5', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:07');
+INSERT INTO `perday_data_item` VALUES ('62', '11', '3', '8', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:07');
+INSERT INTO `perday_data_item` VALUES ('63', '11', '7', '20', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:07');
+INSERT INTO `perday_data_item` VALUES ('64', '11', '7', '21', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:07');
+INSERT INTO `perday_data_item` VALUES ('65', '11', '9', '23', '5.0000', '5.0000', '5.0000', '5.0000', '5.0000', '', '2016-09-15', '2016-09-27 20:00:07');
+INSERT INTO `perday_data_item` VALUES ('66', '11', '11', '25', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '2016-09-15', '2016-09-27 20:00:07');
 
 -- ----------------------------
 -- Table structure for `project`
