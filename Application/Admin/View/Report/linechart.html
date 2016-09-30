@@ -1,0 +1,137 @@
+<extend name="Public/base"/>
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+</block>
+
+<block name="body">
+
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>渠道商管理</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+            <div class="recordCou">
+                <div class="reSearch">
+                    <div class="reSearchM">
+                        <form action="{:U('admin/Report/linechart')}" method="post" onsubmit="return check()">
+                            <div class="couponState2" style="display: none">
+                                <input readonly="" class="coupState2" name="level" id="level" type="text" placeholder="等级状态">
+                                <!--<input type="text" name="levelStatus" id="levelStatus" style="display: none">-->
+                                <i></i>
+                                <div class="couSta2" style="display: none;">
+
+                                </div>
+                            </div>
+                            <input type="hide" name="s_time" style="width:0px;"><input type="hide" name="e_time" style="width:0px;">
+                            <div class="changeDateB">
+                                <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="开始时间" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                                <div class="input-parent input-container"><input type="text" id="e_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="结束时间" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-1"></div>
+                            </div>
+                            <input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');">
+                        </form>
+                    </div>
+                </div>
+
+                <div id="container" style="width: 550px; height: 400px; padding-left: 150px"></div>
+
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        if( condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') "){toggel("reSearchM");}else{toggel("RCsearch");}
+    </script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script src="__JS__/highcharts.js"></script>
+    <script type="text/javascript">
+       function check(){
+            if($("#level").val()){
+                if(($("input[name='s_time']").val() == '')  || ($("input[name='e_time']").val() == '')){
+                    alert("请选择开始时间")
+                    return false
+                }else{
+                    return true;
+                }
+            }else{
+                alert("请选择部门")
+                return false
+            }
+       }
+        $(function(){
+            $(".couponState2").show();
+            var branch_name = '<?php echo json_encode($branch_name);?>'
+            branch_name = branch_name.replace('[','').replace(']','').replace(/"/g,'').split(',')
+            for(var i = 0; i < branch_name.length ; i++){
+                var b="<b style='position:relative;z-index: 999999'>"+branch_name[i]+"</b>";
+                $(".couSta2").append(b)
+            }
+        })
+        $(document).ready(function() {
+            var date = '<?php echo json_encode($date);?>'
+            date = date.replace('[','').replace(']','').replace(/"/g,'').split(',')
+            console.log(date)
+
+            var title = {
+                text: '现货'
+            };
+            var subtitle = {
+                text: '{$branch_name1}'
+            };
+            var xAxis = {
+                categories: ['2016/09/01', '2016/09/02', '2016/09/03', '2016/09/04', '2016/09/05', '2016/09/06',
+                    '2016/09/07', '2016/09/08', '2016/09/09', '2016/09/10', '2016/09/11', '2016/09/12','2016/09/13',
+                    '2016/09/14','2016/09/15','2016/09/16','2016/09/17']
+
+            };
+            var yAxis = {
+                title: {
+                    text: '金额 (元)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            };
+            var tooltip = {
+                valueSuffix: '元'
+            }
+            var legend = {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'large',
+                borderWidth: 0
+            };
+            var series =  [
+                {
+                    name: '当前资产',
+                    data: [5000000, 4900000, 4800000, 4700000, 5100000, 5200000, 5300000,
+                        5400000, 5200000, 11500000, 9876543, 10023456,9882341,9783245,10000000,10234567,11000000]
+                },
+                {
+                    name: '运作资金',
+                    data: [5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 10000000,
+                        10000000, 10000000, 10000000, 10000000, 10000000,10000000,10000000,10000000,10000000,10000000]
+                },
+//                {
+//                    name: '累计初始资金(计息)',
+//                    data: [5001369.863, 5002739.726, 5004109.589, 5005479.452, 5006849.315, 5008219.178, 5009589.041,
+//                        5010958.904, 5012328.767, 10015342.47, 10018356.16, 10021369.86,10024383.56, 10027397.26,
+//                        10030410.96, 10033424.66, 10036438.36]
+//                }
+            ];
+            var json = {};
+            json.title = title;
+            json.subtitle = subtitle;
+            json.xAxis = xAxis;
+            json.yAxis = yAxis;
+            json.tooltip = tooltip;
+            json.legend = legend;
+            json.series = series;
+
+            $('#container').highcharts(json);
+        });
+    </script>
+</block>

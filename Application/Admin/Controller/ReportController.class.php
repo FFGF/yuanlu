@@ -52,18 +52,18 @@ class ReportController extends ChannelsController{
 
         $date = date('Y-m-d',I('s_time'));//生效时间
         $user_id = session('admin')['id'];
+        $branch_id = session('admin')['branch_id'];
         $power = M('user')->where("id=$user_id")->getField('power',true);
         $Model = new Model();
         $select = "select b.id,pd.id as project_id,p.category,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category
 from branch b,perday_data_item pd,project p
 where pd.project_id = p.id and pd.branch_id = b.id
-and pd.effect_date='$date' and pd.user_id=$user_id
+and pd.effect_date='$date' and b.id=$branch_id
 ORDER BY b.id;";
         $branch = M('branch')->where('id='.session('admin')['branch_id'])->getField('name');
-
         $result = $Model->query($select);
         if(count($result) == 0){
-           $this->bank('1');
+           $this->index('1');
         }else{
             $this->assign('userdata',$result);
             $this->assign('branch',$branch);
@@ -74,6 +74,54 @@ ORDER BY b.id;";
         }
     }
 
+    public function lineChart(){
+        $branch = M('branch');
+        $branch_name_array = $branch->where('id not in (10,11,12)')->getField('name',true);
+
+        if($_POST){
+            $branch_name = I('level');
+            $start_date = date('Y-m-d',I('s_time'));//生效时间
+            $end_date = date('Y-m-d',I('e_time'));//生效时间
+            $date = [];
+            for($d=I('s_time');$d<=I('e_time');){
+                $date [] = date('Y-m-d',$d);
+                $d +=86400;
+            }
+            $Model = new Model();
+            $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
+if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
+if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),format(pd.asset_product,2)) as asset_product,
+if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
+if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
+if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
+pd.remark,p.bank_category,e.onshore_exchange_rate
+from branch b,perday_data_item pd,project p,exchange_rate e
+where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+and e.effect_date='datetime' and b.name='branchname'
+ORDER BY b.id";
+            $sum = [];
+            foreach($date as $key=>$value){
+                $result = $Model->query(str_replace('branchname',$branch_name,str_replace('datetime',$value,$select)));
+                $sum[] = $this->sumBranch($result);
+            }
+            $this->assign('date',$date);
+            $this->assign('sum',$sum);
+            $this->assign('branch_name1',$branch_name);
+            $this->assign('branch_name',$branch_name_array);
+            $this->display('linechart');
+        }else{
+            $this->assign('branch_name',$branch_name_array);
+            $this->display('linechart');
+        }
+    }
+    //计算一个部门的资产现金、资产品总和
+    public function sumBranch($result){
+        $sum = 0.0;
+        foreach($result as $key=>$value){
+            $sum = $sum + doubleval(str_replace(',','',$value['asset_money'])) + doubleval(str_replace(',','',$value['asset_product']));
+        }
+        return $sum;
+    }
     //获得个人负责项目的数据（银行人员）
     public function getUserDataBank(){
         session('s_time',I('s_time'));
@@ -172,7 +220,7 @@ ORDER BY b.id;";
         $last_result = $Model->query(str_replace('datetime',$last_date,$select));
 
 //        $result = $this->subtractData($result,$last_result);
-        $branch_name = M('branch')->where('id != 10 and id != 12')->getField('name',true);
+        $branch_name = M('branch')->where('id != 10 and id != 12 and id!=11')->getField('name',true);
         $formatData = [];
         foreach($branch_name as $key=>$value){
             $formatData[$value] = $this->getBankData($result,$value,'name1');

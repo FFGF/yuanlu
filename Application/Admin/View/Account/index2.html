@@ -1,0 +1,57 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>账户信息呈现</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+
+
+            <!--  显示所负责的项目    -->
+            <div class="recordCou">
+
+
+                <table class="table" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <tr >
+                        <!--<th width="9%" class="leftradiu">列表</th>-->
+                        <th width="9%" class="leftradiu">人员列表</th>
+                        <th width="9%" class="lan">所属部门</th>
+                        <th width="9%" class="rightradiu">项目列表</th>
+                    </tr>
+                    </thead>
+
+                    <volist name="alldata" id="vo">
+                        <tr >
+                            <!--<td name="id_name">{$vo.id}</td>-->
+                            <td name="user_id">{$vo.user_name}</td>
+                            <td name="branch_id">{$vo.branch_name}</td>
+                            <td name="project_id">{$vo.project_name}</td>
+                        </tr>
+                    </volist>
+                </table>
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>
