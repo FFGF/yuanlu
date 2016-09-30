@@ -114,6 +114,7 @@ ORDER BY b.id";
             $this->display('linechart');
         }
     }
+
     //计算一个部门的资产现金、资产品总和
     public function sumBranch($result){
         $sum = 0.0;
@@ -122,6 +123,7 @@ ORDER BY b.id";
         }
         return $sum;
     }
+
     //获得个人负责项目的数据（银行人员）
     public function getUserDataBank(){
         session('s_time',I('s_time'));
@@ -150,6 +152,7 @@ ORDER BY b.id;";
             $this->display('bank');
         }
     }
+
     //更新数据
     public function updateData(){
         $map['id'] = I('id');
@@ -283,6 +286,7 @@ ORDER BY b.id;";
 //        die();
         return $sub_data;
     }
+
     public function getBankData($result,$value,$key_name){
         $data = [];
         foreach($result as $key=>$item) {
