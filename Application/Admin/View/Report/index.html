@@ -49,6 +49,102 @@
                         </volist>
                         </tbody>
                     </table>
+                    <elseif condition="$flag eq 2"/>
+
+                        <table class="table" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <th width="5%" class="leftradiu lan">序号</th>
+                            <th width="9%" >项目</th>
+                            <th width="9%" class="lan">资产现金</th>
+                            <th width="9%">资产品</th>
+                            <th width="10%" class="lan">融资负债/授信</th>
+                            <th width="5%">应收</th>
+                            <th width="8%" class="lan">应付</th>
+                            <th width="8%">备注</th>
+                            <th width="8%" class="rightradiu lan" >操作</th>
+                            </thead>
+                            <tbody>
+                            <volist name="result_bank" id="vo">
+                                <tr>
+                                    <td>{$vo.project_id}</td>
+                                    <td>{$vo.name}</td>
+                                    <td>{$vo.asset_money}</td>
+                                    <td>{$vo.asset_product}</td>
+                                    <td>{$vo.finance_debt}</td>
+                                    <td>{$vo.receivable}</td>
+                                    <td>{$vo.payable}</td>
+                                    <td>{$vo.remark}</td>
+                                    <if  condition="($power eq 1) and ($vo.category neq 1)">
+                                        <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改"></td>
+                                        <else/>
+                                        <td></td>
+                                    </if>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+
+                        <form method="post" action="{:U('admin/Report/saveData')}">
+                            <input type="hide" name="s_time2" style="width:0px;">
+
+                            <table class="table" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <th width="9%" class="leftradiu"></th>
+                                <th width="9%" class="lan">可用资金</th>
+                                <th width="9%">保证金</th>
+                                <th width="14%" class="lan">融资负债/授信</th>
+                                <th width="5%">应收</th>
+                                <th width="8%" class="lan">应付</th>
+                                <th width="8%">备注</th>
+                                </thead>
+                                <tbody>
+                                <volist name="project_qihuo" id="vo">
+                                    <tr>
+                                        <td>{$vo.name_project}</td>
+                                        <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                                    </tr>
+                                </volist>
+
+
+                                </tbody>
+                            </table>
+
+                            <table class="table" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <th width="9%" class="leftradiu"></th>
+                                <th width="9%" class="lan">资产现金</th>
+                                <th width="9%">资产品</th>
+                                <th width="14%" class="lan">融资负债/授信</th>
+                                <th width="5%">应收</th>
+                                <th width="8%" class="lan">应付</th>
+                                <th width="8%" class="rightradiu">备注</th>
+                                </thead>
+                                <tbody>
+                                <volist name="project_cunhuo" id="vo">
+                                    <tr>
+                                        <td>{$vo.name_project}</td>
+                                        <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+
+                            <div class="derivedata">
+                                <input type="submit"  value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                            </div>
+
+                        </form>
+
                     <else/>
                     <form method="post" action="{:U('admin/Report/saveData')}" onsubmit="return checkDate1()">
                         <input type="hide" name="s_time1" style="width:0px;">

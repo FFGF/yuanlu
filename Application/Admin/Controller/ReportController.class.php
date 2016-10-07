@@ -60,8 +60,43 @@ from branch b,perday_data_item pd,project p
 where pd.project_id = p.id and pd.branch_id = b.id
 and pd.effect_date='$date' and b.id=$branch_id
 ORDER BY b.id;";
+
+        $select_not_bank = "select b.id,pd.id as project_id,p.category,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category
+from branch b,perday_data_item pd,project p
+where pd.project_id = p.id and pd.branch_id = b.id
+and pd.effect_date='$date' and b.id=$branch_id and  p.category != 1
+ORDER BY b.id;";
+
+        $select_bank = "select b.id,pd.id as project_id,p.category,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category
+from branch b,perday_data_item pd,project p
+where pd.project_id = p.id and pd.branch_id = b.id
+and pd.effect_date='$date' and b.id=$branch_id and  p.category = 1
+ORDER BY b.id;";
+
+        $project = M('branch');
+        $maps['user.id'] = session('admin')['id'];
+        $maps['project.category'] = array('eq','2');
+        //期货数据
+        $result_qihuo = $project->join('user on user.branch_id = branch.id')
+            ->join('project on project.branch_id = branch.id')
+            ->field('project.id,project.name as name_project,project.branch_id,branch.name as branch_name')
+            ->where($maps)
+            ->select();
+
+        //现货库存结存
+        $maps['project.category'] = array('eq','3');
+        $result_cunhuo = $project->join('user on user.branch_id = branch.id')
+            ->join('project on project.branch_id = branch.id')
+            ->field('project.id,project.name as name_project,project.branch_id,branch.name as branch_name,project.category')
+            ->where($maps)
+            ->select();
+
         $branch = M('branch')->where('id='.session('admin')['branch_id'])->getField('name');
         $result = $Model->query($select);
+
+        $result_not_bank = $Model->query($select_not_bank);
+        $result_bank = $Model->query($select_bank);
+
         if(count($result) == 0){
            $this->index('1');
         }else{
@@ -69,23 +104,47 @@ ORDER BY b.id;";
             $this->assign('branch',$branch);
             $this->assign('power',$power[0]);
             $flag = 1;
+            if(count($result_not_bank) == 0 and count($result_bank) != 0){
+                $flag = 2;
+                $this->assign('project_qihuo', $result_qihuo);
+                $this->assign('project_cunhuo',$result_cunhuo);
+                $this->assign('result_bank',$result_bank);
+            }
             $this->assign('flag',$flag);
             $this->display('index');
         }
     }
-
+    //折线图
     public function lineChart(){
         $branch = M('branch');
         $branch_name_array = $branch->where('id not in (10,11,12)')->getField('name',true);
 
         if($_POST){
             $branch_name = I('level');
+            $branch_id = M('branch')->where('name='.'\''.$branch_name.'\'')->getField('id',true)[0];
             $start_date = date('Y-m-d',I('s_time'));//生效时间
             $end_date = date('Y-m-d',I('e_time'));//生效时间
             $date = [];
+            $perday_data_item = M('perday_data_item');
+
             for($d=I('s_time');$d<=I('e_time');){
                 $date [] = date('Y-m-d',$d);
                 $d +=86400;
+            }
+            //去掉没有数据的日期
+            foreach($date as $key=>$value){
+                if(!$perday_data_item->where('effect_date='.'\''."$value".'\'')->select()){
+                    array_remove($date,$key);
+                }
+            }
+            $working_capital_array = [];
+            $working_capital = M('working_capital');
+            //计算运作资金
+            foreach($date as $key=>$value){
+                $maps['effect_date'] = array('elt',$value);
+                $maps['branch_id'] = $branch_id;
+                $accumulate = $working_capital->where($maps)->order('effect_date desc')->getField('accumulate',true);
+                $working_capital_array [] = $accumulate[0];
             }
             $Model = new Model();
             $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
@@ -106,6 +165,7 @@ ORDER BY b.id";
             }
             $this->assign('date',$date);
             $this->assign('sum',$sum);
+            $this->assign('working_capital',$working_capital_array);
             $this->assign('branch_name1',$branch_name);
             $this->assign('branch_name',$branch_name_array);
             $this->display('linechart');
@@ -114,7 +174,46 @@ ORDER BY b.id";
             $this->display('linechart');
         }
     }
-
+    //运营资金输入
+    public function workingCapital(){
+        $working_capital = M('working_capital');
+        if($_POST){
+            $date =  date('Y-m-d',I('s_time'));
+            $map['effect_date'] = $date;
+            if(!$working_capital->where($map)->select()){
+                $data = I('post.');
+                unset($data['s_time']);
+                $data['effect_date'] = $date;//生效时间
+                $data['branch_id'] = session('admin')['branch_id'];
+                $data['user_id'] = session('admin')['id'];
+                $working_capital->add($data);
+                $result = $working_capital->where('branch_id='.session('admin')['branch_id'])->order('effect_date desc')->select();
+                $this->assign('result',$result);
+                $this->success("数据插入成功");
+            }else{
+                $this->error("数据库中已经存在，不能插入");
+            }
+        }else{
+            $branch = M('branch')->where('id='.session('admin')['branch_id'])->getField('name');
+            $this->assign('branch',$branch);
+            $result = $working_capital->where('branch_id='.session('admin')['branch_id'])->order('effect_date desc')->select();
+            $this->assign('result',$result);
+            $this->display();
+        }
+    }
+    //更新运营资金数据
+    public function updateWorkingCapital(){
+        $map['id'] = I('id');
+        $data = I('get.');
+        unset($data['id']);
+        $working_capital = M('working_capital')->where($map)->save($data);
+        if($working_capital==false){
+            $json['code']=0;//说明更新失败
+        }else{
+            $json['code']=1;//说明更新成功
+        }
+        exit(json_encode($json));
+    }
     //计算一个部门的资产现金、资产品总和
     public function sumBranch($result){
         $sum = 0.0;
@@ -123,7 +222,6 @@ ORDER BY b.id";
         }
         return $sum;
     }
-
     //获得个人负责项目的数据（银行人员）
     public function getUserDataBank(){
         session('s_time',I('s_time'));
@@ -152,7 +250,6 @@ ORDER BY b.id;";
             $this->display('bank');
         }
     }
-
     //更新数据
     public function updateData(){
         $map['id'] = I('id');
@@ -188,19 +285,43 @@ ORDER BY b.id;";
         $this->assign('bank',$bank);
         $this->display('bank');
     }
-
     //插入汇率
     public function rate(){
         $exchange_rate = M('exchange_rate');
         if($_POST){
             $data['effect_date']=date('Y-m-d',I('s_time'));//生效时间
-            $data['onshore_exchange_rate'] = I('onshore_exchange_rate');
-            $data['offshore_exchange_rate'] = I('offshore_exchange_rate');
-            $exchange_rate->add($data);
+            $maps['effect_date'] = array('eq',date('Y-m-d',I('s_time')));
+
+            $fgf = $exchange_rate->where($maps)->select();
+            if($fgf){
+                $this->error('同一天不能插入两条数据');
+            }else{
+                $data['onshore_exchange_rate'] = I('onshore_exchange_rate');
+                $data['offshore_exchange_rate'] = I('offshore_exchange_rate');
+                $exchange_rate->add($data);
+                $result = $exchange_rate->order('effect_date desc')->select();
+                $this->assign('rate',$result);
+                $this->display();
+
+            }
+        }else{
+            $result = $exchange_rate->order('effect_date desc')->select();
+            $this->assign('rate',$result);
+            $this->display();
         }
-        $result = $exchange_rate->order('effect_date desc')->select();
-        $this->assign('rate',$result);
-        $this->display();
+    }
+    //更新汇率
+    public function updateRate(){
+        $map['id'] = I('id');
+        $data = I('get.');
+        unset($data['id']);
+        $exchange_rate = M('exchange_rate')->where($map)->save($data);
+        if($exchange_rate==false){
+            $json['code']=0;//说明更新失败
+        }else{
+            $json['code']=1;//说明更新成功
+        }
+        exit(json_encode($json));
     }
     //银行数据的呈现
     public function showData(){
@@ -212,18 +333,21 @@ ORDER BY b.id;";
             $last_date = date('Y-m-d',time()-86400);
         }
 
+        $branch_id = session('admin')['branch_id'];
+
         $Model = new Model();
         $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category,e.onshore_exchange_rate
 from branch b,perday_data_item pd,project p,exchange_rate e
 where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
-and e.effect_date='datetime'
+and e.effect_date='datetime' and b.id = $branch_id
 ORDER BY b.id;";
         $result = $Model->query(str_replace('datetime',$date,$select));
 
         $last_result = $Model->query(str_replace('datetime',$last_date,$select));
 
 //        $result = $this->subtractData($result,$last_result);
-        $branch_name = M('branch')->where('id != 10 and id != 12 and id!=11')->getField('name',true);
+        $maps['id'] = array('eq',$branch_id);
+        $branch_name = M('branch')->where($maps)->getField('name',true);
         $formatData = [];
         foreach($branch_name as $key=>$value){
             $formatData[$value] = $this->getBankData($result,$value,'name1');
@@ -296,7 +420,6 @@ ORDER BY b.id;";
         }
         return $data;
     }
-
     //插入业务数据
     public function saveData(){
         if(I('s_time1')){
@@ -304,6 +427,13 @@ ORDER BY b.id;";
         }else{
             $date = date('Y-m-d',time());
         }
+
+        if(I('s_time2')){
+            $date = date('Y-m-d',I('s_time2'));//日报日期
+        }else{
+            $date = date('Y-m-d',time());
+        }
+
         $perday_data_item = M("perday_data_item");
         $data = I('post.');
         unset($data['s_time1']);
@@ -313,7 +443,6 @@ ORDER BY b.id;";
         }
         $this->success("插入数据成功");
     }
-
     //对前台传递过来的数据进行处理
     public function formatData($data,$date){
         $formatdata = [];
@@ -334,7 +463,6 @@ ORDER BY b.id;";
        }
         return $formatdata;
     }
-
     //将字符串中的key提取出来
     public function pickKey($str){
         return substr($str,0,strpos($str,preg_replace('/\D/s', '', $str)));

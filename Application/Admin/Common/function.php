@@ -31,3 +31,8 @@ function formatWeek($value){
             return "星期日";
     }
 }
+//删除数组中指定元素
+function array_remove(&$arr, $offset)
+{
+    array_splice($arr, $offset, 1);
+}

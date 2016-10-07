@@ -71,11 +71,19 @@
         $(document).ready(function() {
             var date = '<?php echo json_encode($date);?>'
             date = date.replace('[','').replace(']','').replace(/"/g,'').split(',')
+
             var sum = '<?php echo json_encode($sum);?>'
             sum = sum.replace('[','').replace(']','').replace(/"/g,'').split(',')
             for(var i=0;i<sum.length;i++){
                 sum[i] = parseFloat(sum[i])
             }
+
+            var working_capital =  '<?php echo json_encode($working_capital);?>'
+            working_capital = working_capital.replace('[','').replace(']','').replace(/"/g,'').split(',')
+            for(var i=0;i<sum.length;i++){
+                working_capital[i] = parseFloat(working_capital[i])
+            }
+
             var title = {
                 text: '现货'
             };
@@ -115,11 +123,10 @@
 //                    data:[6125338.44,6125338.44,6168706.4,6225083.37,5458329.27]
                     data:sum
                 },
-//                {
-//                    name: '运作资金',
-//                    data: [5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 10000000,
-//                        10000000, 10000000, 10000000, 10000000, 10000000,10000000,10000000,10000000,10000000,10000000]
-//                },
+                {
+                    name: '运作资金',
+                    data: working_capital
+                },
 //                {
 //                    name: '累计初始资金(计息)',
 //                    data: [5001369.863, 5002739.726, 5004109.589, 5005479.452, 5006849.315, 5008219.178, 5009589.041,

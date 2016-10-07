@@ -8,7 +8,7 @@
             <div class="platTitle"><h2>{$branch}部门汇率录入</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
-                <form method="post" action="{:U('admin/Report/rate')}">
+                <form method="post" action="{:U('admin/Report/rate')}" onsubmit="return checkDate()">
 
                     <li><input type="hide" name="s_time" style="width:0px;">
                         <div class="changeDateA">
@@ -17,7 +17,7 @@
                     <table class="table" cellspacing="0" cellpadding="0">
                         <thead>
                         <th width="9%" class="leftradiu">当日在岸汇率</th>
-                        <th width="8%" class="lan">当日离岸汇率</th>
+                        <th width="8%" class="lan rightradiu">当日离岸汇率</th>
                         </thead>
                         <tbody>
                         <tr>
@@ -38,6 +38,7 @@
                     <th width="9%" class="lan">当日在岸汇率</th>
                     <th width="9%">当日离岸汇率</th>
                     <th width="14%" class="lan">日期</th>
+                    <th width="14%" class="rightradiu">操作</th>
                     </thead>
                     <tbody>
                     <volist name="rate" id="vo">
@@ -46,6 +47,7 @@
                             <td>{$vo.onshore_exchange_rate}</td>
                             <td>{$vo.offshore_exchange_rate}</td>
                             <td>{$vo.effect_date}</td>
+                            <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改"></td>
                         </tr>
                     </volist>
                     </tbody>
@@ -54,10 +56,89 @@
         </div>
     </div>
 
+    <div class="auditingFrame">
+        <div class="aFtitle">等级修改</div>
+        <div class="aFcona">
+            <form>
+                <table class="table" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <th width="5%" class="leftradiu lan">序号</th>
+                    <th width="9%" >当日在岸汇率</th>
+                    <th width="9%" class="lan">当日离岸汇率</th>
+                    <th width="9%">日期</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td id="id" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="onshore_exchange_rate" name="onshore_exchange_rate"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="offshore_exchange_rate" name="offshore_exchange_rate"></td>
+                        <td><input  style="width:70px;overflow-x:visible;overflow-y:visible;" id="effect_date" name="effect_date"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input id="update" type="button" name="update" value="更新" class="adopt" onclick="updateRate()">
+            </form>
+        </div>
+        <i class="info_close"></i>
+    </div>
+    <div class="info_bg"></div>
+
 </block>
 
 <block name="script">
     <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
     <script src="__JS__/BeatPicker.min.js"></script>
     <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+        //关闭按钮
+        $(".info_close").click(function(){
+            $(".info_bg").hide();
+            $(".auditingFrame").hide();
+        })
+        //通修改按钮对table里的数据进行修改
+        function change(row,val) {
+            $("#id")[0].innerHTML = row.cells[0].innerHTML
+            $("#onshore_exchange_rate").val(row.cells[1].innerHTML)
+            $("#offshore_exchange_rate").val(row.cells[2].innerHTML)
+            $("#effect_date").val(row.cells[3].innerHTML)
+            $(".info_bg").show();
+            $(".auditingFrame").show();
+            $(".auditingFrame").css({
+                top: function(index, value) {
+                    return $(window).scrollTop() + ($(window).height()/2);
+                }
+            });
+        }
+
+        function updateRate(){
+            var data = {"id": $('#id')[0].innerHTML,
+                "onshore_exchange_rate":$('#onshore_exchange_rate').val(),
+                "offshore_exchange_rate":$('#offshore_exchange_rate').val(),
+                "effect_date":$('#effect_date').val()
+            };
+            var url = "/admin/" + "report-updaterate.html";
+            $.getJSON(url,data,function(response){
+                if(response.code==1){
+                    alert('数据更改成功');
+                    $(".info_bg").hide();
+                    $(".auditingFrame").hide();
+                    window.location.reload()//刷新当前页面.
+                }else if(response.code==0){
+                    alert('数据更改失败');
+                    $(".info_bg").hide();
+                    $(".auditingFrame").hide();
+                    window.location.reload()//刷新当前页面.
+                }
+            })
+        }
+
+        function checkDate(){
+            if($("input[name='s_time']").val() == ''){
+                alert('日期不能为空')
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
 </block>
