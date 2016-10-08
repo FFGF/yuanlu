@@ -20,7 +20,12 @@ class IndexController extends ChannelsController {
             }
             else{
                 session('admin', $admin);
-                redirect(__ROOT__.'/Admin/report');
+                if($admin['power'] == 2){
+                    redirect(__ROOT__.'/Admin/report-bank');
+                }else{
+                    redirect(__ROOT__.'/Admin/report');
+                }
+
             }
         }
     }

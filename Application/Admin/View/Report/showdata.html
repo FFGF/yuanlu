@@ -20,7 +20,7 @@
                     <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="开始时间" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
                 </div>
                 <input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');">
-            </form>
+                </form>
 
                 <volist name="formatdata" id="vo">
                     {$key}
@@ -69,8 +69,10 @@
 <block name="script">
     <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
     <script type="text/javascript">
-        $(function(){
-//            $(".fgf").attr("background","red")
-        });
+        $(function () {
+            if("{:session('s_time')}"){
+                $('#s_time').val("{:date('Y-m-d',session('s_time'))}");
+            }
+        })
     </script>
 </block>

@@ -5,36 +5,43 @@
 <block name="body">
     <div class="platCon">
         <div class="platState white">
-            <div class="platTitle"><h2>{$branch}部门日报录入</h2></div>
+            <div class="platTitle"><h2>部门运营资金录入</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
              <form method="post" action="{:U('admin/Report/workingCapital')}" onsubmit="return checkDate()">
 
-                <li><input type="hide" name="s_time" style="width:0px;">
-                    <div class="changeDateA">
-                        <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="日报日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                <li>
+                    <div class="couponState2" style="display: none;left: 200px;">
+                        <input readonly="" class="coupState2" name="level" id="level" type="text" placeholder="部门">
+                        <i></i>
+                        <div class="couSta2" style="display: none;">
+                        </div>
+                    </div>
+                    <input type="hide" name="s_time" style="width:0px;">
+                    <div class="changeDateA" style="float: right;margin-right: 350px;">
+                        <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
                     </div></li>
 
-                    <table class="table" cellspacing="0" cellpadding="0">
+                    <table class="table" cellspacing="0" cellpadding="0" style="width: 90%">
                         <thead>
                         <th width="10%" class="leftradiu lan">出入金方向</th>
                         <th width="15%" >出入金数量</th>
-                        <th width="15%" class="lan">累计初始资金</th>
-                        <th width="15%" >日利息</th>
-                        <th width="15%" class="lan">资金利率(年华)</th>
-                        <th width="15%" >来源/去向</th>
-                        <th width="15%" class="rightradiu lan">备注</th>
+                        <!--<th width="15%" class="lan">累计初始资金</th>-->
+                        <th width="15% " class="lan">日利息</th>
+                        <th width="15%" >资金利率(年华)</th>
+                        <th width="15%" class="lan">来源/去向</th>
+                        <th width="15%" class="rightradiu">备注</th>
                         </thead>
                         <tbody>
                         <tr>
                             <td>
                                 <select name="direction" style="width: 60px">
-                                <option value ="出金">出金</option>
-                                <option value ="入金">入金</option>
+                                    <option value ="入金">入金</option>
+                                    <option value ="出金">出金</option>
                                 </select>
                             </td>
                             <td><input type="text" name="sum" size="15"></td>
-                            <td><input type="text" name="accumulate" size="15"></td>
+                            <!--<td><input type="text" name="accumulate" size="15"></td>-->
                             <td><input type="text" name="dailyinterest" size="15"></td>
                             <td><input type="text" name="fundsrate" size="15"></td>
                             <td><input type="text" name="fromto" size="15"></td>
@@ -53,10 +60,11 @@
 
                 <table class="table" cellspacing="0" cellpadding="0">
                     <thead>
-                    <th width="10%" class="leftradiu">序号</th>
+                    <th width="5%" class="leftradiu lan">序号</th>
+                    <th width="10%">部门</th>
                     <th width="10%" class="lan">出入金方向</th>
                     <th width="10%" >出入金数量</th>
-                    <th width="10%" class="lan">累计初始资金</th>
+                    <th width="10%" class="lan">累计运营资金</th>
                     <th width="10%" >日利息</th>
                     <th width="10%" class="lan">资金利率(年华)</th>
                     <th width="10%" >来源/去向</th>
@@ -68,6 +76,7 @@
                     <volist name="result" id="vo">
                         <tr>
                             <td>{$vo.id}</td>
+                            <td>{$vo.name}</td>
                             <td>{$vo.direction}</td>
                             <td>{$vo.sum}</td>
                             <td>{$vo.accumulate}</td>
@@ -91,10 +100,11 @@
             <form>
                 <table class="table" cellspacing="0" cellpadding="0" style="margin-left: 40px; width: 90%">
                     <thead>
-                    <th width="10%" class="leftradiu">序号</th>
+                    <th width="5%" class="leftradiu lan">序号</th>
+                    <th width="10%" >部门</th>
                     <th width="10%" class="lan">出入金方向</th>
                     <th width="10%" >出入金数量</th>
-                    <th width="15%" class="lan">累计初始资金</th>
+                    <th width="15%" class="lan">累计运营资金</th>
                     <th width="10%" >日利息</th>
                     <th width="15%" class="lan">资金利率(年华)</th>
                     <th width="10%" >来源/去向</th>
@@ -104,15 +114,19 @@
                     <tbody>
                     <tr>
                         <td id="id" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
+                        <td id="branch" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
                         <td>
                             <select name="direction" style="width: 60px" id="direction">
-                                <option value ="出金">出金</option>
                                 <option value ="入金">入金</option>
+                                <option value ="出金">出金</option>
                             </select>
                         </td>
-                        <!--<td id="name" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>-->
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="sum" name="sum"></td>
-                        <td><input  style="width:70px;overflow-x:visible;overflow-y:visible;" id="accumulate" name="accumulate"></td>
+
+                        <!--<td><input  style="width:70px;overflow-x:visible;overflow-y:visible;" id="accumulate" name="accumulate"></td>-->
+
+                        <td id="accumulate" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
+
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="dailyinterest" name="dailyinterest"></td>
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="fundsrate" name="fundsrate"></td>
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="fromto" name="fromto"></td>
@@ -136,6 +150,15 @@
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
 
+        $(function(){
+            $(".couponState2").show();
+            var branch_name = '<?php echo json_encode($branch_name);?>'
+            branch_name = branch_name.replace('[','').replace(']','').replace(/"/g,'').split(',')
+            for(var i = 0; i < branch_name.length ; i++){
+                var b="<b style='position:relative;z-index: 999999'>"+branch_name[i]+"</b>";
+                $(".couSta2").append(b)
+            }
+        })
         //关闭按钮
         $(".info_close").click(function(){
             $(".info_bg").hide();
@@ -144,13 +167,14 @@
         //通修改按钮对table里的数据进行修改
         function change(row,val) {
             $("#id")[0].innerHTML = row.cells[0].innerHTML
-            $("#sum").val(row.cells[2].innerHTML)
-            $("#accumulate").val(row.cells[3].innerHTML)
-            $("#dailyinterest").val(row.cells[4].innerHTML)
-            $("#fundsrate").val(row.cells[5].innerHTML)
-            $("#fromto").val(row.cells[6].innerHTML)
-            $("#effect_date").val(row.cells[7].innerHTML)
-            $("#remark").val(row.cells[8].innerHTML)
+            $("#branch")[0].innerHTML=row.cells[1].innerHTML
+            $("#sum").val(row.cells[3].innerHTML)
+            $("#accumulate")[0].innerHTML=row.cells[4].innerHTML
+            $("#dailyinterest").val(row.cells[5].innerHTML)
+            $("#fundsrate").val(row.cells[6].innerHTML)
+            $("#fromto").val(row.cells[7].innerHTML)
+            $("#effect_date").val(row.cells[8].innerHTML)
+            $("#remark").val(row.cells[9].innerHTML)
             $(".info_bg").show();
             $(".auditingFrame").show();
             $(".auditingFrame").css({
@@ -164,7 +188,7 @@
             var data = {"id": $('#id')[0].innerHTML,
                 "direction":$("#direction").val(),
                 "sum":$('#sum').val(),
-                "accumulate":$('#accumulate').val(),
+//                "accumulate":$('#accumulate').val(),
                 "dailyinterest":$('#dailyinterest').val(),
                 "fundsrate":$('#fundsrate').val(),
                 "fromto":$('#fromto').val(),
@@ -188,11 +212,18 @@
         }
 
         function checkDate(){
-            if($("input[name='s_time']").val() == ''){
-                alert('日期不能为空')
-                return false;
+            if($("input[name='level']").val() == ''){
+                alert('请选择部门')
+                return false
             }else{
-                return true;
+
+                if($("input[name='s_time']").val() == ''){
+                    alert('日期不能为空')
+                    return false;
+                }else{
+                    return true;
+                }
+
             }
         }
     </script>

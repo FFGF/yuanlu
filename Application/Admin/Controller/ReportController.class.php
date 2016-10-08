@@ -139,13 +139,7 @@ ORDER BY b.id;";
             }
             $working_capital_array = [];
             $working_capital = M('working_capital');
-            //计算运作资金
-            foreach($date as $key=>$value){
-                $maps['effect_date'] = array('elt',$value);
-                $maps['branch_id'] = $branch_id;
-                $accumulate = $working_capital->where($maps)->order('effect_date desc')->getField('accumulate',true);
-                $working_capital_array [] = $accumulate[0];
-            }
+
             $Model = new Model();
             $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
 if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
@@ -158,6 +152,38 @@ from branch b,perday_data_item pd,project p,exchange_rate e
 where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
 and e.effect_date='datetime' and b.name='branchname'
 ORDER BY b.id";
+
+            if($branch_name == "所有部门"){
+                $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
+if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
+if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),format(pd.asset_product,2)) as asset_product,
+if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
+if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
+if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
+pd.remark,p.bank_category,e.onshore_exchange_rate
+from branch b,perday_data_item pd,project p,exchange_rate e
+where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+and e.effect_date='datetime'
+ORDER BY b.id";
+
+                //计算运作资金
+                foreach($date as $key=>$value){
+                    $maps['effect_date'] = array('elt',$value);
+                    $effect_date = $working_capital->where($maps)->order('effect_date desc')->getField('effect_date',true);
+                    $maps['effect_date'] = array('eq',$effect_date[0]);
+                    $accumulate = $working_capital->where($maps)->order('effect_date desc')->getField('accumulate',true);
+                    $working_capital_array [] = array_sum($accumulate);
+                }
+
+            }else{
+                //计算运作资金
+                foreach($date as $key=>$value){
+                    $maps['effect_date'] = array('elt',$value);
+                    $maps['branch_id'] = $branch_id;
+                    $accumulate = $working_capital->where($maps)->order('effect_date desc')->getField('accumulate',true);
+                    $working_capital_array [] = $accumulate[0];
+                }
+            }
             $sum = [];
             foreach($date as $key=>$value){
                 $result = $Model->query(str_replace('branchname',$branch_name,str_replace('datetime',$value,$select)));
@@ -177,6 +203,9 @@ ORDER BY b.id";
     //运营资金输入
     public function workingCapital(){
         $working_capital = M('working_capital');
+
+        $branch = M('branch');
+        $branch_name_array = $branch->where('id not in (10,11,12)')->getField('name',true);
         if($_POST){
             $date =  date('Y-m-d',I('s_time'));
             $map['effect_date'] = $date;
@@ -184,20 +213,40 @@ ORDER BY b.id";
                 $data = I('post.');
                 unset($data['s_time']);
                 $data['effect_date'] = $date;//生效时间
-                $data['branch_id'] = session('admin')['branch_id'];
+
+                $branch_id = M('branch')->where('name='.'\''.I('level').'\'')->getField('id',true);
+                $data['branch_id'] = $branch_id[0];
+
+                $where_accumulate['branch_id'] = $branch_id[0];
+                $where_accumulate['effect_date'] = array('elt',$date);
+
+                $accumulate = M('working_capital')->where($where_accumulate)->order('effect_date desc')->find();
+                if($data['direction'] == "入金"){
+                    $data['accumulate'] = $accumulate['accumulate'] + $data['sum'];
+                }else{
+                    $data['accumulate'] = $accumulate['accumulate'] - $data['sum'];
+                }
                 $data['user_id'] = session('admin')['id'];
                 $working_capital->add($data);
-                $result = $working_capital->where('branch_id='.session('admin')['branch_id'])->order('effect_date desc')->select();
+
+                $result = $working_capital->join('branch on working_capital.branch_id = branch.id')
+                    ->order('effect_date desc')
+                    ->field('branch.`name`,working_capital.*')
+                    ->select();
+
                 $this->assign('result',$result);
+                $this->assign('branch_name',$branch_name_array);
                 $this->success("数据插入成功");
             }else{
                 $this->error("数据库中已经存在，不能插入");
             }
         }else{
-            $branch = M('branch')->where('id='.session('admin')['branch_id'])->getField('name');
-            $this->assign('branch',$branch);
-            $result = $working_capital->where('branch_id='.session('admin')['branch_id'])->order('effect_date desc')->select();
+            $result = $working_capital->join('branch on working_capital.branch_id = branch.id')
+                ->order('effect_date desc')
+                ->field('branch.`name`,working_capital.*')
+                ->select();
             $this->assign('result',$result);
+            $this->assign('branch_name',$branch_name_array);
             $this->display();
         }
     }
@@ -206,6 +255,20 @@ ORDER BY b.id";
         $map['id'] = I('id');
         $data = I('get.');
         unset($data['id']);
+        $chang = M('working_capital')->where($map)->find();
+
+        if($chang['direction'] == '入金'){
+            $accumulate = $chang['accumulate'] - $chang['sum'];
+        }else{
+            $accumulate = $chang['accumulate'] + $chang['sum'];
+        }
+
+        if($data['direction'] == '入金'){
+            $data['accumulate'] = $accumulate + $data['sum'];
+        }else{
+            $data['accumulate'] = $accumulate - $data['sum'];
+        }
+        
         $working_capital = M('working_capital')->where($map)->save($data);
         if($working_capital==false){
             $json['code']=0;//说明更新失败
@@ -325,14 +388,16 @@ ORDER BY b.id;";
     }
     //银行数据的呈现
     public function showData(){
+        session('s_time',I('s_time'));
+
         if(I('s_time')){
             $date = date('Y-m-d',I('s_time'));//日报日期
             $last_date = date('Y-m-d',I('s_time')-86400);
         }else{
             $date = date('Y-m-d',time());
             $last_date = date('Y-m-d',time()-86400);
+            session('s_time',null);
         }
-
         $branch_id = session('admin')['branch_id'];
 
         $Model = new Model();
