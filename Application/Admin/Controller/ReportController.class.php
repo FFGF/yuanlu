@@ -122,8 +122,6 @@ ORDER BY b.id;";
         if($_POST){
             $branch_name = I('level');
             $branch_id = M('branch')->where('name='.'\''.$branch_name.'\'')->getField('id',true)[0];
-            $start_date = date('Y-m-d',I('s_time'));//生效时间
-            $end_date = date('Y-m-d',I('e_time'));//生效时间
             $date = [];
             $perday_data_item = M('perday_data_item');
 
@@ -131,12 +129,15 @@ ORDER BY b.id;";
                 $date [] = date('Y-m-d',$d);
                 $d +=86400;
             }
+
             //去掉没有数据的日期
             foreach($date as $key=>$value){
-                if(!$perday_data_item->where('effect_date='.'\''."$value".'\'')->select()){
-                    array_remove($date,$key);
+                if(!$perday_data_item->where('effect_date='.'\''."$value".'\''.'and '.'branch_id='.'\''."$branch_id".'\'')->select()){
+                    unset($date[$key]);
                 }
             }
+            $date = array_values($date);
+
             $working_capital_array = [];
             $working_capital = M('working_capital');
 
@@ -208,13 +209,15 @@ ORDER BY b.id";
         $branch_name_array = $branch->where('id not in (10,11,12)')->getField('name',true);
         if($_POST){
             $date =  date('Y-m-d',I('s_time'));
+            $branch_id = M('branch')->where('name='.'\''.I('level').'\'')->getField('id',true);
             $map['effect_date'] = $date;
+            $map['branch_id'] = $branch_id[0];
             if(!$working_capital->where($map)->select()){
                 $data = I('post.');
                 unset($data['s_time']);
                 $data['effect_date'] = $date;//生效时间
 
-                $branch_id = M('branch')->where('name='.'\''.I('level').'\'')->getField('id',true);
+
                 $data['branch_id'] = $branch_id[0];
 
                 $where_accumulate['branch_id'] = $branch_id[0];
@@ -268,7 +271,7 @@ ORDER BY b.id";
         }else{
             $data['accumulate'] = $accumulate - $data['sum'];
         }
-        
+
         $working_capital = M('working_capital')->where($map)->save($data);
         if($working_capital==false){
             $json['code']=0;//说明更新失败
@@ -392,88 +395,163 @@ ORDER BY b.id;";
 
         if(I('s_time')){
             $date = date('Y-m-d',I('s_time'));//日报日期
-            $last_date = date('Y-m-d',I('s_time')-86400);
+            //计算上一个交易日的日期
+            $perday_data_item = M('perday_data_item');
+            $where_last_date['branch_id'] = session('admin')['branch_id'];
+            if(session('admin')['power'] >= 2){
+                unset($where_last_date['branch_id']);
+            }
+            $where_last_date['effect_date'] = array('lt',$date);
+            $last_date = $perday_data_item->where($where_last_date)->order('effect_date desc')->find();
+            $last_date = $last_date['effect_date'];
         }else{
             $date = date('Y-m-d',time());
             $last_date = date('Y-m-d',time()-86400);
             session('s_time',null);
         }
         $branch_id = session('admin')['branch_id'];
-
         $Model = new Model();
-        $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,pd.asset_money,pd.asset_product,pd.finance_debt,pd.receivable,pd.payable,pd.remark,p.bank_category,e.onshore_exchange_rate
+
+        if(session('admin')['power'] >=2 ){
+            $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
+if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
+if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),format(pd.asset_product,2)) as asset_product,
+if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
+if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
+if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
+pd.remark,p.bank_category,e.onshore_exchange_rate
+from branch b,perday_data_item pd,project p,exchange_rate e
+where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+and e.effect_date='datetime'
+ORDER BY b.id";
+        }else{
+            $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
+if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
+if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),format(pd.asset_product,2)) as asset_product,
+if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
+if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
+if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
+pd.remark,p.bank_category,e.onshore_exchange_rate
 from branch b,perday_data_item pd,project p,exchange_rate e
 where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
 and e.effect_date='datetime' and b.id = $branch_id
-ORDER BY b.id;";
+ORDER BY b.id";
+        }
         $result = $Model->query(str_replace('datetime',$date,$select));
 
+        //上一个交易日的数据
         $last_result = $Model->query(str_replace('datetime',$last_date,$select));
-
-//        $result = $this->subtractData($result,$last_result);
         $maps['id'] = array('eq',$branch_id);
+        if(session('admin')['power'] >= 2){
+            unset($maps['id']);
+            $maps['id'] = array('not in',array('10','11','12'));//去掉一些无用的部门
+        }
         $branch_name = M('branch')->where($maps)->getField('name',true);
         $formatData = [];
+        $formatData_last = [];
         foreach($branch_name as $key=>$value){
             $formatData[$value] = $this->getBankData($result,$value,'name1');
+            $formatData_last[$value] = $this->getBankData($last_result,$value,'name1');
         }
-
-        $formatData['所有部门总和']['fuck'] = [];
-
-        foreach($formatData as $key=>$value){
-           $i = count($value);
-            if($key!='所有部门总和'){
-                $formatData[$key][$i] = [];
-                $formatData[$key][$i]['name'] = '部门总和';
-            }
-            foreach($value as $k=>$v){
-                if($v['bank_category'] == 1){
-                    $v['asset_money'] = $v['asset_money'] * $v['onshore_exchange_rate'];
-                    $v['asset_product'] =  $v['asset_product'] * $v['onshore_exchange_rate'];
-                    $v['finance_debt'] = $v['finance_debt'] * $v['onshore_exchange_rate'];
-                    $v['receivable'] =  $v['receivable'] * $v['onshore_exchange_rate'];
-                    $v['payable'] =  $v['payable'] * $v['onshore_exchange_rate'];
-                }
-                if($key!='所有部门总和'){
-                    $formatData[$key][$i]['asset_money'] =  $formatData[$key][$i]['asset_money'] +  $v['asset_money'];
-                    $formatData[$key][$i]['asset_product'] =  $formatData[$key][$i]['asset_product'] +  $v['asset_product'];
-                    $formatData[$key][$i]['finance_debt'] =  $formatData[$key][$i]['finance_debt'] +  $v['finance_debt'];
-                    $formatData[$key][$i]['receivable'] =  $formatData[$key][$i]['receivable'] +  $v['receivable'];
-                    $formatData[$key][$i]['payable'] =  $formatData[$key][$i]['payable'] +  $v['payable'];
-                }
-                $formatData['所有部门总和']['fuck']['asset_money'] =  $formatData['所有部门总和']['fuck']['asset_money'] + $v['asset_money'];
-                $formatData['所有部门总和']['fuck']['asset_product'] =  $formatData['所有部门总和']['fuck']['asset_product'] + $v['asset_product'];
-                $formatData['所有部门总和']['fuck']['finance_debt'] =  $formatData['所有部门总和']['fuck']['finance_debt'] + $v['finance_debt'];
-                $formatData['所有部门总和']['fuck']['receivable'] =  $formatData['所有部门总和']['fuck']['receivable'] + $v['receivable'];
-                $formatData['所有部门总和']['fuck']['payable'] =  $formatData['所有部门总和']['fuck']['payable'] + $v['payable'];
-            }
+        $formatData_last = $this->sumFuck($formatData_last);
+        $formatData = $this->sumFuck($formatData);
+        if(session('admin')['power'] >= 2){
+            $formatData = $this->subtractDataAll($formatData,$formatData_last);
+        }else{
+            $formatData = $this->subtractData($formatData, $formatData_last);
         }
         $this->assign('formatdata',$formatData);
         $this->display();
     }
 
+    public function sumFuck($formatData){
+        $formatData['所有部门总和']['fuck'] = [];
+        foreach($formatData as $key=>$value){
+            $i = count($value);
+            if($key!='所有部门总和'){
+                $formatData[$key][$i] = [];
+                $formatData[$key][$i]['name'] = '部门总和';
+            }
+            foreach($value as $k=>$v){
+                if($key!='所有部门总和'){
+                    $formatData[$key][$i]['asset_money'] =  $formatData[$key][$i]['asset_money'] +  str_replace(',','',$v['asset_money']);
+                    $formatData[$key][$i]['asset_product'] =  $formatData[$key][$i]['asset_product'] +  str_replace(',','',$v['asset_product']);
+                    $formatData[$key][$i]['finance_debt'] =  $formatData[$key][$i]['finance_debt'] +  str_replace(',','',$v['finance_debt']);
+                    $formatData[$key][$i]['receivable'] =  $formatData[$key][$i]['receivable'] +  str_replace(',','',$v['receivable']);
+                    $formatData[$key][$i]['payable'] =  $formatData[$key][$i]['payable'] +  str_replace(',','',$v['payable']);
+                }
+                $formatData['所有部门总和']['fuck']['asset_money'] =  $formatData['所有部门总和']['fuck']['asset_money'] + str_replace(',','',$v['asset_money']);
+                $formatData['所有部门总和']['fuck']['asset_product'] =  $formatData['所有部门总和']['fuck']['asset_product'] + str_replace(',','',$v['asset_product']);
+                $formatData['所有部门总和']['fuck']['finance_debt'] =  $formatData['所有部门总和']['fuck']['finance_debt'] + str_replace(',','',$v['finance_debt']);
+                $formatData['所有部门总和']['fuck']['receivable'] =  $formatData['所有部门总和']['fuck']['receivable'] + str_replace(',','',$v['receivable']);
+                $formatData['所有部门总和']['fuck']['payable'] =  $formatData['所有部门总和']['fuck']['payable'] + str_replace(',','',$v['payable']);
+            }
+        }
+        return $formatData;
+    }
+    //计算两个交易日的差值
     public function subtractData($result,$last_result){
         $sub_data = [];
         foreach($result as $key=>$value){
-            foreach($last_result as $k=>$v){
-                if($value['project_id'] == $v['project_id']){
-                    $value['sub_asset_money'] = $value['asset_money'] - $v['asset_money'];
-                    $value['sub_asset_product'] = $value['asset_product'] - $v['asset_product'];
-                    $value['sub_finance_debt'] = $value['finance_debt'] - $v['finance_debt'];
-                    $value['sub_receivable'] = $value['receivable'] - $v['receivable'];
-                    $value['sub_payable'] = $value['payable'] - $v['payable'];
-                    $sub_data[] = $value;
-//                    dump($v);
-                    break;
-                }else{
-                    $sub_data[] = $value;
-//                    dump($value);
-                    break;
+            $sub_data[$key] = [];
+        }
+        reset($last_result);
+        $first = key($last_result);
+        if(count($last_result[$first])<=1){
+            //如果上一个交易日没有数据
+            foreach($result as $key=>$value){
+                foreach($value as $k=>$v){
+                                $v['sum_asset_money'] = round(str_replace(',','',$v['asset_money']),2);
+                                $v['sum_asset_product'] = round(str_replace(',','',$v['asset_product']),2);
+                                $v['sum_finance_debt'] = round(str_replace(',','',$v['finance_debt']),2);
+                                array_push($sub_data[$key], $v);
+                }
+            }
+        }else{
+            foreach($result as $key=>$value){
+                foreach($value as $k=>$v){
+                    foreach($last_result as $key_last=>$value_last){
+                        foreach($value_last as $k_l=>$v_l){
+                            if($v['name'] == $v_l['name']){
+                                $v['sum_asset_money'] = round(str_replace(',','',$v['asset_money'])  - str_replace(',','',$v_l['asset_money']),2);
+                                $v['sum_asset_product'] = round(str_replace(',','',$v['asset_product'])  - str_replace(',','',$v_l['asset_product']),2);
+                                $v['sum_finance_debt'] = round(str_replace(',','',$v['finance_debt'])  - str_replace(',','',$v_l['finance_debt']),2);
+                                array_push($sub_data[$key], $v);
+                            }
+                        }
+                    }
                 }
             }
         }
-//        die();
         return $sub_data;
+    }
+
+    //计算两个交易日的差值，所有部门
+    public function subtractDataAll($result,$last_result){
+        $sub_data = [];
+        foreach($result as $key=>$value){
+            $sub_data[$key] = [];
+        }
+        reset($last_result);
+        $first = key($last_result);
+        foreach($result as $key=>$value){
+            foreach($value as $k=>$v){
+                $v['sum_asset_money'] = str_replace(',','',$v['asset_money']) -$this->getLastDateData($key,$v['name'],$last_result,'asset_money');
+                $v['sum_asset_product'] = str_replace(',','',$v['asset_product']) -$this->getLastDateData($key,$v['name'],$last_result,'asset_product');
+                $v['sum_finance_debt'] = str_replace(',','',$v['finance_debt']) -$this->getLastDateData($key,$v['name'],$last_result,'finance_debt');
+                array_push($sub_data[$key], $v);
+            }
+        }
+        return $sub_data;
+    }
+    //获得上一个交易日数据
+    public function getLastDateData($key,$name,$last_result,$str){
+        $item_array = $last_result[$key];
+        foreach($item_array as $key=>$value){
+            if($value['name'] == $name){
+                return str_replace(',','',$value[$str]);
+            }
+        }
     }
 
     public function getBankData($result,$value,$key_name){

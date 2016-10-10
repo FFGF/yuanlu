@@ -14,10 +14,10 @@
             <div class="platTitle"><h2>数据呈现</h2></div>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
-                <form method="post" action="{:U('admin/Report/showdata')}">
+                <form method="post" action="{:U('admin/Report/showdata')}" onsubmit="return checkDate()">
                 <input type="hide" name="s_time" style="width:0px;">
                 <div class="changeDate">
-                    <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="开始时间" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                    <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="请选择日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
                 </div>
                 <input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');">
                 </form>
@@ -32,31 +32,60 @@
                         <th width="14%" class="lan">融资负债/授信</th>
                         <th width="5%">应收</th>
                         <th width="8%" class="lan">应付</th>
-                        <th width="8%" class="rightradiu">备注</th>
+                        <th width="8%" class="">备注</th>
+                        <th width="8%" class="lan">资产现金+-</th>
+                        <th width="8%" class="">资产品+-</th>
+                        <th width="8%" class="lan rightradiu">持仓授信+-</th>
                         </thead>
+                        <tbody>
+
                         <volist name="vo" id="item">
                             <if condition="$item.bank_category eq 0">
                                 <tr>
                                     <td>{$item.name}</td>
-                                    <td>{$item.asset_money}</td>
-                                    <td>{$item.asset_product}</td>
-                                    <td>{$item.finance_debt}</td>
-                                    <td>{$item.receivable}</td>
-                                    <td>{$item.payable}</td>
+                                    <if condition="($item.name eq '部门总和') or($item.name eq '') ">
+                                        <td style="text-align:right;">{$item.asset_money|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.asset_product|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.finance_debt|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.receivable|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.payable|number_format=###,2}</td>
+                                        <else/>
+                                        <td style="text-align:right;">{$item.asset_money}</td>
+                                        <td style="text-align:right;">{$item.asset_product}</td>
+                                        <td style="text-align:right;">{$item.finance_debt}</td>
+                                        <td style="text-align:right;">{$item.receivable}</td>
+                                        <td style="text-align:right;">{$item.payable}</td>
+                                    </if>
                                     <td>{$item.remark}</td>
+                                    <td style="text-align:right;">{$item.sum_asset_money|number_format=###,2}</td>
+                                    <td style="text-align:right;">{$item.sum_asset_product|number_format=###,2}</td>
+                                    <td style="text-align:right;">{$item.sum_finance_debt|number_format=###,2}</td>
                                 </tr>
                                 <else/>
                                 <tr>
-                                    <td >{$item.name}</td>
-                                    <td>{:rmbToDollar($item[asset_money],$item[onshore_exchange_rate])}</td>
-                                    <td>{:rmbToDollar($item[asset_product],$item[onshore_exchange_rate])}</td>
-                                    <td>{:rmbToDollar($item[finance_debt],$item[onshore_exchange_rate])}</td>
-                                    <td>{:rmbToDollar($item[receivable],$item[onshore_exchange_rate])}</td>
-                                    <td>{:rmbToDollar($item[payable],$item[onshore_exchange_rate])}</td>
+                                    <td>{$item.name}</td>
+                                    <if condition="($item.name eq '部门总和') or($item.name eq '') ">
+                                        <td style="text-align:right;">{$item.asset_money|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.asset_product|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.finance_debt|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.receivable|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.payable|number_format=###,2}</td>
+                                        <else/>
+                                        <td style="text-align:right;">{$item.asset_money}</td>
+                                        <td style="text-align:right;">{$item.asset_product}</td>
+                                        <td style="text-align:right;">{$item.finance_debt}</td>
+                                        <td style="text-align:right;">{$item.receivable}</td>
+                                        <td style="text-align:right;">{$item.payable}</td>
+                                    </if>
                                     <td>{$item.remark}</td>
+                                    <td style="text-align:right;">{$item.sum_asset_money|number_format=###,2}</td>
+                                    <td style="text-align:right;">{$item.sum_asset_product|number_format=###,2}</td>
+                                    <td style="text-align:right;">{$item.sum_finance_debt|number_format=###,2}</td>
                                 </tr>
                             </if>
                         </volist>
+
+                        </tbody>
                     </table>
                 </volist>
 
@@ -69,6 +98,16 @@
 <block name="script">
     <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
     <script type="text/javascript">
+
+        function checkDate(){
+            if($("input[name='s_time']").val() == ''){
+                alert('日期不能为空')
+                return false;
+            }else{
+                return true;
+            }
+        }
+
         $(function () {
             if("{:session('s_time')}"){
                 $('#s_time').val("{:date('Y-m-d',session('s_time'))}");

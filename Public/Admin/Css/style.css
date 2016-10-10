@@ -104,10 +104,14 @@ i,b{ font-style: normal; font-weight: 100;}
 .table thead tr th.font12{ font-size: 14px;}
 .table tbody tr{ line-height: 30px; text-align: center; font-size: 12px; color: #666; }
 .table tbody tr td a{ color: #2e97de;}
-.table tbody tr td:nth-child(2n){background: #ebebeb;}
-.table tbody tr td:nth-child(2n+1){ background: #e3e3e3;}
-.table tbody tr:nth-child(2n) td:nth-child(2n){background: #ebebeb;}
-.table tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}
+
+.table tr:nth-child(odd) td  {  background-color: #e3e3e3;  }
+.table tr:last-child td{ background-color: #e9bed5;}
+/*.table tbody tr td:nth-child(2n){background: #ebebeb;}*/
+/*.table tbody tr td:nth-child(2n+1){ background: #e3e3e3;}*/
+/*.table tbody tr:nth-child(2n) td:nth-child(2n){background: #ebebeb;}*/
+/*.table tbody tr:nth-child(2n+1) td:nth-child(2n+1){ background: #e3e3e3;}*/
+
 .table tfoot tr{ background: #34495e; height: 16px; width: 100%}
 .table tbody tr td:nth-child(1),.customer_order thead tr th:nth-child(1){ font-weight: bold;}
 /* 分页按钮 */

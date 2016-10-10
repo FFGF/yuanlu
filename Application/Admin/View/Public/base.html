@@ -17,17 +17,14 @@
             <i class="icon icon6"></i>日报录入<i class="arrow"></i>
             <ul class="childLi">
                 <if condition="session('admin')['power'] gt 2">
-                    <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/report/index')}">现货期货录入</a></li>
-                    <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='bank'">class="now"</if>><a href="{:U('admin/report/bank')}">银行数据录入</a></li>
                     <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='showdata'">class="now"</if>><a href="{:U('admin/report/showData')}">银行数据呈现</a></li>
-                    <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='rate'">class="now"</if>><a href="{:U('admin/report/rate')}">汇率录入</a></li>
                     <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='linechart'">class="now"</if>><a href="{:U('admin/report/linechart')}">折线图</a></li>
 
                     <elseif condition="session('admin')['power'] eq 2"/>
                         <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='bank'">class="now"</if>><a href="{:U('admin/report/bank')}">银行数据录入</a></li>
-                        <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='showdata'">class="now"</if>><a href="{:U('admin/report/showData')}">银行数据呈现</a></li>
                         <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='rate'">class="now"</if>><a href="{:U('admin/report/rate')}">汇率录入</a></li>
                         <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='workingcapital'">class="now"</if>><a href="{:U('admin/report/workingcapital')}">运营资金输入</a></li>
+                        <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='showdata'">class="now"</if>><a href="{:U('admin/report/showData')}">银行数据呈现</a></li>
                     <elseif condition="session('admin')['power'] eq 1"/>
                         <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/report/index')}">现货期货录入</a></li>
                         <li <if condition="CONTROLLER_NAME=='Report' AND ACTION_NAME=='showdata'">class="now"</if>><a href="{:U('admin/report/showData')}">银行数据呈现</a></li>
@@ -41,7 +38,7 @@
             <i class="icon icon6"></i>账户管理<i class="arrow"></i>
             <ul class="childLi">
                 <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index')}">账户管理</a></li>
-                <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index2')}">账户呈现</a></li>
+                <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index2'">class="now"</if>><a href="{:U('admin/account/index2')}">账户呈现</a></li>
 
             </ul>
             </li>

@@ -52,13 +52,19 @@
                     alert("请选择开始时间")
                     return false
                 }else{
-                    return true;
+                    if($("input[name='s_time']").val() >= $("input[name='e_time']").val()){
+                        alert("结束时间必须大于开始时间")
+                        return false
+                    }else{
+                        return true;
+                    }
                 }
             }else{
                 alert("请选择部门")
                 return false
             }
        }
+
         $(function(){
             $(".couponState2").show();
             var branch_name = '<?php echo json_encode($branch_name);?>'
