@@ -27,14 +27,35 @@
                     </tr>
                     </thead>
 
-                    <volist name="alldata" id="vo">
+                    <!--
+                    <volist name="result" id="vo">
                         <tr >
-                            <!--<td name="id_name">{$vo.id}</td>-->
-                            <td name="user_id">{$vo.user_name}</td>
-                            <td name="branch_id">{$vo.branch_name}</td>
-                            <td name="project_id">{$vo.project_name}</td>
+                            <td name="user_id">{$vo.username}</td>
+                            <td name="branch_id">{$vo.branchname}</td>
+                            <td name="project_id">{$vo.projectname}</td>
                         </tr>
                     </volist>
+
+                    -->
+
+
+
+                    <volist name="resall" id="vo">
+                        <tr >
+                            <td style="background:#84C1FF" name="user_id">{$vo.username}</td>
+                            <td style="background:#84C1FF" name="branch_id">{$vo.branchname}</td>
+                            <td style="background:#84C1FF" name="user_id"></td>
+                            <!--<td name="project_id">{$vo.projectname}</td>-->
+                            <volist name="vo['projectlist']" id="ve">
+                                <tr >
+                                    <td name="user_id"></td>
+                                    <td name="branch_id"></td>
+                                    <td name="project_id">{$ve.projectname}</td>
+                                </tr>
+                            </volist>
+                        </tr>
+                    </volist>
+
                 </table>
 
 

@@ -106,7 +106,8 @@ i,b{ font-style: normal; font-weight: 100;}
 .table tbody tr td a{ color: #2e97de;}
 
 .table tr:nth-child(odd) td  {  background-color: #e3e3e3;  }
-.table tr:last-child td{ background-color: #e9bed5;}
+.table tr:nth-child(even) td  {  background-color:#c7e0f2;  }
+/*.table tr:last-child td{ background-color: #e9bed5;}*/
 /*.table tbody tr td:nth-child(2n){background: #ebebeb;}*/
 /*.table tbody tr td:nth-child(2n+1){ background: #e3e3e3;}*/
 /*.table tbody tr:nth-child(2n) td:nth-child(2n){background: #ebebeb;}*/

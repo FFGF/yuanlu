@@ -5,6 +5,7 @@
     <script src="__JS__/BeatPicker.min.js"></script>
     <script type="text/javascript" src="__JS__/changeDate.js"></script>
     <style type="text/css">
+        .table tr:last-child td{ background-color: #e9bed5;}
     </style>
 </block>
 
@@ -23,8 +24,8 @@
                 </form>
 
                 <volist name="formatdata" id="vo">
-                    {$key}
-                    <table class="table" cellspacing="0" cellpadding="0">
+                    <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;">{$key}</button>
+                    <table class="table" cellspacing="0" cellpadding="0" style="padding-bottom: 10px">
                         <thead>
                         <th width="9%" class="leftradiu">账号</th>
                         <th width="9%" class="lan">资产现金</th>
@@ -38,7 +39,6 @@
                         <th width="8%" class="lan rightradiu">持仓授信+-</th>
                         </thead>
                         <tbody>
-
                         <volist name="vo" id="item">
                             <if condition="$item.bank_category eq 0">
                                 <tr>
@@ -84,21 +84,19 @@
                                 </tr>
                             </if>
                         </volist>
-
                         </tbody>
                     </table>
                 </volist>
 
+                <p id='flag' flag="0" style="display: none"></p>
             </div>
         </div>
     </div>
-
 </block>
 
 <block name="script">
     <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
     <script type="text/javascript">
-
         function checkDate(){
             if($("input[name='s_time']").val() == ''){
                 alert('日期不能为空')
@@ -107,8 +105,68 @@
                 return true;
             }
         }
-
+        function hide_show(button){
+            var ta = button.nextSibling.nextSibling;
+            var tb = ta.firstChild.nextSibling.nextSibling.nextSibling;
+            var tr = tb.childNodes
+            var tr_filter = new Array()
+            for(var i=0;i<tr.length;i++){
+                if(tr[i].nodeType == 1){
+                    tr_filter.push(tr[i])
+                }
+            }
+            if(button.innerHTML=="所有部门总和"){
+                var flag = document.getElementById('flag').getAttribute('flag')
+                if(flag == 0){
+                    var buton_array = document.getElementsByTagName('button')
+                    for(var i=0;i<buton_array.length-1;i++){
+                        buton_array[i].setAttribute('flag','0')
+                    }
+                    var tb_array = document.getElementsByTagName('tbody')
+                    for(var i=0;i<tb_array.length;i++){
+                        var tr_array = tb_array[i].getElementsByTagName('tr')
+                        for(var j=0;j<tr_array.length-1;j++){
+                            tr_array[j].style.display=""
+                        }
+                    }
+                    document.getElementById('flag').setAttribute('flag','1')
+                }else{
+                    var buton_array = document.getElementsByTagName('button')
+                    for(var i=0;i<buton_array.length-1;i++){
+                        buton_array[i].setAttribute('flag','1')
+                    }
+                    var tb_array = document.getElementsByTagName('tbody')
+                    for(var i=0;i<tb_array.length;i++){
+                        var tr_array = tb_array[i].getElementsByTagName('tr')
+                        for(var j=0;j<tr_array.length-1;j++){
+                            tr_array[j].style.display="none"
+                        }
+                    }
+                    document.getElementById('flag').setAttribute('flag','0')
+                }
+            }else{
+                // 0隐藏状态，1显示状态
+                if(button.getAttribute('flag') == 0){
+                    for(var i=0; i<tr_filter.length-1;i++){
+                        tr_filter[i].style.display="none"
+                    }
+                    button.setAttribute('flag','1')
+                }else{
+                    for(var i=0; i<tr_filter.length-1;i++){
+                        tr_filter[i].style.display=""
+                    }
+                    button.setAttribute('flag','0')
+                }
+            }
+        }
         $(function () {
+            var tb_array = document.getElementsByTagName('tbody')
+            for(var i=0;i<tb_array.length;i++){
+                var tr_array = tb_array[i].getElementsByTagName('tr')
+                for(var j=0;j<tr_array.length-1;j++){
+                    tr_array[j].style.display="none"
+                }
+            }
             if("{:session('s_time')}"){
                 $('#s_time').val("{:date('Y-m-d',session('s_time'))}");
             }
