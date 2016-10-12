@@ -130,10 +130,19 @@ ORDER BY b.id;";
                 $d +=86400;
             }
 
-            //去掉没有数据的日期
-            foreach($date as $key=>$value){
-                if(!$perday_data_item->where('effect_date='.'\''."$value".'\''.'and '.'branch_id='.'\''."$branch_id".'\'')->select()){
-                    unset($date[$key]);
+            if($branch_name =="所有部门"){
+                //去掉没有数据的日期
+                foreach($date as $key=>$value){
+                    if(!$perday_data_item->where('effect_date='.'\''."$value".'\'')->select()){
+                        unset($date[$key]);
+                    }
+                }
+            }else{
+                //去掉没有数据的日期
+                foreach($date as $key=>$value){
+                    if(!$perday_data_item->where('effect_date='.'\''."$value".'\''.'and '.'branch_id='.'\''."$branch_id".'\'')->select()){
+                        unset($date[$key]);
+                    }
                 }
             }
             $date = array_values($date);
@@ -216,10 +225,7 @@ ORDER BY b.id";
                 $data = I('post.');
                 unset($data['s_time']);
                 $data['effect_date'] = $date;//生效时间
-
-
                 $data['branch_id'] = $branch_id[0];
-
                 $where_accumulate['branch_id'] = $branch_id[0];
                 $where_accumulate['effect_date'] = array('elt',$date);
 
@@ -460,7 +466,7 @@ ORDER BY b.id";
         }else{
             $formatData = $this->subtractData($formatData, $formatData_last);
         }
-        $this->assign('formatdata',$formatData);
+        $this->assign('formatdata',array_reverse($formatData));
         $this->display();
     }
 

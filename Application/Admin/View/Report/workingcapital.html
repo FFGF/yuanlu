@@ -41,7 +41,8 @@
                                 </select>
                             </td>
                             <td><input type="text" name="sum" size="15"></td>
-                            <td><input type="text" name="dailyinterest" size="15"></td>
+                            <!--<td><input type="text" name="dailyinterest" size="15"></td>-->
+                            <td></td>
                             <td><input type="text" name="fundsrate" size="15"></td>
                             <td><input type="text" name="fromto" size="15"></td>
                             <td><input type="text" name="remark" size="15"></td>
@@ -126,7 +127,9 @@
 
                         <td id="accumulate" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
 
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="dailyinterest" name="dailyinterest"></td>
+                        <!--<td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="dailyinterest" name="dailyinterest"></td>-->
+                        <td id="dailyinterest" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
+
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="fundsrate" name="fundsrate"></td>
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="fromto" name="fromto"></td>
                         <td><input  style="width:70px;overflow-x:visible;overflow-y:visible;" id="effect_date" name="effect_date"></td>
@@ -169,7 +172,8 @@
             $("#branch")[0].innerHTML=row.cells[1].innerHTML
             $("#sum").val(row.cells[3].innerHTML)
             $("#accumulate")[0].innerHTML=row.cells[4].innerHTML
-            $("#dailyinterest").val(row.cells[5].innerHTML)
+//            $("#dailyinterest").val(row.cells[5].innerHTML)
+            $("#dailyinterest")[0].innerHTML=row.cells[5].innerHTML
             $("#fundsrate").val(row.cells[6].innerHTML)
             $("#fromto").val(row.cells[7].innerHTML)
             $("#effect_date").val(row.cells[8].innerHTML)
