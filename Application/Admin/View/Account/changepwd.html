@@ -1,0 +1,72 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>修改账户密码</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+            <div class="recordCou">
+                <div>
+                    <table >
+                        <thead>
+                        <td style="font-size:15px;width:15%;height:100%" name="before_username" align=center bgcolor=#F0F0F0>{$before_username}</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <form method="post" action="{:U('admin/Account/changepwd')}" onsubmit="return check()">
+                    <table  class="table" cellspacing="0" cellpadding="0">
+                        <thead>
+                        <tr >
+                            <th width="30%" >请输入原密码</th>
+                            <td align=center bgcolor=#F0F0F0><input id="inp1" type="password" name="user_password"></td>
+                        </tr>
+                        <tr >
+                            <th width="30%" class="lan" >请输入新密码</th>
+                            <td align=center bgcolor=#F0F0F0><input id="inp2" type="password" name="newuser_password"></td>
+                        </tr>
+                        <tr >
+                            <th width="30%" >再确认新密码</th>
+                            <td align=center bgcolor=#F0F0F0><input id="inp3" type="password" name="nnewuser_password"></td>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="derivedata">
+                        <input type="submit" value="提交">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script type="text/javascript">
+        function check(){
+            if(!$("#inp1").val()){
+                alert("请输入原密码")
+                return false
+            }else{
+                if(!$("#inp2").val()){
+                    alert("请输入新密码")
+                    return false
+                }else{
+                    if($("#inp2").val() != $("#inp3").val()){
+                        alert("两次新密码输入不一致")
+                        return false
+                    }else{
+                        return true
+                    }
+                }
+            }
+        }
+    </script>
+</block>

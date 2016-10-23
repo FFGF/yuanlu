@@ -12,10 +12,8 @@ class AccountController extends ChannelsController{
         $branch = M('branch');
         $branchlist=$branch->field('brancd.name','branch.id')->select();
         $this->assign('branchlist',$branchlist);
-
         $this->display();
     }
-
     //添加的账号信息获取
     public function saveData(){
         $data = I('post.');
@@ -23,47 +21,31 @@ class AccountController extends ChannelsController{
         $maps['name'] = $data['branch_id'];
         //本想着计算该账户表中有几条数据
         $countnum=$project->count();
-        //dump($countnum);
         $result = $project->field('id')
             ->where($maps)
             ->select();
-        //dump($result[0]["id"]);
-
-        //将部门名字转化为ID
         $data['branch_id']=$result[0]["id"];
-        //dump($data);
         $user = M("user");
-
-        //dump($data['user_password']);
         $user->add($data);
-
         $this->success("插入数据成功");
-        die();
-
     }
 
     //添加的公司信息获取
     public function saveData2(){
         $data = I('post.');
-        //dump($data);
-        //die();
-        //return $data;
         $branch = M('branch');
         $branch->add($data);
         $this->success("插入数据成功");
-        die();
     }
 
     //添加的项目信息获取
     public function saveData3(){
         $data = I('post.');
-        //dump($data);
         $project = M('branch');
         $maps['name'] = $data['branch_id'];
         $result = $project->field('id')
             ->where($maps)
             ->select();
-        //dump($result[0]["id"]);
         //将部门名字转化为ID
         $data['branch_id']=$result[0]["id"];
         //dump($data);
@@ -79,16 +61,11 @@ class AccountController extends ChannelsController{
             $data['bank_category']='0';
         if ($data['bank_category']=='美国')
             $data['bank_category']='1';
-
         //dump($data);
         $project = M("project");
         $project->add($data);
         $this->success("插入数据成功");
-        die();
-
     }
-
-
 
 
     public function indexshowdata(){
@@ -165,15 +142,43 @@ class AccountController extends ChannelsController{
         //显示  人员、部门、对应的好几个项目
 
         //dump($resall['projectlist']);   显示是NULL
-
         $this->assign('resall',$resall);
-
         //$this->assign('result',$result);
         //呈现页面没有用到
-
         $this->display();
-
     }
 
+
+    public function changepwd(){
+        //获取当前所登录账户的id，并提取出该条信息
+        $maps['user.id'] = session('admin')['id'];
+        $user = M('user');
+        $before_result=$user->field('user.id,user.user_name,user.user_password')->where($maps)->select();
+
+        $before_result1=$user->where($maps)->select();
+        $before_username=$before_result[0]['user_name'];
+        if($_POST){
+        //获取从页面传来的   原密码和新密码数据
+        $data = I('post.');
+        //第一个if判断页面新密码有输入
+        if(!empty($data['user_password'])) {
+            //第二个if 判断  所输入的原密码  和 之前数据库中的原密码是   一样的
+            if ($data['user_password'] == $before_result[0]['user_password']) {
+                    $data['user_password'] = $data['newuser_password'];
+                    $before_result1[0]['user_password'] = $data['user_password'];
+                    //修改原密码为新密码
+                    $user->data($before_result1[0])->where($maps)->save();
+                    $this->success("修改密码成功");
+            }
+            else{
+                //echo "原密码错误<br>";
+                $this->error("原密码输入错误");
+            }
+        }
+        }else{
+            $this->assign('before_username',$before_username);
+            $this->display();
+        }
+    }
 
 }

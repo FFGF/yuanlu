@@ -573,14 +573,8 @@ ORDER BY b.id";
     public function saveData(){
         if(I('s_time1')){
             $date = date('Y-m-d',I('s_time1'));//日报日期
-        }else{
-            $date = date('Y-m-d',time());
-        }
-
-        if(I('s_time2')){
+        }else if(I('s_time2')){
             $date = date('Y-m-d',I('s_time2'));//日报日期
-        }else{
-            $date = date('Y-m-d',time());
         }
 
         $perday_data_item = M("perday_data_item");

@@ -50,7 +50,6 @@
                         </tbody>
                     </table>
                     <elseif condition="$flag eq 2"/>
-
                         <table class="table" cellspacing="0" cellpadding="0">
                             <thead>
                             <th width="5%" class="leftradiu lan">序号</th>
@@ -83,10 +82,8 @@
                             </volist>
                             </tbody>
                         </table>
-
                         <form method="post" action="{:U('admin/Report/saveData')}">
                             <input type="hide" name="s_time2" style="width:0px;">
-
                             <table class="table" cellspacing="0" cellpadding="0">
                                 <thead>
                                 <th width="9%" class="leftradiu"></th>
@@ -109,11 +106,8 @@
                                         <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
                                     </tr>
                                 </volist>
-
-
                                 </tbody>
                             </table>
-
                             <table class="table" cellspacing="0" cellpadding="0">
                                 <thead>
                                 <th width="9%" class="leftradiu"></th>
@@ -144,11 +138,9 @@
                             </div>
 
                         </form>
-
                     <else/>
                     <form method="post" action="{:U('admin/Report/saveData')}" onsubmit="return checkDate1()">
                         <input type="hide" name="s_time1" style="width:0px;">
-
                         <table class="table" cellspacing="0" cellpadding="0">
                             <thead>
                             <th width="9%" class="leftradiu"></th>
