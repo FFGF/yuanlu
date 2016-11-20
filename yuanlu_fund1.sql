@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-10-07 17:32:31
+Date: 2016-10-13 10:18:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -554,10 +554,26 @@ CREATE TABLE `working_capital` (
   `effect_date` date DEFAULT NULL COMMENT '日期',
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '插入数据库日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of working_capital
 -- ----------------------------
-INSERT INTO `working_capital` VALUES ('1', '2', '3', '入金', '5000000', '5000000', '1369.86', '10%', '初期', '哈哈哈', '2016-09-01', '2016-10-06 12:31:45');
-INSERT INTO `working_capital` VALUES ('2', '2', '3', '出金', '5000000', '10000000', '1643.84', '12%', '向二部拆借', '添加备注', '2016-09-10', '2016-10-06 13:43:51');
+INSERT INTO `working_capital` VALUES ('1', '2', '3', '入金', '5000000', '5000000', '1369.86', '10%', '初期', '哈', '2016-09-01', '2016-10-08 16:22:15');
+INSERT INTO `working_capital` VALUES ('2', '2', '3', '入金', '5000000', '10000000', '1643.84', '12%', '向二部拆借', '添加备注', '2016-09-10', '2016-10-08 14:51:13');
+INSERT INTO `working_capital` VALUES ('3', '3', '4', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:56:51');
+INSERT INTO `working_capital` VALUES ('4', '3', '4', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:56:52');
+INSERT INTO `working_capital` VALUES ('5', '1', '2', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:56:52');
+INSERT INTO `working_capital` VALUES ('6', '1', '2', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:56:53');
+INSERT INTO `working_capital` VALUES ('7', '4', '5', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:56:54');
+INSERT INTO `working_capital` VALUES ('8', '4', '5', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:56:54');
+INSERT INTO `working_capital` VALUES ('9', '5', '6', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:56:55');
+INSERT INTO `working_capital` VALUES ('10', '5', '6', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:56:56');
+INSERT INTO `working_capital` VALUES ('11', '6', '7', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:56:57');
+INSERT INTO `working_capital` VALUES ('12', '6', '7', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:56:57');
+INSERT INTO `working_capital` VALUES ('13', '7', '8', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:56:58');
+INSERT INTO `working_capital` VALUES ('14', '7', '8', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:56:59');
+INSERT INTO `working_capital` VALUES ('17', '9', '10', '入金', '5000000', '5000000', null, null, null, null, '2016-09-01', '2016-10-08 14:57:00');
+INSERT INTO `working_capital` VALUES ('18', '9', '10', '入金', '5000000', '10000000', null, null, null, null, '2016-09-10', '2016-10-08 14:57:00');
+INSERT INTO `working_capital` VALUES ('19', '1', '11', '入金', '5000000', '15000000', '1369.86', '10%', '初期', '修改1009', '2016-10-10', '2016-10-10 16:01:19');
+INSERT INTO `working_capital` VALUES ('20', '2', '11', '入金', '5000000', '15000000', '1369.86', '10%', '初期', '修改1009', '2016-10-10', '2016-10-10 16:01:30');

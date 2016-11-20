@@ -18,7 +18,7 @@ return array(
     'MODULE_ALLOW_LIST' => array('Admin', 'Home'),
     
     /* 数据缓存设置 */
-    'DATA_CACHE_PREFIX' => 'sndaCloud_V1_file_', // 缓存前缀
+    'DATA_CACHE_PREFIX' => 'yuanlu', // 缓存前缀
     'DATA_CACHE_TYPE' => 'File', // 数据缓存类型:Memcache\File\CacheMemcached
     'DATA_CACHE_TIME'=>300,// 数据缓存有效期 0表示永久缓存
 

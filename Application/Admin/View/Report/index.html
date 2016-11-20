@@ -41,7 +41,8 @@
                                 <td>{$vo.payable}</td>
                                 <td>{$vo.remark}</td>
                                 <if  condition="($power eq 1) and ($vo.category neq 1)">
-                                    <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改"></td>
+                                    <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改">
+                                        <input class="Auditing" type="button" onclick="deleteData(this.parentNode.parentNode,value)" value="删除"></td>
                                     <else/>
                                     <td></td>
                                 </if>
@@ -74,7 +75,8 @@
                                     <td>{$vo.payable}</td>
                                     <td>{$vo.remark}</td>
                                     <if  condition="($power eq 1) and ($vo.category neq 1)">
-                                        <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改"></td>
+                                        <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改">
+                                            <input class="Auditing" type="button" onclick="deleteData(this.parentNode.parentNode,value)" value="删除"></td>
                                         <else/>
                                         <td></td>
                                     </if>
@@ -98,11 +100,11 @@
                                 <volist name="project_qihuo" id="vo">
                                     <tr>
                                         <td>{$vo.name_project}</td>
-                                        <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
                                         <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
                                     </tr>
                                 </volist>
@@ -122,11 +124,11 @@
                                 <volist name="project_cunhuo" id="vo">
                                     <tr>
                                         <td>{$vo.name_project}</td>
-                                        <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                        <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                        <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                        <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
                                         <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
                                     </tr>
                                 </volist>
@@ -155,11 +157,11 @@
                             <volist name="project_cunhuo" id="vo">
                                 <tr>
                                     <td>{$vo.name_project}</td>
-                                    <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
                                     <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
                                 </tr>
                             </volist>
@@ -202,12 +204,12 @@
                             <volist name="project_qihuo" id="vo">
                                 <tr>
                                     <td>{$vo.name_project}</td>
-                                    <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>'></td>
-                                    <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>'></td>
+                                    <td><input type="text" size="15" name='asset_money<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='asset_product<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='finance_debt<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='receivable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='payable<?php echo ($vo["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                    <td><input type="text" size="15" name='remark<?php echo ($vo["id"]); ?>' ></td>
                                 </tr>
                             </volist>
                             </tbody>
@@ -314,6 +316,22 @@
             })
         }
 
+        function deleteData(row,val){
+            var data_id = row.cells[0].innerHTML
+            var data = {"id": data_id};
+
+            var url = "/admin/" + "report-deletedata.html";
+            $.getJSON(url,data,function(response){
+                if(response.code==1){
+                    alert('数据删除成功');
+                    window.location.reload()//刷新当前页面.
+                }else if(response.code==0){
+                    alert('数据删除失败');
+                    window.location.reload()//刷新当前页面.
+                }
+            })
+        }
+
         $(function () {
           if("{:session('s_time')}"){
               $('#s_time').val("{:date('Y-m-d',session('s_time'))}");
@@ -339,6 +357,22 @@
             }
         }
 
+        function checkNum(obj) {
+            //检查是否是非数字值
+            if(!(obj.value == '-')){
+                if (isNaN(obj.value)) {
+                    obj.value = "";
+                }
+            }
+
+            if (obj != null) {
+                //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+                if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 4) {
+                    alert("小数点后多于四位！");
+                    obj.value = "";
+                }
+            }
+        }
 
     </script>
 </block>

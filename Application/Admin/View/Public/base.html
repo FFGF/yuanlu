@@ -37,8 +37,10 @@
             <li <if condition="CONTROLLER_NAME=='Account'">class="active arrowDown"</if>>
             <i class="icon icon6"></i>账户管理<i class="arrow"></i>
             <ul class="childLi">
-                <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index')}">账户管理</a></li>
-                <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='indexshowdata'">class="now"</if>><a href="{:U('admin/account/indexshowdata')}">账户呈现</a></li>
+                <if condition="session('admin')['power'] gt 2">
+                    <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index')}">账户管理</a></li>
+                    <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='indexshowdata'">class="now"</if>><a href="{:U('admin/account/indexshowdata')}">账户呈现</a></li>
+                    </if>
                 <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='changepwd'">class="now"</if>><a href="{:U('admin/account/changepwd')}">修改密码</a></li>
             </ul>
             </li>

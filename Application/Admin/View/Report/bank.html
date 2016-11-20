@@ -74,11 +74,11 @@
                                     <if condition="$item.category eq 1">
                                         <tr>
                                             <td>{$item.name}</td>
-                                            <td><input type="text" size="15" name='asset_money<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='asset_product<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='finance_debt<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='receivable<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='payable<?php echo ($item["id"]); ?>'></td>
+                                            <td><input type="text" size="15" name='asset_money<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='asset_product<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='finance_debt<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='receivable<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='payable<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
                                             <td><input type="text" size="15" name='remark<?php echo ($item["id"]); ?>'></td>
                                         </tr>
                                         <else/>
@@ -119,11 +119,11 @@
                                     <if condition="$item.category eq 1">
                                         <tr>
                                             <td>{$item.name}</td>
-                                            <td><input type="text" size="15" name='asset_money<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='asset_product<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='finance_debt<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='receivable<?php echo ($item["id"]); ?>'></td>
-                                            <td><input type="text" size="15" name='payable<?php echo ($item["id"]); ?>'></td>
+                                            <td><input type="text" size="15" name='asset_money<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='asset_product<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='finance_debt<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='receivable<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
+                                            <td><input type="text" size="15" name='payable<?php echo ($item["id"]); ?>' onkeyup="checkNum(this)"></td>
                                             <td><input type="text" size="15" name='remark<?php echo ($item["id"]); ?>'></td>
                                         </tr>
                                         <else/>
@@ -171,11 +171,11 @@
                     <tr>
                         <td id="id" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
                         <td id="name" style="width:60px;overflow-x:visible;overflow-y:visible;"></td>
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="asset_money" name="asset_money"></td>
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="asset_product" name="asset_product"></td>
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="finance_debt" name="finance_debt"></td>
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="receivable" name="receivable"></td>
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="payable" name="payable"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="asset_money" name="asset_money" onkeyup="checkNum(this)"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="asset_product" name="asset_product" onkeyup="checkNum(this)"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="finance_debt" name="finance_debt" onkeyup="checkNum(this)"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="receivable" name="receivable" onkeyup="checkNum(this)"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="payable" name="payable" onkeyup="checkNum(this)"></td>
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="remark" name="remark"></td>
                     </tr>
                     </tbody>
@@ -256,6 +256,22 @@
                 return false;
             }else{
                 return true;
+            }
+        }
+
+        function checkNum(obj) {
+            //检查是否是非数字值
+            if(!(obj.value == '-')){
+                if (isNaN(obj.value)) {
+                    obj.value = "";
+                }
+            }
+            if (obj != null) {
+                //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+                if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 4) {
+                    alert("小数点后多于四位！");
+                    obj.value = "";
+                }
             }
         }
 

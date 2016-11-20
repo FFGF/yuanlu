@@ -335,6 +335,16 @@ ORDER BY b.id;";
         }
         exit(json_encode($json));
     }
+    //删除数据
+    public function deleteData(){
+        $maps['id'] = I('id');
+        if(M('perday_data_item')->where($maps)->delete()){
+            $json['code']=1;//说明删除成功
+        }else{
+            $json['code']=0;//说明删除失败
+        }
+        exit(json_encode($json));
+    }
 
     public function bank($date=null,$bank=null){
         if($date!=1){
@@ -466,8 +476,57 @@ ORDER BY b.id";
         }else{
             $formatData = $this->subtractData($formatData, $formatData_last);
         }
+        //数据缓存
+        S(session('admin')['id'].'formatData',array_reverse($formatData));
         $this->assign('formatdata',array_reverse($formatData));
         $this->display();
+    }
+    //数据导出
+    public function exportExcel(){
+        Vendor('PHPExcel.PHPExcel');
+        $formatData = S(session('admin')['id'].'formatData');
+        $objPHPExcel=new \PHPExcel();//实例化PHPExcel类， 等同于在桌面上新建一个excel
+        $objSheet=$objPHPExcel->getActiveSheet();//获得当前活动sheet
+        $objSheet->setCellValue("A1","账号")->setCellValue("B1","资产现金")->setCellValue("C1","资产品")->setCellValue("D1","融资负债/授信")
+                    ->setCellValue("E1","应收")->setCellValue("F1","应付")->setCellValue("G1","备注")->setCellValue("H1","资产现金+-")
+                    ->setCellValue("I1","资产品+-")->setCellValue("J1","持仓授信+-");
+        $objSheet->setCellValue("A2",'所有部门总和')->setCellValue("B2",$formatData['所有部门总和'][0]['asset_money'])->setCellValue("C2",$formatData['所有部门总和'][0]['asset_product'])
+            ->setCellValue("D2",$formatData['所有部门总和'][0]['finance_debt'])->setCellValue("E2",$formatData['所有部门总和'][0]['receivable'])->setCellValue("F2",$formatData['所有部门总和'][0]['payable'])
+            ->setCellValue("G2","")->setCellValue("H2",$formatData['所有部门总和'][0]['sum_asset_money'])
+            ->setCellValue("I2",$formatData['所有部门总和'][0]['sum_asset_product'])->setCellValue("J2",$formatData['所有部门总和'][0]['sum_finance_debt']);
+        unset($formatData['所有部门总和']);
+        $i = 3;
+        foreach($formatData as $key=>$value){
+            $objSheet->setCellValue("A".$i,$key);
+            $objSheet->getStyle('A'.$i.':J'.$i)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+            $objSheet->getStyle('A'.$i.':J'.$i)->getFill()->getStartColor()->setRGB('00ffff');
+            foreach($value as $k=>$v){
+                $i += 1;
+                $objSheet->setCellValue("A".$i,$v['name'])
+                    ->setCellValue("B".$i,str_replace(',','',$v['asset_money']))
+                    ->setCellValue("C".$i, str_replace(',','',$v['asset_product']))
+                    ->setCellValue("D".$i,str_replace(',','',$v['finance_debt']))
+                    ->setCellValue("E".$i,str_replace(',','',$v['receivable']))
+                    ->setCellValue("F".$i,str_replace(',','',$v['payable']))
+                    ->setCellValue("G".$i,$v['remark'])
+                    ->setCellValue("H".$i,$v['sum_asset_money'])
+                    ->setCellValue("I".$i,$v['sum_asset_product'])
+                    ->setCellValue("J".$i,$v['sum_finance_debt']);
+            }
+            $i += 1;
+        }
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+        $this->browser_export('Excel2007','源庐.xlsx');//输出到浏览器
+        $objWriter->save("php://output");
+    }
+    function browser_export($type,$filename){
+        if($type=="Excel5"){
+            header('Content-Type: application/vnd.ms-excel');//告诉浏览器将要输出excel03文件
+        }else{
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');//告诉浏览器数据excel07文件
+        }
+        header('Content-Disposition: attachment;filename="'.$filename.'"');//告诉浏览器将输出文件的名称
+        header('Cache-Control: max-age=0');//禁止缓存
     }
 
     public function sumFuck($formatData){
@@ -610,5 +669,4 @@ ORDER BY b.id";
     public function pickKey($str){
         return substr($str,0,strpos($str,preg_replace('/\D/s', '', $str)));
     }
-
 }

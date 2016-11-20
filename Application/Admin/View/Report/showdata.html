@@ -5,7 +5,7 @@
     <script src="__JS__/BeatPicker.min.js"></script>
     <script type="text/javascript" src="__JS__/changeDate.js"></script>
     <style type="text/css">
-        .table tr:last-child td{ background-color: #e9bed5;}
+        .table tr:last-child td{ background-color: #d8d9ef;}
     </style>
 </block>
 
@@ -20,23 +20,24 @@
                 <div class="changeDate">
                     <div class="input-parent input-container"><input type="text" id="s_time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="请选择日期" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
                 </div>
-                <input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');">
+                   <input type="submit" class="searchTo" value="搜索" onclick="javascript:format_changeDate('s_time','e_time');">
+                    <a href="{:U('admin/Report/exportexcel')}" style="display: inline-block;width: 100px;height: 23px;background-color: #2e97de;;text-align: center;padding-top: 6px;color: #fff;">导出</a>
                 </form>
 
                 <volist name="formatdata" id="vo">
                     <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;">{$key}</button>
                     <table class="table" cellspacing="0" cellpadding="0" style="padding-bottom: 10px">
                         <thead>
-                        <th width="9%" class="leftradiu">账号</th>
-                        <th width="9%" class="lan">资产现金</th>
-                        <th width="9%">资产品</th>
-                        <th width="14%" class="lan">融资负债/授信</th>
-                        <th width="5%">应收</th>
-                        <th width="8%" class="lan">应付</th>
-                        <th width="8%" class="">备注</th>
-                        <th width="8%" class="lan">资产现金+-</th>
-                        <th width="8%" class="">资产品+-</th>
-                        <th width="8%" class="lan rightradiu">持仓授信+-</th>
+                        <th width="100px" class="leftradiu">账号</th>
+                        <th width="100px" class="lan">资产现金</th>
+                        <th width="100px">资产品</th>
+                        <th width="100px" class="lan">融资负债/授信</th>
+                        <th width="100px">应收</th>
+                        <th width="100px" class="lan">应付</th>
+                        <th width="100px" class="">备注</th>
+                        <th width="100px" class="lan">资产现金+-</th>
+                        <th width="100px" class="">资产品+-</th>
+                        <th width="100px" class="lan rightradiu">持仓授信+-</th>
                         </thead>
                         <tbody>
                         <volist name="vo" id="item">
