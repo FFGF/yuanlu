@@ -57,7 +57,7 @@
                                         <td style="text-align:right;">{$item.receivable}</td>
                                         <td style="text-align:right;">{$item.payable}</td>
                                     </if>
-                                    <td>{$item.remark}</td>
+                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
                                     <td style="text-align:right;">{$item.sum_asset_money|number_format=###,2}</td>
                                     <td style="text-align:right;">{$item.sum_asset_product|number_format=###,2}</td>
                                     <td style="text-align:right;">{$item.sum_finance_debt|number_format=###,2}</td>
@@ -72,16 +72,16 @@
                                         <td style="text-align:right;">{$item.receivable|number_format=###,2}</td>
                                         <td style="text-align:right;">{$item.payable|number_format=###,2}</td>
                                         <else/>
-                                        <td style="text-align:right;">{$item.asset_money}</td>
-                                        <td style="text-align:right;">{$item.asset_product}</td>
-                                        <td style="text-align:right;">{$item.finance_debt}</td>
-                                        <td style="text-align:right;">{$item.receivable}</td>
-                                        <td style="text-align:right;">{$item.payable}</td>
+                                        <td style="text-align:right;">${$item.asset_money_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.asset_product_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.finance_debt_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.receivable_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.payable_navtive|number_format=###,2}</td>
                                     </if>
-                                    <td>{$item.remark}</td>
-                                    <td style="text-align:right;">{$item.sum_asset_money|number_format=###,2}</td>
-                                    <td style="text-align:right;">{$item.sum_asset_product|number_format=###,2}</td>
-                                    <td style="text-align:right;">{$item.sum_finance_debt|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
+                                    <td style="text-align:right;">${$item.sum_asset_money_navtive|number_format=###,2}</td>
+                                    <td style="text-align:right;">${$item.sum_asset_product_navtive|number_format=###,2}</td>
+                                    <td style="text-align:right;">${$item.sum_finance_debt_navtive|number_format=###,2}</td>
                                 </tr>
                             </if>
                         </volist>
@@ -161,6 +161,13 @@
             }
         }
         $(function () {
+            $(".content").each(function(){
+                var maxwidth=10;
+                if($(this).text().length>maxwidth){
+                    $(this).text($(this).text().substring(0,maxwidth));
+                    $(this).html($(this).html()+'…');
+                }
+            });
             var tb_array = document.getElementsByTagName('tbody')
             for(var i=0;i<tb_array.length;i++){
                 var tr_array = tb_array[i].getElementsByTagName('tr')

@@ -10,7 +10,8 @@ function getCategory($vo){
 }
 
 function rmbToDollar($value,$rate){
-    return $value * $rate;
+    $value = str_replace(',','',$value);
+    return number_format($value/$rate,2);
 }
 
 function formatWeek($value){

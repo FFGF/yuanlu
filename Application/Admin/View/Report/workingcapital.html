@@ -84,7 +84,7 @@
                             <td>{$vo.fundsrate}</td>
                             <td>{$vo.fromto}</td>
                             <td>{$vo.effect_date}</td>
-                            <td>{$vo.remark}</td>
+                            <td class="content" title="{$vo.remark}">{$vo.remark}</td>
                             <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改"></td>
                         </tr>
                     </volist>
@@ -153,6 +153,14 @@
     <script type="text/javascript">
 
         $(function(){
+            $(".content").each(function(){
+                var maxwidth=10;
+                if($(this).text().length>maxwidth){
+                    $(this).text($(this).text().substring(0,maxwidth));
+                    $(this).html($(this).html()+'…');
+                }
+            });
+
             $(".couponState2").show();
             var branch_name = '<?php echo json_encode($branch_name);?>'
             branch_name = branch_name.replace('[','').replace(']','').replace(/"/g,'').split(',')

@@ -39,7 +39,7 @@
                                 <td>{$vo.finance_debt}</td>
                                 <td>{$vo.receivable}</td>
                                 <td>{$vo.payable}</td>
-                                <td>{$vo.remark}</td>
+                                <td class="content" title="{$vo.remark}">{$vo.remark}</td>
                                 <if  condition="($power eq 1) and ($vo.category neq 1)">
                                     <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改">
                                         <input class="Auditing" type="button" onclick="deleteData(this.parentNode.parentNode,value)" value="删除"></td>
@@ -73,7 +73,7 @@
                                     <td>{$vo.finance_debt}</td>
                                     <td>{$vo.receivable}</td>
                                     <td>{$vo.payable}</td>
-                                    <td>{$vo.remark}</td>
+                                    <td class="content" title="{$vo.remark}">{$vo.remark}</td>
                                     <if  condition="($power eq 1) and ($vo.category neq 1)">
                                         <td><input class="Auditing" type="button" onclick="change(this.parentNode.parentNode,value)" value="修改">
                                             <input class="Auditing" type="button" onclick="deleteData(this.parentNode.parentNode,value)" value="删除"></td>
@@ -136,7 +136,9 @@
                             </table>
 
                             <div class="derivedata">
-                                <input type="submit"  value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                                <notempty name="submit_flag">
+                                    <input type="submit"  value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                                </notempty>
                             </div>
 
                         </form>
@@ -215,7 +217,9 @@
                             </tbody>
                         </table>
                         <div class="derivedata">
-                            <input type="submit"  value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                            <notempty name="submit_flag">
+                                <input type="submit"  value="提交" onclick="javascript:format_changeDate('s_time','e_time');">
+                            </notempty>
                         </div>
                     </form>
                 </if>
@@ -333,6 +337,14 @@
         }
 
         $(function () {
+            $(".content").each(function(){
+                var maxwidth=10;
+                if($(this).text().length>maxwidth){
+                    $(this).text($(this).text().substring(0,maxwidth));
+                    $(this).html($(this).html()+'…');
+                }
+            });
+
           if("{:session('s_time')}"){
               $('#s_time').val("{:date('Y-m-d',session('s_time'))}");
               $("input[name='s_time1']").val("{:session('s_time')}")

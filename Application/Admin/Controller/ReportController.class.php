@@ -10,7 +10,7 @@ namespace Admin\Controller;
 use Think\Model;
 
 class ReportController extends ChannelsController{
-    public function index($date=null){
+    public function index($date=null,$submit_flag=null){
         if($date!=1){
             session('s_time',null);
         }
@@ -44,6 +44,7 @@ class ReportController extends ChannelsController{
         $this->assign('project_qihuo', $result_qihuo);
         $this->assign('project_bank', $result_bank);
         $this->assign('project_cunhuo',$result_cunhuo);
+        $this->assign('submit_flag',$submit_flag);
         $this->display('index');
 }
     //获得个人负责项目的数据(业务人员)
@@ -98,7 +99,7 @@ ORDER BY b.id;";
         $result_bank = $Model->query($select_bank);
 
         if(count($result) == 0){
-           $this->index('1');
+           $this->index('1',$submit_flag=1);
         }else{
             $this->assign('userdata',$result);
             $this->assign('branch',$branch);
@@ -110,6 +111,8 @@ ORDER BY b.id;";
                 $this->assign('project_cunhuo',$result_cunhuo);
                 $this->assign('result_bank',$result_bank);
             }
+            $submit_flag = 1;
+            $this->assign('submit_flag',$submit_flag);
             $this->assign('flag',$flag);
             $this->display('index');
         }
@@ -314,10 +317,12 @@ ORDER BY b.id;";
         }
         $result = $Model->query($select);
         if(count($result) == 0){
-            $this->bank('1',I('bank'));
+            $this->bank('1',I('bank'),$submit_flag=1);
         }else{
             $this->assign('userdata',$result);
             $flag = 1;
+            $submit_flag=1;
+            $this->assign('submit_flag',$submit_flag);
             $this->assign('flag',$flag);
             $this->display('bank');
         }
@@ -346,7 +351,7 @@ ORDER BY b.id;";
         exit(json_encode($json));
     }
 
-    public function bank($date=null,$bank=null){
+    public function bank($date=null,$bank=null,$submit_flag=null){
         if($date!=1){
             session('s_time',null);
         }
@@ -365,6 +370,7 @@ ORDER BY b.id;";
         }
         $this->assign('bankdata',$formatData);
         $this->assign('bank',$bank);
+        $this->assign('submit_flag',$submit_flag);
         $this->display('bank');
     }
     //插入汇率
@@ -435,7 +441,12 @@ if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),for
 if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
 if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
 if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
-pd.remark,p.bank_category,e.onshore_exchange_rate
+pd.remark,p.bank_category,e.onshore_exchange_rate,
+pd.asset_money as asset_money_navtive,
+pd.asset_product as asset_product_navtive,
+pd.finance_debt as finance_debt_navtive,
+pd.receivable as receivable_navtive,
+pd.payable as payable_navtive
 from branch b,perday_data_item pd,project p,exchange_rate e
 where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
 and e.effect_date='datetime'
@@ -447,7 +458,12 @@ if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),for
 if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
 if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
 if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
-pd.remark,p.bank_category,e.onshore_exchange_rate
+pd.remark,p.bank_category,e.onshore_exchange_rate,
+pd.asset_money as asset_money_navtive,
+pd.asset_product as asset_product_navtive,
+pd.finance_debt as finance_debt_navtive,
+pd.receivable as receivable_navtive,
+pd.payable as payable_navtive
 from branch b,perday_data_item pd,project p,exchange_rate e
 where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
 and e.effect_date='datetime' and b.id = $branch_id
@@ -486,14 +502,23 @@ ORDER BY b.id";
         Vendor('PHPExcel.PHPExcel');
         $formatData = S(session('admin')['id'].'formatData');
         $objPHPExcel=new \PHPExcel();//实例化PHPExcel类， 等同于在桌面上新建一个excel
+
+        $objPHPExcel->getActiveSheet()->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+
         $objSheet=$objPHPExcel->getActiveSheet();//获得当前活动sheet
+
         $objSheet->setCellValue("A1","账号")->setCellValue("B1","资产现金")->setCellValue("C1","资产品")->setCellValue("D1","融资负债/授信")
                     ->setCellValue("E1","应收")->setCellValue("F1","应付")->setCellValue("G1","备注")->setCellValue("H1","资产现金+-")
                     ->setCellValue("I1","资产品+-")->setCellValue("J1","持仓授信+-");
-        $objSheet->setCellValue("A2",'所有部门总和')->setCellValue("B2",$formatData['所有部门总和'][0]['asset_money'])->setCellValue("C2",$formatData['所有部门总和'][0]['asset_product'])
-            ->setCellValue("D2",$formatData['所有部门总和'][0]['finance_debt'])->setCellValue("E2",$formatData['所有部门总和'][0]['receivable'])->setCellValue("F2",$formatData['所有部门总和'][0]['payable'])
-            ->setCellValue("G2","")->setCellValue("H2",$formatData['所有部门总和'][0]['sum_asset_money'])
-            ->setCellValue("I2",$formatData['所有部门总和'][0]['sum_asset_product'])->setCellValue("J2",$formatData['所有部门总和'][0]['sum_finance_debt']);
+        $objSheet->setCellValue("A2",'所有部门总和')->setCellValue("B2",' '.number_format($formatData['所有部门总和'][0]['asset_money'],2,'.',''))
+                ->setCellValue("C2",' '.number_format($formatData['所有部门总和'][0]['asset_product'],2,'.',''))
+                ->setCellValue("D2",' '.number_format($formatData['所有部门总和'][0]['finance_debt'],2,'.',''))
+                ->setCellValue("E2",' '.number_format($formatData['所有部门总和'][0]['receivable'],2,'.',''))
+                ->setCellValue("F2",' '.number_format($formatData['所有部门总和'][0]['payable'],2,'.',''))
+                ->setCellValue("G2","")
+                ->setCellValue("H2",' '.number_format($formatData['所有部门总和'][0]['sum_asset_money'],2,'.',''))
+                ->setCellValue("I2",' '.number_format($formatData['所有部门总和'][0]['sum_asset_product'],2,'.',''))
+                        ->setCellValue("J2",' '.number_format($formatData['所有部门总和'][0]['sum_finance_debt'],2,'.',''));
         unset($formatData['所有部门总和']);
         $i = 3;
         foreach($formatData as $key=>$value){
@@ -502,16 +527,42 @@ ORDER BY b.id";
             $objSheet->getStyle('A'.$i.':J'.$i)->getFill()->getStartColor()->setRGB('00ffff');
             foreach($value as $k=>$v){
                 $i += 1;
-                $objSheet->setCellValue("A".$i,$v['name'])
-                    ->setCellValue("B".$i,str_replace(',','',$v['asset_money']))
-                    ->setCellValue("C".$i, str_replace(',','',$v['asset_product']))
-                    ->setCellValue("D".$i,str_replace(',','',$v['finance_debt']))
-                    ->setCellValue("E".$i,str_replace(',','',$v['receivable']))
-                    ->setCellValue("F".$i,str_replace(',','',$v['payable']))
-                    ->setCellValue("G".$i,$v['remark'])
-                    ->setCellValue("H".$i,$v['sum_asset_money'])
-                    ->setCellValue("I".$i,$v['sum_asset_product'])
-                    ->setCellValue("J".$i,$v['sum_finance_debt']);
+                if($v['bank_category'] == 1){
+                    $objSheet->setCellValue("A".$i,$v['name'])
+                        ->setCellValue("B".$i,str_replace(',','','$'.number_format($v['asset_money_navtive'],2)))
+                        ->setCellValue("C".$i, str_replace(',','','$'.number_format($v['asset_product_navtive'],2)))
+                        ->setCellValue("D".$i,str_replace(',','','$'.number_format($v['finance_debt_navtive'],2)))
+                        ->setCellValue("E".$i,str_replace(',','','$'.number_format($v['receivable_navtive'],2)))
+                        ->setCellValue("F".$i,str_replace(',','','$'.number_format($v['payable_navtive'],2)))
+                        ->setCellValue("G".$i,$v['remark'])
+                        ->setCellValue("H".$i,'$'.str_replace(',','',number_format($v['sum_asset_money_navtive'],2)))
+                        ->setCellValue("I".$i,'$'.str_replace(',','',number_format($v['sum_asset_product_navtive'],2)))
+                        ->setCellValue("J".$i,'$'.str_replace(',','',number_format($v['sum_finance_debt_navtive'],2)));
+                }else {
+                    if ($v['name'] == '部门总和') {
+                        $objSheet->setCellValue("A".$i,$v['name'])
+                            ->setCellValue("B".$i,' '.number_format($v['asset_money'],2,'.',''))
+                            ->setCellValue("C".$i, ' '.number_format($v['asset_product'],2,'.',''))
+                            ->setCellValue("D".$i,' '.number_format($v['finance_debt'],2,'.',''))
+                            ->setCellValue("E".$i,' '.number_format($v['receivable'],2,'.',''))
+                            ->setCellValue("F".$i,' '.number_format($v['payable'],2,'.',''))
+                            ->setCellValue("G".$i,$v['remark'])
+                            ->setCellValue("H".$i,' '.number_format($v['sum_asset_money'],2,'.',''))
+                            ->setCellValue("I".$i,' '.number_format($v['sum_asset_product'],2,'.',''))
+                            ->setCellValue("J".$i,' '.number_format($v['sum_finance_debt'],2,'.',''));
+                    } else {
+                        $objSheet->setCellValue("A".$i,$v['name'])
+                            ->setCellValue("B".$i,' '.str_replace(',','',$v['asset_money']))
+                            ->setCellValue("C".$i,' '.str_replace(',','',$v['asset_product']))
+                            ->setCellValue("D".$i,' '.str_replace(',','',$v['finance_debt']))
+                            ->setCellValue("E".$i,' '.str_replace(',','',$v['receivable']))
+                            ->setCellValue("F".$i,' '.str_replace(',','',$v['payable']))
+                            ->setCellValue("G".$i,$v['remark'])
+                            ->setCellValue("H".$i,' '.number_format($v['sum_asset_money'],2,'.',''))
+                            ->setCellValue("I".$i,' '.number_format($v['sum_asset_product'],2,'.',''))
+                            ->setCellValue("J".$i,' '.number_format($v['sum_finance_debt'],2,'.',''));
+                    }
+                }
             }
             $i += 1;
         }
@@ -567,8 +618,13 @@ ORDER BY b.id";
             foreach($result as $key=>$value){
                 foreach($value as $k=>$v){
                                 $v['sum_asset_money'] = round(str_replace(',','',$v['asset_money']),2);
+                                $v['sum_asset_money_navtive'] = round(str_replace(',','',$v['asset_money_navtive']),2);
+
                                 $v['sum_asset_product'] = round(str_replace(',','',$v['asset_product']),2);
+                                $v['sum_asset_product_navtive'] = round(str_replace(',','',$v['asset_product_navtive']),2);
+
                                 $v['sum_finance_debt'] = round(str_replace(',','',$v['finance_debt']),2);
+                                $v['sum_finance_debt_navtive'] = round(str_replace(',','',$v['finance_debt_navtive']),2);
                                 array_push($sub_data[$key], $v);
                 }
             }
@@ -579,8 +635,13 @@ ORDER BY b.id";
                         foreach($value_last as $k_l=>$v_l){
                             if($v['name'] == $v_l['name']){
                                 $v['sum_asset_money'] = round(str_replace(',','',$v['asset_money'])  - str_replace(',','',$v_l['asset_money']),2);
+                                $v['sum_asset_money_navtive'] = round(str_replace(',','',$v['asset_money_navtive'])  - str_replace(',','',$v_l['asset_money_navtive']),2);
+
                                 $v['sum_asset_product'] = round(str_replace(',','',$v['asset_product'])  - str_replace(',','',$v_l['asset_product']),2);
+                                $v['sum_asset_product_navtive'] = round(str_replace(',','',$v['asset_product_navtive'])  - str_replace(',','',$v_l['asset_product_navtive']),2);
+
                                 $v['sum_finance_debt'] = round(str_replace(',','',$v['finance_debt'])  - str_replace(',','',$v_l['finance_debt']),2);
+                                $v['sum_finance_debt_navtive'] = round(str_replace(',','',$v['finance_debt_navtive'])  - str_replace(',','',$v_l['finance_debt_navtive']),2);
                                 array_push($sub_data[$key], $v);
                             }
                         }
@@ -602,8 +663,13 @@ ORDER BY b.id";
         foreach($result as $key=>$value){
             foreach($value as $k=>$v){
                 $v['sum_asset_money'] = str_replace(',','',$v['asset_money']) -$this->getLastDateData($key,$v['name'],$last_result,'asset_money');
+                $v['sum_asset_money_navtive'] = str_replace(',','',$v['asset_money_navtive']) -$this->getLastDateData($key,$v['name'],$last_result,'asset_money_navtive');
+
                 $v['sum_asset_product'] = str_replace(',','',$v['asset_product']) -$this->getLastDateData($key,$v['name'],$last_result,'asset_product');
+                $v['sum_asset_product_navtive'] = str_replace(',','',$v['asset_product_navtive']) -$this->getLastDateData($key,$v['name'],$last_result,'asset_product_navtive');
+
                 $v['sum_finance_debt'] = str_replace(',','',$v['finance_debt']) -$this->getLastDateData($key,$v['name'],$last_result,'finance_debt');
+                $v['sum_finance_debt_navtive'] = str_replace(',','',$v['finance_debt_navtive']) -$this->getLastDateData($key,$v['name'],$last_result,'finance_debt_navtive');
                 array_push($sub_data[$key], $v);
             }
         }
