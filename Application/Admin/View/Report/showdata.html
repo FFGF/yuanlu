@@ -28,16 +28,17 @@
                     <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;">{$key}</button>
                     <table class="table" cellspacing="0" cellpadding="0" style="padding-bottom: 10px">
                         <thead>
-                        <th width="100px" class="leftradiu">账号</th>
+                        <th width="50px" class="leftradiu">账号</th>
                         <th width="100px" class="lan">资产现金</th>
                         <th width="100px">资产品</th>
                         <th width="100px" class="lan">融资负债/授信</th>
-                        <th width="100px">应收</th>
-                        <th width="100px" class="lan">应付</th>
-                        <th width="100px" class="">备注</th>
-                        <th width="100px" class="lan">资产现金+-</th>
-                        <th width="100px" class="">资产品+-</th>
-                        <th width="100px" class="lan rightradiu">持仓授信+-</th>
+                        <th width="80px">应收</th>
+                        <th width="80px" class="lan">应付</th>
+                        <th width="100px" class="">资产现金+-</th>
+                        <th width="100px" class="lan">资产品+-</th>
+                        <th width="100px" class="">持仓授信+-</th>
+                        <th width="100px" class="lan ">备注</th>
+                        <th width="50px" class="rightradiu">制单人</th>
                         </thead>
                         <tbody>
                         <volist name="vo" id="item">
@@ -57,10 +58,11 @@
                                         <td style="text-align:right;">{$item.receivable}</td>
                                         <td style="text-align:right;">{$item.payable}</td>
                                     </if>
-                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
                                     <td style="text-align:right;">{$item.sum_asset_money|number_format=###,2}</td>
                                     <td style="text-align:right;">{$item.sum_asset_product|number_format=###,2}</td>
                                     <td style="text-align:right;">{$item.sum_finance_debt|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
+                                    <td>{$item.user_name}</td>
                                 </tr>
                                 <else/>
                                 <tr>
@@ -78,10 +80,11 @@
                                         <td style="text-align:right;">${$item.receivable_navtive|number_format=###,2}</td>
                                         <td style="text-align:right;">${$item.payable_navtive|number_format=###,2}</td>
                                     </if>
-                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
                                     <td style="text-align:right;">${$item.sum_asset_money_navtive|number_format=###,2}</td>
                                     <td style="text-align:right;">${$item.sum_asset_product_navtive|number_format=###,2}</td>
                                     <td style="text-align:right;">${$item.sum_finance_debt_navtive|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
+                                    <td>{$item.user_name}</td>
                                 </tr>
                             </if>
                         </volist>

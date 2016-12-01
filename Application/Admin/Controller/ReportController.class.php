@@ -446,9 +446,10 @@ pd.asset_money as asset_money_navtive,
 pd.asset_product as asset_product_navtive,
 pd.finance_debt as finance_debt_navtive,
 pd.receivable as receivable_navtive,
-pd.payable as payable_navtive
-from branch b,perday_data_item pd,project p,exchange_rate e
-where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+pd.payable as payable_navtive,
+u.user_name
+from branch b,perday_data_item pd,project p,exchange_rate e,user u
+where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date and u.id = pd.user_id
 and e.effect_date='datetime'
 ORDER BY b.id";
         }else{
@@ -470,7 +471,6 @@ and e.effect_date='datetime' and b.id = $branch_id
 ORDER BY b.id";
         }
         $result = $Model->query(str_replace('datetime',$date,$select));
-
         //上一个交易日的数据
         $last_result = $Model->query(str_replace('datetime',$last_date,$select));
         $maps['id'] = array('eq',$branch_id);
@@ -485,6 +485,10 @@ ORDER BY b.id";
             $formatData[$value] = $this->getBankData($result,$value,'name1');
             $formatData_last[$value] = $this->getBankData($last_result,$value,'name1');
         }
+        //完善数据，如果董事长当天查看数据，但是没有录入，会无法查看，不知道数据是否输入
+        $formatData = $this->formatShowData($formatData);
+        $formatData_last = $this->formatShowData($formatData_last);
+
         $formatData_last = $this->sumFuck($formatData_last);
         $formatData = $this->sumFuck($formatData);
         if(session('admin')['power'] >= 2){
@@ -496,6 +500,49 @@ ORDER BY b.id";
         S(session('admin')['id'].'formatData',array_reverse($formatData));
         $this->assign('formatdata',array_reverse($formatData));
         $this->display();
+    }
+
+    //完善数据，如果董事长当天查看数据，但是没有录入，会无法查看，不知道数据是否输入
+    public function formatShowData($formatData){
+        $formatData_temp = $formatData;
+        foreach($formatData as $key=>$value){
+            $k_maps['branch.name'] = $key;
+            $result = M('project')->join('branch on branch.id = project.branch_id')
+                ->where($k_maps)
+                ->field('project.name')
+                ->select();
+            $form_result = [];
+            foreach($result as $k=>$v){
+                $form_result[] = $v['name'];
+            }
+            $temp = [];
+            foreach($value as $k=>$v){
+                $temp[] = $v['name'];
+            }
+            $diff_array = array_diff($form_result,$temp);
+            foreach($diff_array as $v){
+                $project_result = M('project')->where(array('name'=>$v))->find();
+                $t['project_id'] = $project_result['id'];
+                $t['id'] = $project_result['branch_id'];
+                $t['name'] = $v;
+                $t['name1'] = $key;
+                $t['asset_money'] = '0.00';
+                $t['asset_product'] = '0.00';
+                $t['finance_debt'] = '0.00';
+                $t['receivable'] = '0.00';
+                $t['payable'] = '0.00';
+                $t['remark'] = '';
+                $t['bank_category'] = $project_result['bank_category'];
+                $t['onshore_exchange_rate'] = '0.0000';
+                $t['asset_money_navtive'] = '0.0000';
+                $t['asset_product_navtive'] = '0.0000';
+                $t['finance_debt_navtive'] = '0.0000';
+                $t['receivable_navtive'] = '0.0000';
+                $t['payable_navtive'] = '0.0000';
+                $formatData_temp[$key][] = $t;
+            }
+        }
+        return $formatData_temp;
     }
     //数据导出
     public function exportExcel(){
