@@ -1,0 +1,46 @@
+/*reportInput.html页面*/
+.nav{margin-left: 30px;margin-top: 20px;font-size: 15px;}
+.navDiv{height: 30px;background-color: #30c3ea;width: 200px;margin-left: 100px;margin-top: 10px;border-radius: 5px;text-align: center;font-size: 15px;line-height: 30px;color: white;float: left;}
+.navDiv .leftBlock{width: 30px;float: left;}
+.mainContent{width: 900px;margin-top: 60px;margin-left: 30px;}
+.mainContent .top{background-color: #14d9f0;height: 30px;border-radius: 5px;font-size: 15px;color: white;line-height: 30px;padding-left: 20px;}
+.mainContent .bottom{background-color: white;padding-left: 20px;padding-top: 20px;padding-bottom: 30px}
+.mainContent h2{color: red;margin-bottom: 10px}
+.mainContent h3{color: red;display: inline-block}
+.mainContent .date{width: 200px;border-bottom: 1px dashed red;height: 20px;display: inline-block;text-align: center}
+.mainContent .bottom button{border-radius: 5px;width: 100px;height: 30px;background-color: #ddeae9;margin-left: 20px;border: 0px;cursor: pointer;}
+.mainContent .bottom .otherDay{background-color: #acbdbc}
+body .cancelButton{cursor: pointer;border:0px;width:200px;height:50px;color:white;background-color:#b8cdcf;font-size:30px;margin: 50px 145px 0px;border-radius: 10px;}
+body .nextButton{background-color: #39d7e6}
+.rbrqxz form{display: inline-block}
+
+.txzhxx .mainContent .bottom h2{display: inline-block;border-bottom: 2px solid}
+.txzhxx .mainContent .bottom input{background-color:#4a4a751a;border-radius: 2px;border: 1px solid #4a4a75e6;}
+.txzhxx .mainContent .bottom textarea{background-color: #4a4a751a;border-radius: 2px;border: 1px solid #4a4a75e6;margin-top: 10px;vertical-align:top}
+.txzhxx .mainContent .bottom .mL{margin-left: 200px} .mT{margin-top: 10px}
+.txzhxx .mT{margin-top: 15px}
+.txzhxx .mainContent .bottom .content{margin-bottom: 20px}
+
+.yljqr .mainContent {background-color: white}
+.yljqr .content{padding-bottom: 50px}
+.yljqr .mainContent .content table{width: 800px; margin-left: 20px;margin-top: 30px;border-right:1px solid #625050;border-bottom:1px solid #625050;}
+.yljqr .mainContent .content table thead th{font-weight: bold; border-left:1px solid #625050;height: 30px;background-color: #13b1e699;text-align: left;color: white;padding-left: 10px}
+.yljqr .mainContent .content table td{border-left:1px solid #625050;border-top:1px solid #625050}
+.yljqr .mainContent .content table tr:first-child{font-weight: bold;text-align: center}
+.yljqr .mainContent .content table tbody .tR{text-align: right}
+.yljqr .mainContent .content table tr th{font-weight: bold;border-left:1px solid #625050;border-top:1px solid #625050}
+.yljqr .mainContent .content table tr{height: 25px}
+.yljqr .mainContent .content .mT{margin-top: 0px}
+.yljqr .mainContent .content .borderT{border-top: 0px}
+/*userManage.html*/
+.accountUserManageTop{width: 900px;height: 40px;background-color: #1ccdd499;font-size: 20px;padding-left: 20px;margin-left: 30px;margin-top: 30px;color: white;border-radius: 5px;line-height: 40px;}
+.accountUserManageBottom{width: 920px;background-color: white;margin-left: 30px;padding-bottom: 50px;overflow: hidden}
+.accountUserManageBottom button{border: 0;background-color: #fb1f1fb3;margin-top: 10px;border-radius: 5px;height: 30px;width: 100px;color: white;margin-left: 750px;}
+.accountUserManageBottom .user{margin-left: 35px;width: 250px;height: 200px;background-color: #b3a5a51a;;float: left;margin-top: 30px;}
+.accountUserManageBottom .user .left{width: 40%;border-right: 2px solid #5F4F4F4D;height: 96%;margin-top: 2%;float: left}
+.accountUserManageBottom .user .left img{margin-left: 10px;margin-top: 5px;width: 10px}
+.accountUserManageBottom .user .left .head{margin-top: 10px;width: 60%;margin-left: 20px;}
+.accountUserManageBottom .user .left .name{text-align: center;margin-top: 20px;color: #000000B3;}
+.accountUserManageBottom .user .left .branch{text-align: center;margin-top: 15px;font-size: 15px;font-weight: bold;}
+.accountUserManageBottom .user .right{margin-left: 40%;height: 100%;overflow: hidden}
+.accountUserManageBottom .user .right p{margin-left: 15%;margin-top: 7px;color: #41d7dd}

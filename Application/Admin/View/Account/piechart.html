@@ -1,0 +1,222 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>资产结构饼图</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+
+
+
+            <div class="recordCou">
+                <form name="form1" method="post" action="{:U('admin/Account/piechart')}">
+
+                    <!--   放选部门、日期    这一块-->
+
+
+                    <div id="findpart" style="float:left;margin-left:200px;width: 100px; height: 100px">
+
+                            <select name="branch_id">
+                                <volist name="branchlist" id="vo">
+                                    <option> {$vo.name}</option>
+                                </volist>
+                            </select>
+                     </div>
+
+                     <div style="float:left;width: 300px; height: 100px">
+
+                     <!--
+                     <div class="changeDateB" >
+                        <div class="input-parent input-container">
+                                <input type="text" name="user_date" id="time" data-beatpicker="true" data-beatpicker-module="clear" placeholder="选择时间" class="beatpicker-input beatpicker-inputnode" readonly="readonly" data-beatpicker-id="beatpicker-0"></div>
+                     </div>
+                     -->
+
+                     <input type="date" name="user_date" value="2016-09-09" id="user_date"/>
+
+                     </div>
+
+                    <!--
+                     <label for="meeting">约会日期：</label><input id="meeting" type="date" value="2016-11-30"/>
+
+                     -->
+                    <input type="submit" class="searchTo" value="搜索">
+                    <div style="clear:both"></div>
+
+</form>
+
+
+                    <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+                    <!--<script src="http://code.highcharts.com/highcharts.js"></script>-->
+
+                    <body>
+
+                        <div id="container" style="width: 500px; height: 300px; float:left"></div>
+
+                        <div id="zhongcon" style="margin-left:20px;width: 100px; height: 300px; float:left">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+
+                           <!--
+                            融资负债/授信：{$sumfinancedebt}
+                            <br>
+                            应收账款：{$sumreceivable}
+                            <br>
+                            应付账款：{$sumpayable}
+                            <br>
+                            资产现金增减值：<font color="#ff5154">{$tempassetmoney}</font>
+                            <br>
+                            资产品增减值：<font color="#597aff">{$tempassetproduct} </font>
+                            <br>
+                            持仓授信增减值：{$tempfinancedebt}
+                             -->
+                            <p align="right">
+                            融资负债/授信：
+                            <br>
+                            <br>
+                            应收账款：
+                            <br>
+                                <br>
+                            应付账款：
+                            <br>
+                                <br>
+                            资产现金增减值：
+                            <br>
+                                <br>
+                            资产品增减值：
+                            <br>
+                                <br>
+                            持仓授信增减值：
+                            </p>
+
+                        </div>
+
+                        <div id="zhongcon2" style="width: 100px; height: 300px; float:left">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            {$sumfinancedebt}
+                            <br>
+                            <br>
+                            {$sumreceivable}
+                            <br>
+                            <br>
+                            {$sumpayable}
+                            <br>
+                            <br>
+                            <font color="#ff5154">{$tempassetmoney}</font>
+                            <br>
+                            <br>
+                            <font color="#597aff">{$tempassetproduct} </font>
+                            <br>
+                            <br>
+                            {$tempfinancedebt}
+
+
+                        </div>
+
+                        <div id="con" style="width: 220px; height: 300px; float:left">
+                            <p align="center"><font size="3"> 图形说明</font></p>
+                            <br>
+                            <div id="tu1" style="margin-left:80px;background-color:#ff5154;width: 50px; height: 10px;float:left"></div>
+                            <div id="tu2" style="align:left;float:left"><p  style=" text-indent:2em">资产品</p></div>
+
+                            <br>
+                            <br>
+
+                            <div id="tu3" style="margin-left:80px;background-color:#597aff;width: 50px; height: 10px;float:left"></div>
+                            <div id="tu4" style="align:left;float:left"><p  style=" text-indent:2em">资产现金</p></div>
+
+                        </div>
+
+                        <div style="clear:both"></div>
+
+                     <script language="JavaScript">
+                        $(document).ready(function() {
+                            var chart = {
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false
+                            };
+                            var title = {
+                                text: '资产结构'
+                            };
+                            var tooltip = {
+                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>{point.data}</b>'
+                            };
+                            var plotOptions = {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+                                        style: {
+                                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                        }
+                                    }
+                                }
+                            };
+                            var series= [ {
+                                type: 'pie',
+                                name: '金额',
+                                data: [{
+                                    name: '资产品',
+                                    //y: 100,
+                                    y: {$value1},
+                                    //color: Highcharts.getOptions().colors[0] // Jane 的颜色
+                                    color: '#ff5154'
+                                }, {
+                                    name: '资产现金',
+                                    //y: 100,
+                                    y: {$value2},
+                                    //color: Highcharts.getOptions().colors[1] // John 的颜色
+                                    color: '#597aff'
+                                }],
+                            }
+                            ];
+
+
+                            var json = {};
+                            json.chart = chart;
+                            json.title = title;
+                            //json.tooltip = tooltip;
+                            json.series = series;
+                            json.plotOptions = plotOptions;
+                            $('#container').highcharts(json);
+                        });
+                    </script>
+                    </body>
+
+                    <!--
+                     <div id="nullcon" style="width: 300px; height: 400px"></div>
+
+
+                    <div class="derivedata">
+                              <input type="submit" value="搜索">
+                     </div>
+                     -->
+<!--
+                </form>
+-->
+            </div>
+
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>

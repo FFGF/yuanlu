@@ -39,9 +39,21 @@
             <ul class="childLi">
                 <if condition="session('admin')['power'] gt 2">
                     <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index')}">账户管理</a></li>
+                    <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='usermanage'">class="now"</if>><a href="{:U('admin/account/userManage')}">二期账户管理</a></li>
                     <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='indexshowdata'">class="now"</if>><a href="{:U('admin/account/indexshowdata')}">账户呈现</a></li>
+                    <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='piechart'">class="now"</if>><a href="{:U('admin/account/piechart')}">资产结构</a></li>
                     </if>
                 <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='changepwd'">class="now"</if>><a href="{:U('admin/account/changepwd')}">修改密码</a></li>
+            </ul>
+            </li>
+
+            <li <if condition="CONTROLLER_NAME=='NewReport'">class="active arrowDown"</if>>
+            <i class="icon icon6"></i>二期资产日报<i class="arrow"></i>
+            <ul class="childLi">
+                <if condition="session('admin')['power'] eq 1">
+                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='reportinput' OR ACTION_NAME=='nextbuttondatechoose')">class="now"</if>><a href="{:U('admin/NewReport/reportInput')}">资产日报录入</a></li>
+                </if>
+
             </ul>
             </li>
         </ul>

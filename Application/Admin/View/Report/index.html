@@ -229,7 +229,7 @@
     </div>
 
     <div class="auditingFrame">
-        <div class="aFtitle">等级修改</div>
+        <div class="aFtitle">数据修改</div>
         <div class="aFcona">
             <form>
                 <table class="table" cellspacing="0" cellpadding="0">
@@ -252,7 +252,7 @@
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="finance_debt" name="finance_debt"></td>
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="receivable" name="receivable"></td>
                         <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="payable" name="payable"></td>
-                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="remark" name="remark"></td>
+                        <td><input  style="width:60px;overflow-x:visible;overflow-y:visible;" id="remark" name="remark" ></td>
                     </tr>
                     </tbody>
                 </table>
@@ -284,7 +284,8 @@
             $("#finance_debt").val(row.cells[4].innerHTML)
             $("#receivable").val(row.cells[5].innerHTML)
             $("#payable").val(row.cells[6].innerHTML)
-            $("#remark").val(row.cells[7].innerHTML)
+            $("#remark").val($(row.cells[7]).attr('title'))
+            $("#remark").prop('title',$(row.cells[7]).attr('title'))
             $("#fromlevel").val(val)
             $(".info_bg").show();
             $(".auditingFrame").show();

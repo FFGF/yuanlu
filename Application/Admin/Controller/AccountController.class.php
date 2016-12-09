@@ -66,32 +66,20 @@ class AccountController extends ChannelsController{
         $project->add($data);
         $this->success("插入数据成功");
     }
-
-
     public function indexshowdata(){
         $user=M('user');
         $result=$user->join('branch on branch.id = branch_id')
             ->join('project on project.branch_id = branch.id')
             ->field('user.user_name as username,branch.name as branchname,project.name as projectname')
             ->select();
-        //dump($result);
-        //显示全部的project表的信息
-
         $result2=$user->join('branch on branch.id = branch_id')
             ->join('project on project.branch_id = branch.id')
             ->field('user.user_name as username,branch.name as branchname')
             ->select();
-        //dump($result2);
-        //显示全部的project表的信息（去除项目，只含有人、部门）
-
-
         $resuser=$user->field('user_name')->select();
-        //dump($resuser);
-
 
         $res2=$user->join('branch on branch.id = branch_id')
             ->field('user_name,branch.name')->select();
-        //dump($res2);
 
         $jj=0;
         for($i=0;$i<count($res2);$i++){
@@ -106,11 +94,6 @@ class AccountController extends ChannelsController{
             }
         }
 
-        //dump($res);
-        //显示  每个部门的所有的项目 （按project顺序来）
-
-
-
         //$jj2=0;
         for($i2=0;$i2<count($res2);$i2++){
             $temp=$res2[$i2]['user_name'];
@@ -118,9 +101,6 @@ class AccountController extends ChannelsController{
             //$jj2=0;
             for($j2=0;$j2<count($result);$j2++){
                 if($result[$j2]['username'] == $temp){
-                    //$resall[$i2][$jj2]['username']=$result[$j2]['username'];
-                    //$resall[$i2][$jj2]['branchname']=$result[$j2]['branchname'];
-                    //$jj2++;
                     $resall[$i2]['username']=$result[$j2]['username'];
                     $resall[$i2]['branchname']=$result[$j2]['branchname'];
                     break;
@@ -128,23 +108,12 @@ class AccountController extends ChannelsController{
             }
         }
 
-        //dump($resall);
-        //显示 人员列表，对应部门   （按project顺序来）（与上面部门对应）
-
-
-
         for($k=1;$k<=count($resall);$k++){
             $tempres=$res[$k];
             //dump($tempres);
             $resall[$k]['projectlist']=$tempres;
         }
-        //dump($resall);
-        //显示  人员、部门、对应的好几个项目
-
-        //dump($resall['projectlist']);   显示是NULL
         $this->assign('resall',$resall);
-        //$this->assign('result',$result);
-        //呈现页面没有用到
         $this->display();
     }
 
@@ -179,6 +148,182 @@ class AccountController extends ChannelsController{
             $this->assign('before_username',$before_username);
             $this->display();
         }
+    }
+
+
+    //添加的项目信息获取
+    public function piechart(){
+        //选择一个部门&所有部门 -------选择
+        $branch = M('branch');
+        $branchlist=$branch->field('brancd.name','brancd.id')->select();
+        //dump(count($branchlist));
+        $branchlist[count($branchlist)+1]["name"]="所有部门";
+        //dump($branchlist);
+        //die();
+        $this->assign('branchlist',$branchlist);
+
+        //post  获取的 部门名字&&日期
+        $data = I('post.');
+
+        if($data['branch_id']!="所有部门") {
+
+            $maps['name'] = $data['branch_id'];
+            $maps['effect_date'] = $data['user_date'];
+
+            //日期减少一天
+            $tempdate = $data['user_date'];
+            //echo date("Y-m-d",strtotime("$tempdate -1   day"));
+            $dateshu = date("Y-m-d", strtotime("$tempdate -1   day"));
+            //dump($dateshu);
+
+
+            $maps2['name'] = $data['branch_id'];
+            $maps2['effect_date'] = $dateshu;
+
+            //数据    当天数据
+            $result = $branch->join('perday_data_item on perday_data_item.branch_id = branch.id')
+                ->field('name,perday_data_item.branch_id,perday_data_item.project_id,perday_data_item.asset_money,perday_data_item.asset_product,perday_data_item.finance_debt,perday_data_item.receivable,perday_data_item.payable,perday_data_item.effect_date')
+                ->where($maps)
+                ->select();
+            $sumassetmoney = 0;
+            $sumassetproduct = 0;
+            $sumfinancedebt = 0;
+            $sumreceivable = 0;
+            $sumpayable = 0;
+            for ($i = 0; $i <= count($result); $i++) {
+                $sumassetmoney = $sumassetmoney + (float)$result[$i]['asset_money'];
+                $sumassetproduct = $sumassetproduct + (float)$result[$i]['asset_product'];
+                $sumfinancedebt = $sumfinancedebt + (float)$result[$i]['finance_debt'];
+                $sumreceivable = $sumreceivable + (float)$result[$i]['receivable'];
+                $sumpayable = $sumpayable + (float)$result[$i]['payable'];
+            }
+            $this->assign('sumfinancedebt', $sumfinancedebt);
+            $this->assign('sumreceivable', $sumreceivable);
+            $this->assign('sumpayable', $sumpayable);
+
+
+            //数据    前天数据
+            $result2 = $branch->join('perday_data_item on perday_data_item.branch_id = branch.id')
+                ->field('name,perday_data_item.branch_id,perday_data_item.project_id,perday_data_item.asset_money,perday_data_item.asset_product,perday_data_item.finance_debt,perday_data_item.receivable,perday_data_item.payable,perday_data_item.effect_date')
+                ->where($maps2)
+                ->select();
+            $sumassetmoney2 = 0;
+            $sumassetproduct2 = 0;
+            $sumfinancedebt2 = 0;
+            $sumreceivable2 = 0;
+            $sumpayable2 = 0;
+            for ($j = 0; $j <= count($result2); $j++) {
+                $sumassetmoney2 = $sumassetmoney2 + (float)$result2[$j]['asset_money'];
+                $sumassetproduct2 = $sumassetproduct2 + (float)$result2[$j]['asset_product'];
+                $sumfinancedebt2 = $sumfinancedebt2 + (float)$result2[$j]['finance_debt'];
+                $sumreceivable2 = $sumreceivable2 + (float)$result2[$j]['receivable'];
+                $sumpayable2 = $sumpayable2 + (float)$result2[$j]['payable'];
+            }
+
+
+            $tempassetmoney = $sumassetmoney - $sumassetmoney2;
+            $tempassetproduct = $sumassetproduct - $sumassetproduct2;
+            $tempfinancedebt = $sumfinancedebt - $sumfinancedebt2;
+            $this->assign('tempassetmoney', $tempassetmoney);
+            $this->assign('tempassetproduct', $tempassetproduct);
+            $this->assign('tempfinancedebt', $tempfinancedebt);
+
+
+            //$value1=(float)200;
+            $value = $sumassetmoney;
+            //$value2=(float)400;
+            $value2 = $sumassetproduct;
+            $this->assign('value1', $value);
+            $this->assign('value2', $value2);
+
+
+            $this->display();
+
+
+        }
+        //if语句结束
+        else{
+
+            $maps['effect_date'] = $data['user_date'];
+            //dump($data['user_date']);
+
+            //日期减少一天
+            $tempdate = $data['user_date'];
+            $dateshu = date("Y-m-d", strtotime("$tempdate -1   day"));
+            //dump($dateshu);
+
+            $maps2['effect_date'] = $dateshu;
+
+            //所有部门---数据    当天数据
+            $alldata = M('perday_data_item');
+
+
+            $result = $alldata->field('perday_data_item.branch_id,perday_data_item.project_id,perday_data_item.asset_money,perday_data_item.asset_product,perday_data_item.finance_debt,perday_data_item.receivable,perday_data_item.payable,perday_data_item.effect_date')
+                ->where($maps)
+                ->select();
+
+            $sumassetmoney = 0;
+            $sumassetproduct = 0;
+            $sumfinancedebt = 0;
+            $sumreceivable = 0;
+            $sumpayable = 0;
+            for ($i = 0; $i <= count($result); $i++) {
+                $sumassetmoney = $sumassetmoney + (float)$result[$i]['asset_money'];
+                $sumassetproduct = $sumassetproduct + (float)$result[$i]['asset_product'];
+                $sumfinancedebt = $sumfinancedebt + (float)$result[$i]['finance_debt'];
+                $sumreceivable = $sumreceivable + (float)$result[$i]['receivable'];
+                $sumpayable = $sumpayable + (float)$result[$i]['payable'];
+            }
+
+            $this->assign('sumfinancedebt', $sumfinancedebt);
+            $this->assign('sumreceivable', $sumreceivable);
+            $this->assign('sumpayable', $sumpayable);
+
+
+            //数据    前天数据
+            $result2 = $alldata->field('perday_data_item.branch_id,perday_data_item.project_id,perday_data_item.asset_money,perday_data_item.asset_product,perday_data_item.finance_debt,perday_data_item.receivable,perday_data_item.payable,perday_data_item.effect_date')
+                ->where($maps2)
+                ->select();
+
+            $sumassetmoney2 = 0;
+            $sumassetproduct2 = 0;
+            $sumfinancedebt2 = 0;
+            $sumreceivable2 = 0;
+            $sumpayable2 = 0;
+            for ($j = 0; $j <= count($result2); $j++) {
+                $sumassetmoney2 = $sumassetmoney2 + (float)$result2[$j]['asset_money'];
+                $sumassetproduct2 = $sumassetproduct2 + (float)$result2[$j]['asset_product'];
+                $sumfinancedebt2 = $sumfinancedebt2 + (float)$result2[$j]['finance_debt'];
+                $sumreceivable2 = $sumreceivable2 + (float)$result2[$j]['receivable'];
+                $sumpayable2 = $sumpayable2 + (float)$result2[$j]['payable'];
+            }
+
+            //计算三个和前一天差值的数据
+            $tempassetmoney = $sumassetmoney - $sumassetmoney2;
+            $tempassetproduct = $sumassetproduct - $sumassetproduct2;
+            $tempfinancedebt = $sumfinancedebt - $sumfinancedebt2;
+            $this->assign('tempassetmoney', $tempassetmoney);
+            $this->assign('tempassetproduct', $tempassetproduct);
+            $this->assign('tempfinancedebt', $tempfinancedebt);
+
+
+            //$value1=(float)200;
+            $value = $sumassetmoney;
+            //$value2=(float)400;
+            $value2 = $sumassetproduct;
+            $this->assign('value1', $value);
+            $this->assign('value2', $value2);
+
+            $this->display();
+        }
+
+    }
+
+    public function userManage(){
+        $User = D("User");
+        $user_result = $User->getUserManage();
+        $this->assign('user',$user_result);
+        $this->display();
     }
 
 }

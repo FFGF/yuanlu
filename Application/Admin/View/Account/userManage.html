@@ -1,0 +1,38 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+</block>
+<block name="body">
+    <div class="nav">账户管理 &gt; 账户管理</div>
+    <div class="accountUserManageTop">账户管理</div>
+    <div class="accountUserManageBottom">
+        <button>添加新账户</button>
+        <volist name="user" id="item">
+            <div class="user">
+                <div class="left">
+                    <img src="__IMG__/delete.png">
+                    <img src="__IMG__/editor.png">
+                    <img src="__IMG__/head.png" class="head">
+                    <p class="name">{$key}</p>
+                    <p class="branch">{$item[0]}</p>
+                </div>
+                <div class="right">
+                    <volist name="item" id="project">
+                       <gt name="key" value="0">
+                           <p>{$project}</p>
+                       </gt>
+                    </volist>
+                </div>
+            </div>
+        </volist>
+    </div>
+</block>
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+    </script>
+</block>

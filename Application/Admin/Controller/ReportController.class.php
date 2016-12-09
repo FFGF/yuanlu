@@ -555,8 +555,8 @@ ORDER BY b.id";
         $objSheet=$objPHPExcel->getActiveSheet();//获得当前活动sheet
 
         $objSheet->setCellValue("A1","账号")->setCellValue("B1","资产现金")->setCellValue("C1","资产品")->setCellValue("D1","融资负债/授信")
-                    ->setCellValue("E1","应收")->setCellValue("F1","应付")->setCellValue("G1","备注")->setCellValue("H1","资产现金+-")
-                    ->setCellValue("I1","资产品+-")->setCellValue("J1","持仓授信+-");
+                    ->setCellValue("E1","应收")->setCellValue("F1","应付")->setCellValue("G1","资产现金+-")
+                    ->setCellValue("H1","资产品+-")->setCellValue("I1","持仓授信+-")->setCellValue("J1","备注")->setCellValue("K1","制单人");
         $objSheet->setCellValue("A2",'所有部门总和')->setCellValue("B2",' '.number_format($formatData['所有部门总和'][0]['asset_money'],2,'.',''))
                 ->setCellValue("C2",' '.number_format($formatData['所有部门总和'][0]['asset_product'],2,'.',''))
                 ->setCellValue("D2",' '.number_format($formatData['所有部门总和'][0]['finance_debt'],2,'.',''))
@@ -581,10 +581,11 @@ ORDER BY b.id";
                         ->setCellValue("D".$i,str_replace(',','','$'.number_format($v['finance_debt_navtive'],2)))
                         ->setCellValue("E".$i,str_replace(',','','$'.number_format($v['receivable_navtive'],2)))
                         ->setCellValue("F".$i,str_replace(',','','$'.number_format($v['payable_navtive'],2)))
-                        ->setCellValue("G".$i,$v['remark'])
-                        ->setCellValue("H".$i,'$'.str_replace(',','',number_format($v['sum_asset_money_navtive'],2)))
-                        ->setCellValue("I".$i,'$'.str_replace(',','',number_format($v['sum_asset_product_navtive'],2)))
-                        ->setCellValue("J".$i,'$'.str_replace(',','',number_format($v['sum_finance_debt_navtive'],2)));
+                        ->setCellValue("G".$i,'$'.str_replace(',','',number_format($v['sum_asset_money_navtive'],2)))
+                        ->setCellValue("H".$i,'$'.str_replace(',','',number_format($v['sum_asset_product_navtive'],2)))
+                        ->setCellValue("I".$i,'$'.str_replace(',','',number_format($v['sum_finance_debt_navtive'],2)))
+                        ->setCellValue("J".$i,$v['remark'])
+                        ->setCellValue("K".$i,$v['user_name']);
                 }else {
                     if ($v['name'] == '部门总和') {
                         $objSheet->setCellValue("A".$i,$v['name'])
@@ -593,10 +594,11 @@ ORDER BY b.id";
                             ->setCellValue("D".$i,' '.number_format($v['finance_debt'],2,'.',''))
                             ->setCellValue("E".$i,' '.number_format($v['receivable'],2,'.',''))
                             ->setCellValue("F".$i,' '.number_format($v['payable'],2,'.',''))
-                            ->setCellValue("G".$i,$v['remark'])
-                            ->setCellValue("H".$i,' '.number_format($v['sum_asset_money'],2,'.',''))
-                            ->setCellValue("I".$i,' '.number_format($v['sum_asset_product'],2,'.',''))
-                            ->setCellValue("J".$i,' '.number_format($v['sum_finance_debt'],2,'.',''));
+                            ->setCellValue("G".$i,' '.number_format($v['sum_asset_money'],2,'.',''))
+                            ->setCellValue("H".$i,' '.number_format($v['sum_asset_product'],2,'.',''))
+                            ->setCellValue("I".$i,' '.number_format($v['sum_finance_debt'],2,'.',''))
+                            ->setCellValue("J".$i,$v['remark'])
+                            ->setCellValue("K".$i,$v['user_name']);
                     } else {
                         $objSheet->setCellValue("A".$i,$v['name'])
                             ->setCellValue("B".$i,' '.str_replace(',','',$v['asset_money']))
@@ -604,10 +606,11 @@ ORDER BY b.id";
                             ->setCellValue("D".$i,' '.str_replace(',','',$v['finance_debt']))
                             ->setCellValue("E".$i,' '.str_replace(',','',$v['receivable']))
                             ->setCellValue("F".$i,' '.str_replace(',','',$v['payable']))
-                            ->setCellValue("G".$i,$v['remark'])
-                            ->setCellValue("H".$i,' '.number_format($v['sum_asset_money'],2,'.',''))
-                            ->setCellValue("I".$i,' '.number_format($v['sum_asset_product'],2,'.',''))
-                            ->setCellValue("J".$i,' '.number_format($v['sum_finance_debt'],2,'.',''));
+                            ->setCellValue("G".$i,' '.number_format($v['sum_asset_money'],2,'.',''))
+                            ->setCellValue("H".$i,' '.number_format($v['sum_asset_product'],2,'.',''))
+                            ->setCellValue("I".$i,' '.number_format($v['sum_finance_debt'],2,'.',''))
+                            ->setCellValue("J".$i,$v['remark'])
+                            ->setCellValue("K".$i,$v['user_name']);
                     }
                 }
             }
