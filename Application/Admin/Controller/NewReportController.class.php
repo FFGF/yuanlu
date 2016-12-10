@@ -41,10 +41,19 @@ class NewReportController extends ChannelsController{
         $this->assign('project_qihuo', $result_qihuo);
         $this->assign('project_bank', $result_bank);
         $this->assign('project_cunhuo',$result_cunhuo);
-//        dump($result_cunhuo);
-//        die();
         $inputContent = 1;
         $this->assign("inputContent",$inputContent);
         $this->display("NewReport/reportInput");
     }
+    //资产日报
+    public function dailyPaper(){
+
+        $this->display();
+    }
+    public function getDailyPaperDate(){
+        $year = I('year');
+        $month = I('month');
+        $this->ajaxReturn(formatdailyPaperDate($year,$month));
+    }
+
 }

@@ -52,6 +52,7 @@
             <ul class="childLi">
                 <if condition="session('admin')['power'] eq 1">
                     <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='reportinput' OR ACTION_NAME=='nextbuttondatechoose')">class="now"</if>><a href="{:U('admin/NewReport/reportInput')}">资产日报录入</a></li>
+                    <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='dailypaper'">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
                 </if>
 
             </ul>
