@@ -134,6 +134,16 @@
                     _html = _html +  '<div class="yearChooseCenterItem">' + this.startYear +'</div>'
                 }
                 $(".yearChooseCenter").html(_html)
+                
+                $(".yearChooseCenterItem").on('click',function(){
+                    var year = $(this).text();
+                    $("#dateYear").text(year);
+                    var month = $("#month").text();
+                    var monthNumber = chineseToNumber[month];
+                    var datePaper = new DatePaper(year,monthNumber);
+                    datePaper.display()
+                    $("#year").hide();
+                })
             }
         }
         $("#YearLeft").on('click',function(){
@@ -153,22 +163,10 @@
             var date=new Date();
             var year = new Year(date.getFullYear(),date.getFullYear()+8);
             year.display()
-
             $("#dateYear").text(date.getFullYear());
             $("#month").text(numberToChinese[date.getMonth() +1])
             var a = new DatePaper(date.getFullYear(),date.getMonth() +1);
             a.display();
-
-            $(".yearChooseCenterItem").on('click',function(){
-                var year = $(this).text();
-                $("#dateYear").text(year);
-                var month = $("#month").text();
-                var monthNumber = chineseToNumber[month];
-                var datePaper = new DatePaper(year,monthNumber);
-                datePaper.display()
-                $("#year").hide();
-            })
-
 
 
             var leftArrowC = document.getElementById("leftArrow")
