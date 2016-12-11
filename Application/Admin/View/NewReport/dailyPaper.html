@@ -5,13 +5,16 @@
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style type="text/css">
         .dailyPaperTop{line-height: 40px;width: 900px;height: 40px;background: #21a5f999;margin-left: 30px;border-radius: 5px;margin-top: 10px;font-size: 15px;color: white;font-weight: bold;padding-left: 30px;}
-        .dailyPaperYear{width: 930px;height: 50px;background: white;margin-left: 30px;border-radius: 5px;position: relative}
+        .dailyPaperYear{width: 930px;height: 50px;background: white;margin-left: 30px;border-radius: 5px;position: relative;}
         .dailyPaperYear p:nth-of-type(1) a{font-size: 30px;line-height: 50px;margin-left: 30px;color: gray;width: 100px;float: left;}
         .dailyPaperYear p:nth-of-type(2){margin-left: 400px;font-size: 30px;color: red;line-height: 50px;width: 200px;text-align: center}
-        .dailyPaperYear .dateChoose{width: 200px;height: 200px;background: #9c7878;position: absolute;z-index: 1;top:50px;display: none}
-        #year:target{
-            display: block;
-        }
+        .dailyPaperYear .dateChoose{width: 200px;height: 200px;background: #9c787833;position: absolute;z-index: 1;top:50px;display: none;}
+        .dailyPaperYear .dateChoose .YearLeft{float: left;margin-top: 80px;cursor: pointer}
+        .dailyPaperYear .dateChoose .YearRight{float: right;margin-top: 80px;cursor: pointer}
+        .dailyPaperYear .dateChoose .yearChooseCenter{width: 153px;height: 150px;background-color: white;margin-left: 4px;margin-top: 30px;float: left}
+        .dailyPaperYear .dateChoose .yearChooseCenter .yearChooseCenterItem{cursor: pointer;opacity: 0.8; font-size: 20px;line-height: 50px;color: gray;width: 50px;height: 50px;background: red;border-right: 1px solid gray;border-bottom: 1px solid gray;float: left;}
+        .dailyPaperYear .dateYear{cursor: pointer}
+
         .leftArrow{display: inline-block;float: left;margin-top: 10px;cursor: pointer}
         .rightArrow{display: inline-block;float: right;margin-top: 10px;cursor: pointer}
         .dailyPaperYear .splitLine{width: 930px;height: 30px;background: #21a5f999;border-radius: 5px;}
@@ -29,13 +32,17 @@
     <div class="nav">资产日报 &gt; 资产日报查询</div>
     <div class="dailyPaperTop">日报查看</div>
     <div class="dailyPaperYear">
-        <p><a href="#year" ><span id="dateYear"></span>年</a></p>
-        <div class="dateChoose" id="year"></div>
+        <p><a><span id="dateYear" class="dateYear"></span>年</a></p>
+        <div class="dateChoose" id="year">
+            <canvas id="YearLeft" width="20px" height="50px" class="YearLeft"></canvas>
+            <div class="yearChooseCenter">
+                <div class="yearChooseCenterItem">2016</div>
+            </div>
+            <canvas id="YearRight" width="20px" height="50px" class="YearRight"></canvas>
+        </div>
         <p> <canvas id="leftArrow" class="leftArrow" width="20px" height="30px"></canvas><span id="month"></span>月<canvas id="rightArrow" class="rightArrow" width="20px" height="30px"></canvas></p>
         <div class="splitLine"></div>
         <div class="date" id="date">
-            <div class="day"></div>
-            <div class="day"></div>
             <div class="day">
                 <aside>29</aside>
                 <a href="#"><button class="businessInput">业务录入</button></a>
@@ -106,14 +113,63 @@
                 a.display()
             }
         })
+        //点击年数显示年框，点击页面其他区域，年框消失
+        $("#dateYear").click(function (event){
+            $("#year").show()
+            $(document).one("click", function (){
+                $("#year").hide();
+            });
+            event.stopPropagation();//阻止事件向上冒泡
+        });
+        $("#year").click(function (event){
+            event.stopPropagation();
+        });
 
+        function Year(startYear,lastYear){
+            this.startYear = startYear;
+            this.lastYear = lastYear;
+            this.display = function(){
+                var _html = '';
+                for(;this.startYear<=this.lastYear;this.startYear++){
+                    _html = _html +  '<div class="yearChooseCenterItem">' + this.startYear +'</div>'
+                }
+                $(".yearChooseCenter").html(_html)
+            }
+        }
+        $("#YearLeft").on('click',function(){
+            var lastYear = parseInt($('.yearChooseCenterItem:first').text()) - 1;
+            var firstYear = lastYear - 8;
+            var year = new Year(firstYear,lastYear)
+            year.display()
+        })
+        $("#YearRight").on('click',function(){
+            var lastYear = parseInt($('.yearChooseCenterItem:last').text()) + 1;
+            var firstYear = lastYear + 8;
+            var year = new Year(lastYear,firstYear)
+            year.display()
+        })
 
         $(function(){
-            var date=new Date;
+            var date=new Date();
+            var year = new Year(date.getFullYear(),date.getFullYear()+8);
+            year.display()
+
             $("#dateYear").text(date.getFullYear());
             $("#month").text(numberToChinese[date.getMonth() +1])
             var a = new DatePaper(date.getFullYear(),date.getMonth() +1);
             a.display();
+
+            $(".yearChooseCenterItem").on('click',function(){
+                var year = $(this).text();
+                $("#dateYear").text(year);
+                var month = $("#month").text();
+                var monthNumber = chineseToNumber[month];
+                var datePaper = new DatePaper(year,monthNumber);
+                datePaper.display()
+                $("#year").hide();
+            })
+
+
 
             var leftArrowC = document.getElementById("leftArrow")
             var leftArrowCtx = leftArrowC.getContext("2d");
@@ -130,6 +186,22 @@
             rightArrowCtx.lineTo(10,30);
             rightArrowCtx.strokeStyle = 'rgba(0,0,255,1)';
             rightArrowCtx.stroke()
+
+            var YearLeftC = document.getElementById("YearLeft")
+            var YearLeftCtx = YearLeftC.getContext("2d");
+            YearLeftCtx.moveTo(10,0);
+            YearLeftCtx.lineTo(0,25);
+            YearLeftCtx.lineTo(10,50);
+            YearLeftCtx.strokeStyle = 'rgba(0,0,255,1)';
+            YearLeftCtx.stroke()
+
+            var YearRightC = document.getElementById("YearRight")
+            var YearRightCtx = YearRightC.getContext("2d");
+            YearRightCtx.moveTo(10,0);
+            YearRightCtx.lineTo(20,25);
+            YearRightCtx.lineTo(10,50);
+            YearRightCtx.strokeStyle = 'rgba(0,0,255,1)';
+            YearRightCtx.stroke()
 
         })
 
