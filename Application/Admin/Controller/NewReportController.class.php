@@ -15,7 +15,7 @@ class NewReportController extends ChannelsController{
         die();
     }
     //表单输入
-    public function reportInput(){
+    public function dateChoose(){
         $this->display();
     }
     //判断某一天是否已经录入数据
@@ -41,9 +41,11 @@ class NewReportController extends ChannelsController{
         $this->assign('project_qihuo', $result_qihuo);
         $this->assign('project_bank', $result_bank);
         $this->assign('project_cunhuo',$result_cunhuo);
-        $inputContent = 1;
-        $this->assign("inputContent",$inputContent);
-        $this->display("NewReport/reportInput");
+        $this->display("NewReport/fillAccountInformation");
+    }
+    //填写账户信息页面下一步按钮
+    public function nextButtonFAI(){
+        $this->display("NewReport/previewConfirm");
     }
     //资产日报
     public function dailyPaper(){

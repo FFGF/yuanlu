@@ -51,7 +51,7 @@
             <i class="icon icon6"></i>二期资产日报<i class="arrow"></i>
             <ul class="childLi">
                 <if condition="session('admin')['power'] eq 1">
-                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='reportinput' OR ACTION_NAME=='nextbuttondatechoose')">class="now"</if>><a href="{:U('admin/NewReport/reportInput')}">资产日报录入</a></li>
+                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
                     <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='dailypaper'">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
                 </if>
 
