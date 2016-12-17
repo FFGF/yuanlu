@@ -3,14 +3,37 @@
 <block name="style">
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+    <style type="text/css">
+        .nav{background: white;height: 72px;line-height: 72px;font-size: 24px;padding-left: 35px}
+        .now{color: #01b6e1}
+        .step{height: 88px;background: white;margin-top: 8px;}
+        .step .step1{float: left;line-height: 88px;font-size: 24px;margin-left: 21px;border-bottom: 5px solid #01b6e1;width: 200px;height: 83px;text-align: center;color:#01b6e1;}
+        .step .step2{float: left;margin-left: 114px;color: #c7c6c6;border-bottom: 0px}
+
+        .mainContent{margin-top: 1px;}
+        .mainContent .top{background-color: white;padding-top: 30px;height: 30px;border-radius: 5px;font-size: 20px;color: #918f8f;line-height: 30px;padding-left: 60px;}
+        .mainContent .bottom{background-color: white;padding-left: 20px;padding-top: 20px;padding-bottom: 30px}
+        .mainContent h2{color: red;margin-bottom: 10px;margin-left: 41px;margin-top: 92px;}
+        .mainContent h3{color: red;display: inline-block;margin-left: 39px;margin-top: 70px;}
+        .mainContent .date{width: 200px;border-bottom: 1px solid red;height: 20px;display: inline-block;text-align: center}
+        .mainContent .bottom button{border-radius: 5px;width: 100px;height: 30px;background-color: #f3f3f5;color: #acadb5;margin-left: 120px;border: 0px;cursor: pointer;}
+        .mainContent .bottom .otherDay{background: #eaeaec;color: white;margin-left: 50px}
+        body .cancelButton{margin-left: 170px;cursor: pointer;width:220px;height:61px;font-size:30px;margin: 50px 145px 0px;border-radius: 10px;border: 2px solid #8ccd5a;  background-color: white;  color: #8ccd5a;margin-bottom: 100px;}
+        body .nextButton{background-color: white;margin-left: 20px}
+        .rbrqxz form{display: inline-block}
+    </style>
 </block>
 <block name="body">
     <!--日报日期选择-->
     <div class="rbrqxz">
-        <div class="nav">资产日报 &gt; 资产日报录入</div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvas1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvas2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvas3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
+        <div class="nav">资产日报 &gt; <i class="now">资产日报录入</i></div>
+        <div class="step">
+            <div class="step1">1.日期日报选择</div>
+            <div class="step1 step2">2.填写账户信息</div>
+            <div class="step1 step2">3.预览及确认</div>
+        </div>
+
+
         <div class="mainContent">
             <div class="top">日期选择</div>
             <div class="bottom">
@@ -25,161 +48,6 @@
         </div>
         <button class="cancelButton">取消录入</button><form action="{:U('admin/NewReport/nextButtonDateChoose')}" onsubmit="return checkDateChoose()"><button class="cancelButton nextButton">下一步</button></form>
     </div>
-    <!--填写账户信息-->
-    <div class="txzhxx" style="display: none">
-        <div class="nav">资产日报 &gt; 资产日报录入</div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
-        <form>
-            <div class="mainContent">
-                <div class="top">现货账户</div>
-                <div class="bottom">
-                    <volist name="project_cunhuo" id="item">
-                        <h2>{$item['name_project']}</h2>
-                        <div class="content">
-                            <label>资产现金：</label><input type="text" name="" >
-                            <label class="mL">资产品：</label><input type="text" name="">
-                            <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
-                            <label class="mL">应&emsp;收：</label><input type="text" name="">
-                            <br/>
-                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
-                            <br/>
-                            <br/>
-                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
-                        </div>
-                    </volist>
-
-                </div>
-            </div>
-
-            <div class="mainContent mT">
-                <div class="top">期货账户</div>
-                <div class="bottom">
-                    <volist name="project_qihuo" id="item">
-                        <h2>{$item['name_project']}</h2>
-                        <div class="content">
-                            <label>资产现金：</label><input type="text" name="" >
-                            <label class="mL">保证金：</label><input type="text" name="">
-                            <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
-                            <label class="mL">应&emsp;收：</label><input type="text" name="">
-                            <br/>
-                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
-                            <br/>
-                            <br/>
-                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
-                        </div>
-                    </volist>
-                </div>
-            </div>
-
-            <div class="mainContent mT">
-                <div class="top">银行账户</div>
-                <div class="bottom">
-                    <volist name="project_bank" id="item">
-                        <h2>{$item['name_project']}</h2>
-                        <div class="content">
-                            <label>资产现金：</label><input type="text" name="" >
-                            <label class="mL">资产品：</label><input type="text" name="">
-                            <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
-                            <label class="mL">资产品：</label><input type="text" name="">
-                            <br/>
-                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
-                            <br/>
-                            <br/>
-                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
-                        </div>
-                    </volist>
-                </div>
-            </div>
-        </form>
-        <a href="{:U('admin/NewReport/reportInput')}"><button class="cancelButton">上一步</button></a><button class="cancelButton nextButton">下一步</button>
-    </div>
-    <!--预览及确认-->
-    <div class="yljqr" style="display: none">
-        <div class="nav">资产日报 &gt; 资产日报录入</div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasPreview1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasPreview2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasPreview3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
-        <div class="mainContent">
-            <div class="top">日报预览</div>
-            <div class="content">
-                <table cellpadding="0" cellspacing="0">
-                    <thead>
-                        <th colspan="7">银行账户(万元)</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>账户</td>
-                            <td>资产现金</td>
-                            <td>资产品</td>
-                            <td>融资负债/授信</td>
-                            <td>应收</td>
-                            <td>应付</td>
-                            <td>备注</td>
-                        </tr>
-                        <tr>
-                            <th>申源巴法银行</th>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td>备注</td>
-                        </tr>
-                        <tr>
-                            <th>美元账户</th>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td class="tR">12345.5300</td>
-                            <td>备注</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table cellpadding="0" cellspacing="0" class="mT">
-                    <thead>
-                    <th colspan="7" class="borderT">银行账户(万元)</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>账户</td>
-                        <td>资产现金</td>
-                        <td>资产品</td>
-                        <td>融资负债/授信</td>
-                        <td>应收</td>
-                        <td>应付</td>
-                        <td>备注</td>
-                    </tr>
-                    <tr>
-                        <th>申源巴法银行</th>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td>备注</td>
-                    </tr>
-                    <tr>
-                        <th>美元账户</th>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td class="tR">12345.5300</td>
-                        <td>备注</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <button class="cancelButton">返回修改</button><button class="cancelButton nextButton">确认提交</button>
-    </div>
-
 
 </block>
 
@@ -231,14 +99,6 @@
                 return date.getFullYear() + seperator1 + month + seperator1 + strDate;
             }
 
-            var inputContent = "{$inputContent}"
-            if(inputContent == 1){
-                $(".rbrqxz").hide()
-                $(".txzhxx").show()
-                $(".navDiv:gt(4)").css("background-color","#c8dfe6");
-            }else{
-                $(".navDiv:gt(0)").css("background-color","#c8dfe6");
-            }
 
             var leftBlockC = document.getElementById("myCanvas1")
             var leftBlockCtx = leftBlockC.getContext("2d");

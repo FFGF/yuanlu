@@ -1,0 +1,312 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+</block>
+<block name="body">
+    <!--日报日期选择-->
+    <div class="rbrqxz">
+        <div class="nav">资产日报 &gt; 资产日报录入</div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvas1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvas2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvas3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
+        <div class="mainContent">
+            <div class="top">日期选择</div>
+            <div class="bottom">
+                <h2>您好</h2>
+                <h3>本次日报填报日期为:</h3>
+                <div class="date" id="date"></div>
+                <button id="defaultToday">默认今日</button>
+                <div class="input-parent input-container" style="width: 30px;display: inline-block">
+                    <button class="otherDay" id="chooseOtherDay" data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">选择其他日</button>
+                </div>
+            </div>
+        </div>
+        <button class="cancelButton">取消录入</button><form action="{:U('admin/NewReport/nextButtonDateChoose')}" onsubmit="return checkDateChoose()"><button class="cancelButton nextButton">下一步</button></form>
+    </div>
+    <!--填写账户信息-->
+    <div class="txzhxx" style="display: none">
+        <div class="nav">资产日报 &gt; 资产日报录入</div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
+        <form>
+            <div class="mainContent">
+                <div class="top">现货账户</div>
+                <div class="bottom">
+                    <volist name="project_cunhuo" id="item">
+                        <h2>{$item['name_project']}</h2>
+                        <div class="content">
+                            <label>资产现金：</label><input type="text" name="" >
+                            <label class="mL">资产品：</label><input type="text" name="">
+                            <br/>
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
+                            <label class="mL">应&emsp;收：</label><input type="text" name="">
+                            <br/>
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <br/>
+                            <br/>
+                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                        </div>
+                    </volist>
+
+                </div>
+            </div>
+
+            <div class="mainContent mT">
+                <div class="top">期货账户</div>
+                <div class="bottom">
+                    <volist name="project_qihuo" id="item">
+                        <h2>{$item['name_project']}</h2>
+                        <div class="content">
+                            <label>资产现金：</label><input type="text" name="" >
+                            <label class="mL">保证金：</label><input type="text" name="">
+                            <br/>
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
+                            <label class="mL">应&emsp;收：</label><input type="text" name="">
+                            <br/>
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <br/>
+                            <br/>
+                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+
+            <div class="mainContent mT">
+                <div class="top">银行账户</div>
+                <div class="bottom">
+                    <volist name="project_bank" id="item">
+                        <h2>{$item['name_project']}</h2>
+                        <div class="content">
+                            <label>资产现金：</label><input type="text" name="" >
+                            <label class="mL">资产品：</label><input type="text" name="">
+                            <br/>
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
+                            <label class="mL">资产品：</label><input type="text" name="">
+                            <br/>
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <br/>
+                            <br/>
+                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </form>
+        <a href="{:U('admin/NewReport/reportInput')}"><button class="cancelButton">上一步</button></a><button class="cancelButton nextButton">下一步</button>
+    </div>
+    <!--预览及确认-->
+    <div class="yljqr" style="display: none">
+        <div class="nav">资产日报 &gt; 资产日报录入</div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasPreview1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasPreview2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasPreview3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
+        <div class="mainContent">
+            <div class="top">日报预览</div>
+            <div class="content">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <th colspan="7">银行账户(万元)</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>账户</td>
+                            <td>资产现金</td>
+                            <td>资产品</td>
+                            <td>融资负债/授信</td>
+                            <td>应收</td>
+                            <td>应付</td>
+                            <td>备注</td>
+                        </tr>
+                        <tr>
+                            <th>申源巴法银行</th>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td>备注</td>
+                        </tr>
+                        <tr>
+                            <th>美元账户</th>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td class="tR">12345.5300</td>
+                            <td>备注</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table cellpadding="0" cellspacing="0" class="mT">
+                    <thead>
+                    <th colspan="7" class="borderT">银行账户(万元)</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>账户</td>
+                        <td>资产现金</td>
+                        <td>资产品</td>
+                        <td>融资负债/授信</td>
+                        <td>应收</td>
+                        <td>应付</td>
+                        <td>备注</td>
+                    </tr>
+                    <tr>
+                        <th>申源巴法银行</th>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td>备注</td>
+                    </tr>
+                    <tr>
+                        <th>美元账户</th>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td class="tR">12345.5300</td>
+                        <td>备注</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button class="cancelButton">返回修改</button><button class="cancelButton nextButton">确认提交</button>
+    </div>
+
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+        function checkDateChoose(){
+            if(!$("#date").text()){alert("请选择日期")
+                return false;
+            }else{
+                return true;
+            }
+        }
+        $(function(){
+            $("#defaultToday").on("click",function(){
+                var date = getDate()
+                $("#date").text(date)
+
+            })
+            myDatePicker.on("select",function(data){
+                var date = data.string
+                //需要做一个判断，这个日期数据是否填写完毕
+                var url = "/admin/" + "new_report-judgedatainput.html";
+                var data = {'date':date};
+                $.get(url,data,function(response){
+                    if(response['code'] == 1){
+                        alert("数据已经存储了")
+                    }else if(response['code'] == 0){
+                        $("#date").text(date)
+                    }
+                })
+
+            })
+            //获得当前日期 xxxx-xx-xx格式
+            var getDate = function(){
+                var date = new Date();
+                var seperator1 = "-";
+                var seperator2 = ":";
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                return date.getFullYear() + seperator1 + month + seperator1 + strDate;
+            }
+
+            var inputContent = "{$inputContent}"
+            if(inputContent == 1){
+                $(".rbrqxz").hide()
+                $(".txzhxx").show()
+                $(".navDiv:gt(4)").css("background-color","#c8dfe6");
+            }else{
+                $(".navDiv:gt(0)").css("background-color","#c8dfe6");
+            }
+
+            var leftBlockC = document.getElementById("myCanvas1")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvas2")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvas3")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+
+
+            var leftBlockC = document.getElementById("myCanvasInput1")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvasInput2")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvasInput3")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+
+            var leftBlockC = document.getElementById("myCanvasPreview1")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvasPreview2")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvasPreview3")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+        })
+
+    </script>
+</block>

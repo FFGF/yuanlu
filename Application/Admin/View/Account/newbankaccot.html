@@ -1,0 +1,99 @@
+
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+
+
+            <!--
+            <div class="platTitle"><h2>添加/删除银行账户信息</h2></div>
+            -->
+            <div style="background-color:#00abdf;height:35px;line-height:32px"><h2>&nbsp&nbsp&nbsp&nbsp添加/删除银行账户</h2></div>
+
+
+            <div style="background:#FFFFFF" id="all">
+
+
+                <br>
+                <br>
+                <br>
+
+
+                <div>
+                    <form name="form1" method="post" action="{:U('admin/Account/newbankaccotsave')}">
+
+
+                        <div>
+                            <div id="left1" style="float:left;margin-left:200px">
+<!--
+                                <input type='hidden' name='uname' value="{$uname}">
+-->
+                                <input type='hidden' name='username' value="{$username}">
+                                <input type='hidden' name='branchname' value="{$branchname}">
+
+                                <p align="left">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    银行账户：
+                                    <br>
+                                    <br>
+                                    <br>
+                                    货币类型：
+                                </p>
+
+
+                            </div>
+
+                            <div id="left2" style="float:left;margin-left:110px;width:300px; height:200px; float:left">
+                                <br>
+                                <br>
+                                <br>
+
+                                <input type="text" name="name" placeholder="请输入银行账户">
+
+                                <br>
+                                <br>
+                                <br>
+                                <select name="bank_category">
+                                    <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+                                    <option> 中国</option>
+                                    <option> 美国</option>
+                                </select>
+                            </div>
+
+                            <div style="clear:both"></div>
+                        </div>
+
+
+
+                        <div style="margin-left:230px;float:left">
+                            <!--   返回了上一页   -->
+                            <input style="background-color:#00abdf;height:30px;width:50px" type="submit" value="删除" name="value">
+                        </div>
+
+                        <div style="margin-left:80px;float:left">
+                            <input style="background-color:#00abdf;height:30px;width:50px" type="submit" value="添加" name="value">
+                        </div>
+                    </form>
+                </div>
+
+                <!--        取消右侧的div
+                </div>
+                         -->
+
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>

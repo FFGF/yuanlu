@@ -1,0 +1,182 @@
+
+
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+
+            <!--
+                     <div style="back-color:#00abdf" class="platTitle"><h2>添加新账户</h2></div>
+                     -->
+
+
+                      <div style="background-color:#00abdf;height:35px;line-height:32px"><h2>&nbsp&nbsp&nbsp&nbsp添加新账户</h2></div>
+
+
+            <div style="background:#FFFFFF;width:1180px; height:400px" id="all">
+
+                <!--   左侧列的div    -->
+                <div id="leftpart" style="background:#FFFFFF;float:left;margin-left:100px;width:250px; height: 300px">
+                    <br>
+                    <br>
+                    <br>
+
+                    <p style="font-weight:bold">
+                        <font size="2">
+                            &nbsp&nbsp权限等级说明
+                        </font>
+                    </p>
+                    <p style="color:#00abdf">
+                        --------------------
+                    </p>
+
+                    <br>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+
+                </div>
+
+                <!--  div实现中间的分割竖线    -->
+                <div style="margin-top:80px;background:#00abdf;float:left;width:1px; height:350px"> </div>
+
+
+                <!--   右侧列的div    -->
+                <div id="rightpart" style="margin-left:100px;float:left;width:650px; height: 300px">
+                    <br>
+                    <br>
+                    <br>
+
+                    <p style="font-weight:bold;margin-left:80px;">
+                        <font size="2">
+                            &nbsp&nbsp新账户信息填写
+                        </font>
+                    </p>
+                    <p style="margin-left:76px;color:#00abdf">
+                        ------------------------
+                    </p>
+
+                    <div>
+                        <form name="form1" method="post" action="{:U('admin/Account/newusersave')}">
+
+
+                            <div>
+                                <div id="left1" style="float:left;width:100px;height:300px">
+                                    <p align="left">
+                                        <br>
+                                        <br>
+                                        <br>
+                                        姓名：
+                                        <br>
+                                        <br>
+                                        <br>
+                                        密码：
+                                        <br>
+                                        <br>
+                                        <br>
+                                        部门：
+                                        <br>
+                                        <br>
+                                        <br>
+                                        权限等级：
+                                        <br>
+                                        <br>
+                                        <br>
+                                        是否为经理：
+                                    </p>
+
+
+                                </div>
+
+                                <div id="left2" style="float:left;margin-left:50px;width:300px; height:300px; float:left">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <input type="text" placeholder="请输入使用人姓名" name="user_name">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <input type="text" placeholder="请输入账户密码" name="user_password">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <select name="branch_id">
+                                        <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+                                        <volist name="branchlist" id="vo">
+                                            <option> {$vo.name}</option>
+                                        </volist>
+                                    </select>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <input type="text" name="power" placeholder="请输入使用人等级权限">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <td width="100 px" name="branch_manager1">
+                                        <input type="radio" name="branch_manager" value="1">yes
+                                        <input type="radio" name="branch_manager" value="0">no
+                                    </td>
+
+                                </div>
+
+                                <div style="clear:both"></div>
+                            </div>
+
+
+
+                            <div style="margin-left:50px;float:left">
+                                <!--
+                                <input style="background-color:#00abdf;height:30px;width:50px" type="reset" value="重置">
+
+                            <a href="{:U('admin/Account/userManage')}" >
+                                <input style="background-color:#00abdf;height:30px;width:50px" value="&nbsp&nbsp取消">
+                            </a>
+
+
+
+                             <input style="background-color:#00abdf;height:30px;width:50px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
+
+                            -->
+                            <a href="{:U('admin/Account/userManage')}" >
+                                    <input style="background-color:#00abdf;height:30px;width:50px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
+                            </a>
+
+                            </div>
+
+                            <div style="margin-left:80px;float:left">
+                                <input style="background-color:#00abdf;height:30px;width:50px" type="submit" value="确定">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+</block>

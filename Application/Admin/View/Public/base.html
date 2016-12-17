@@ -11,8 +11,44 @@
 <body>
 <div class="wrap">
     <div class="platLeft">
-        <div class="platLogo"><a ><img src="__IMG__/platLogo.png"></a></div>
+        <div class="platLogo">
+            <div class="headPhoto"></div>
+            <div class="userName">冯郭飞</div>
+        </div>
         <ul class="platNav">
+
+            <li class="arrowDown">
+            <i class="icon icon1a"></i>首页
+            </li>
+
+            <li <if condition="CONTROLLER_NAME=='NewReport'">class="active arrowDown"</if>>
+            <i class="icon icon2a"></i>二期资产日报<i class="arrowa"></i>
+            <ul class="childLi">
+                <if condition="session('admin')['power'] eq 1">
+                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
+                    <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='dailypaper'">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
+                </if>
+
+            </ul>
+            </li>
+
+
+            <li class=" arrowDown">
+                <i class="icon icon3a"></i>账户管理<i class="arrowa"></i>
+                <ul class="childLi">
+
+                </ul>
+            </li>
+
+            <li class=" arrowDown">
+                <i class="icon icon4a"></i>财务管理<i class="arrowa"></i>
+                <ul class="childLi">
+
+                </ul>
+            </li>
+
+
+
             <li <if condition="CONTROLLER_NAME=='Report'">class="active arrowDown"</if>>
             <i class="icon icon6"></i>日报录入<i class="arrow"></i>
             <ul class="childLi">
@@ -35,7 +71,7 @@
             </li>
 
             <li <if condition="CONTROLLER_NAME=='Account'">class="active arrowDown"</if>>
-            <i class="icon icon6"></i>账户管理<i class="arrow"></i>
+            <i class="icon icon5"></i>账户管理<i class="arrow"></i>
             <ul class="childLi">
                 <if condition="session('admin')['power'] gt 2">
                     <li <if condition="CONTROLLER_NAME=='Account' AND ACTION_NAME=='index'">class="now"</if>><a href="{:U('admin/account/index')}">账户管理</a></li>
@@ -47,24 +83,18 @@
             </ul>
             </li>
 
-            <li <if condition="CONTROLLER_NAME=='NewReport'">class="active arrowDown"</if>>
-            <i class="icon icon6"></i>二期资产日报<i class="arrow"></i>
-            <ul class="childLi">
-                <if condition="session('admin')['power'] eq 1">
-                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
-                    <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='dailypaper'">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
-                </if>
-
-            </ul>
-            </li>
         </ul>
     </div>
 
     <div class="platRight">
         <div class="platTop">
-            <div class="Tit">源庐资产管理系统</div>
+            <div class="Tit">源庐集团资产管理系统</div>
             <div class="TopR">
-                {$Think.const.NOW_TIME|date='Y-m-d',###} {:formatWeek(date('w'))}<a href="{:U('admin/index/logout')}">退出</a>
+                {$Think.const.NOW_TIME|date='Y-m-d',###} {:formatWeek(date('w'))}
+                <a href="{:U('admin/index/logout')}">
+                    <!--<img src="../../../../Public/Admin/Images/second/out.png">-->
+                    <div class="out"></div>
+                </a>
             </div>
         </div>
         <block name="body"></block>

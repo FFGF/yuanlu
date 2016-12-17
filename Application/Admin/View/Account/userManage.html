@@ -3,22 +3,74 @@
 <block name="style">
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+
+    <!--   为了点击删除按钮时，有alert提示 ：而设置的script脚本          -->
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+    <script type="text/javascript"></script>
+
+
 </block>
 <block name="body">
     <div class="nav">账户管理 &gt; 账户管理</div>
     <div class="accountUserManageTop">账户管理</div>
     <div class="accountUserManageBottom">
-        <button>添加新账户</button>
+        <form name="form1" action="{:U('admin/Account/newuser')}">
+
+        <button type="submit">添加新账户</button>
+
+        </form>
+
+<!--
+        <form name="form2" method="post" action="{:U('admin/Account/test')}">
+-->
+
         <volist name="user" id="item">
             <div class="user">
                 <div class="left">
+
+<!--
                     <img src="__IMG__/delete.png">
-                    <img src="__IMG__/editor.png">
+-->
+
+<!--
+                    <a href="{:U('admin/Account/deluser',array('username'=>$key))}" >
+                        <img src="__IMG__/delete.png">
+                    </a>
+-->
+                    <a href="{:U('admin/Account/deluser',array('username'=>$key))}" >
+                        <img src="__IMG__/delete.png" onclick="display_alert()">
+                    </a>
+
+                    <script type="text/javascript">
+                        function display_alert()
+                        {
+                            alert("是否确定删除该用户!")
+                        }
+                    </script>
+
+
+                    <!--
+                    <a href="{:U('admin/Account/newuser')}" >
+                        <img src="__IMG__/editor.png">
+                    </a>
+                    -->
+                    <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
+                        <img src="__IMG__/editor.png">
+                    </a>
+
+
                     <img src="__IMG__/head.png" class="head">
                     <p class="name">{$key}</p>
                     <p class="branch">{$item[0]}</p>
                 </div>
                 <div class="right">
+
+                    <a href="{:U('admin/Account/newbankaccot',array('username'=>$key,'branchname'=>$item[0]))}" >
+
+                        <img align="right" src="__IMG__/newbankaccount.png">
+                    </a>
+
+
                     <volist name="item" id="project">
                        <gt name="key" value="0">
                            <p>{$project}</p>
@@ -27,6 +79,12 @@
                 </div>
             </div>
         </volist>
+
+        <!--
+        </form>
+          -->
+
+
     </div>
 </block>
 <block name="script">

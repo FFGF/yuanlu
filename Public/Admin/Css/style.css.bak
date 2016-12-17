@@ -16,27 +16,12 @@ i,b{ font-style: normal; font-weight: 100;}
 .mt_50{ clear: both; margin-top: 50px;}
 .mr_60{ margin-left: 60px;}
 
-.platLeft{width: 20%; background-color: #323b6f; height: 100%; position: fixed; top: 0; left: 0; z-index: 3;min-width: 200px}
-.platRight{float: left; margin-left: 20%; min-width: 1200px;}
-
-.platLogo{ width: 100%; height: 84px;background: #29336e}
-.platLogo .headPhoto{background: url(../Images/second/head.png);width: 60px;height: 60px;margin-left: 13%;float: left;margin-top: 13px;}
-.platLogo .userName{font-size: 20px;line-height: 24px;text-align: center; color: white;height: 24px;float: left;margin-left: 6%;margin-top: 30px;}
-
-
-.platNav{width: 100%}
-.platNav>li{ width: 100%; line-height: 65px; font-size: 16px; color: #cecece; text-align: center; position: relative;}
-.icon1a,.icon2a,.icon3a,.icon4a,.icon5a,.icon6a{ background: url(../Images/second/sprite.png) no-repeat 0px 0px; width: 31px; height: 29px; position: absolute; left: 20px; top: 18px;}
-.icon1a{ background-position: 0px 0px}
-.icon2a{ background-position: -32px 0px}
-.icon3a{ background-position: 0px -36px}
-.icon4a{ background-position: -35px -36px}
-
-.platNav>li .arrowa{ background: url(../Images/second/sprite.png) no-repeat -0px -76px; width: 8px; height: 13px; position: absolute; right: 20px; top: 26px;}
-.platNav>li.active .arrowa{ background-position: -44px -76px;}
-
-
-.platNav>li.active{color: #fff;background-color: #39b1e3}
+.platLeft{width: 200px; background-color: #34495e; height: 100%; position: fixed; top: 0; left: 0; z-index: 3;}
+.platRight{float: left; margin-left: 200px; min-width: 1200px;}
+.platLogo{ width: 200px; height: 90px;}
+.platNav{ width: 200px;}
+.platNav>li{ width: 200px; line-height: 65px; font-size: 16px; color: #cecece; text-align: center; position: relative;}
+.platNav>li.active{ background-color: #223442; color: #fff;}
 .platNav>li .arrow{ background: url(../Images/platbtn.png) no-repeat -10px -137px; width: 8px; height: 13px; position: absolute; right: 20px; top: 26px;}
 .platNav>li.active .arrow{ background-position: 0px -137px;}
 .platNav>li.active.arrowDown .arrow{ background-position: -20px -137px; width: 13px; height: 8px;}
@@ -54,11 +39,11 @@ i,b{ font-style: normal; font-weight: 100;}
 .platNav>li.active .icon4{ background-position: -34px -99px}
 .platNav>li.active .icon5{ background-position: -34px -241px}
 .platNav>li.active .icon6{ background-position: -34px -295px}
-.childLi{ display: none;background-color: #323b6f}
+.childLi{ display: none;}
 .childLi li{ height: 40px; line-height: 40px; font-size: 14px; color: #fff;}
 .childLi li a{color: #fff;}
-.childLi li:hover a{color: #39b1e3;}
-.childLi li.now a{ color: #39b1e3;}
+.childLi li:hover a{color: #2e97de;}
+.childLi li.now a{ color: #2e97de;}
 /* .platTop{ width: 100%; background: #fff; height: 90px; line-height: 90px;text-indent: 30px;}
 .platTop span{ font-size: 22px; color: #444; font-weight: bold; }
 .platTop a{ float: right; margin-right: 45px; font-size: 16px; color: #2e97de;text-indent: 0px;} */
@@ -252,12 +237,10 @@ i,b{ font-style: normal; font-weight: 100;}
 
 
 /* 站内信页面开始 */
-.platTop{ width: 100%; background: #f3f3f5; height: 84px; line-height: 84px;}
+.platTop{ width: 100%; background: #fff; height: 90px; line-height: 90px;}
 .platTop .Tit{ font-size: 22px; color: #444; font-weight: bold; text-indent: 30px; float: left;}
-.platTop .TopR{ float: right; margin-right: 200px; font-size: 16px; color: #918f8f;}
+.platTop .TopR{ float: right; margin-right: 45px; font-size: 16px; color: #cecece;}
 .platTop .TopR a{ font-size: 16px; color: #2e97de; padding: 0 10px;margin-right: 120px;}
-.platTop .TopR .out{width: 35px;height: 35px;background: url(../Images/second/out.png);background-size: contain;float: right;position: relative;top: 25px;right: 125px}
-
 .platTop a.emNews{ position: relative; padding-right: 20px;}
 .platTop .emNews i{ position: absolute; top: -10px; right: 10px; z-index: 2; background: #ff4848; border-radius: 50%; height: 18px; display: block; float: left; line-height: 18px; color: #fff; font-size: 12px; padding: 2px; min-width: 18px; text-align: center; transition:0.2s;}
 .platTop .emNews i:hover{ box-shadow: 0px 0px 8px #ff4848; }
