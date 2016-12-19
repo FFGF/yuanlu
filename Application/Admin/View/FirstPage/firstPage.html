@@ -1,0 +1,183 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+    <style type="text/css">
+        .souye .box{width: 100%;height: 400px;background: white;padding-top: 20px;padding-left: 25px;}
+        .souye .mt{margin-top: 10px}
+        .souye .top{color: #262b46;height: 24px;position: relative}
+        .souye .top h2{width: 130px;float: left}
+        .souye .top .branch{height: 24px;margin-left: 94px;width: 100px;text-align: center;color: #918f8f}
+        .souye .top .branch1{margin-left: 50px;width: 140px;}
+        .souye .top ul{width: 100px;position: absolute;left: 225px;cursor: pointer;display: none;background: white}
+        .souye .top ul li{height: 20px;line-height: 20px;color: #918f8f;text-align: center}
+        .souye .time{margin-left: 52px;height: 24px;text-align: center;color: #918f8f}
+        .souye .timeML{margin-left: -50px}
+        .souye .chart{width: 850px;height: 238px;margin-top: 10px;}
+    </style>
+</block>
+<block name="body">
+    <div class="souye">
+        <div class="box">
+            <div class="top">
+                <h2>资产盈亏折线图</h2>
+                <input type="text" id="branch" class="branch" placeholder="选择部门" readonly>
+                <ul id="ul">
+                    <li>部门一</li>
+                    <li>部门二</li>
+                    <li>部门三</li>
+                    <li>部门四</li>
+                    <li>部门五</li>
+                    <li>部门六</li>
+                </ul>
+                <div  style="display: inline-block;margin-left: -50px">
+                    <input type="text" id="" class="time" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                </div>
+                <div  style="display: inline-block;margin-left: 100px">
+                    <input type="text" id="" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                </div>
+            </div>
+            <div class="chart"></div>
+        </div>
+        <div class="box mt">
+            <div class="top">
+                <h2>部门业绩对比图</h2>
+                <input type="text" id="branch1" class="branch branch1" placeholder="选择部门" readonly autocomplete="off">
+                <ul id="ul1" style="left: 198px">
+                    <li>部门一</li>
+                    <li>部门二</li>
+                    <li>部门三</li>
+                    <li>部门四</li>
+                    <li>部门五</li>
+                    <li>部门六</li>
+                </ul>
+                <div  style="display: inline-block;margin-left: -50px">
+                    <input type="text" id="" class="time" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                </div>
+                <div  style="display: inline-block;margin-left: 100px">
+                    <input type="text" id="" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                </div>
+            </div>
+            <div class="chart"></div>
+        </div>
+        <div class="box mt">
+            <div class="top">
+                <h2>部门资产结构图</h2>
+                <input type="text" id="branch2" class="branch" placeholder="选择部门" readonly>
+                <ul id="ul2">
+                    <li>部门一</li>
+                    <li>部门二</li>
+                    <li>部门三</li>
+                    <li>部门四</li>
+                    <li>部门五</li>
+                    <li>部门六</li>
+                </ul>
+                <div  style="display: inline-block;margin-left: -50px">
+                    <input type="text" id="" class="time" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                </div>
+                <div  style="display: inline-block;margin-left: 100px">
+                    <input type="text" id="" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                </div>
+            </div>
+            <div class="chart"></div>
+        </div>
+    </div>
+
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#branch").on('click',function(event){
+               $('#ul').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul').hide()
+            })
+            $("#ul li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    $(this).css('background','white')
+                }).on('click',function(event){
+                    $("#branch").val($(this).text())
+                    event.stopPropagation()
+                    $('#ul').hide()
+                })
+            })
+
+            $("#branch1").on('click',function(event){
+                $('#ul1').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul1').hide()
+            })
+            //实现可以选择三个部门
+            var i = 0;
+            $("#ul1 li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    if(!$(this).attr('index')){
+                        $(this).css('background','white')
+                    }
+                }).on('click',function(event){
+                    if($(this).attr('index')){
+                        $(this).css('background','white')
+                        $(this).removeAttr('index')
+                    }else{
+                        $(this).attr('index',i);
+                        var branch = $("#branch1").val();
+                        if(branch){
+                            branch = branch +',' +$(this).text();
+                        }else{
+                            branch = $(this).text();
+                        }
+                        //如果超过三个部门，就把最初的那个删除掉
+                       if($("#ul1 li[index]").length > 3){
+                           var j = [];;
+                           $("#ul1 li[index]").each(function(index,value){
+                               j.push($(value).attr('index'))
+                           })
+                           var min = Math.min.apply(null, j)
+                           $("#ul1 li[index="+min +"]").css('background','white');
+                           $("#ul1 li[index="+min +"]").removeAttr('index');
+                           var branchArray = branch.split(',')
+                           branch = branchArray[1] +',' + branchArray[2] + ',' +branchArray[3]
+                       }
+                        i++;
+                        $("#branch1").val(branch);
+                    }
+                    event.stopPropagation()
+                })
+            })
+
+            $("#branch2").on('click',function(event){
+                $('#ul2').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul2').hide()
+            })
+            $("#ul2 li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    $(this).css('background','white')
+                }).on('click',function(event){
+                    $("#branch2").val($(this).text())
+                    event.stopPropagation()
+                    $('#ul').hide()
+                })
+            })
+        })
+
+    </script>
+</block>

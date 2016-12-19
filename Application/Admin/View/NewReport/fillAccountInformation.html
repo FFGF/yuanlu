@@ -3,56 +3,63 @@
 <block name="style">
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+    <style>
+
+    </style>
 </block>
 <block name="body">
     <!--填写账户信息-->
     <div class="txzhxx">
-        <div class="nav">资产日报 &gt; 资产日报录入</div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
-        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
+        <div class="nav">资产日报 &gt; <i class="now">填写账户信息</i></div>
+        <div class="step">
+            <div class="step1 fontColor">1.日期日报选择</div>
+            <div class="step1 step2 border fontColor">2.填写账户信息</div>
+            <div class="step1 step2">3.预览及确认</div>
+        </div>
+
         <form>
             <div class="mainContent">
-                <div class="top">现货账户</div>
-                <div class="bottom">
-                    <volist name="project_cunhuo" id="item">
-                        <h2>{$item['name_project']}</h2>
-                        <div class="content">
-                            <label>资产现金：</label><input type="text" name="" >
-                            <label class="mL">资产品：</label><input type="text" name="">
-                            <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
-                            <label class="mL">应&emsp;收：</label><input type="text" name="">
-                            <br/>
-                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
-                            <br/>
-                            <br/>
-                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
-                        </div>
-                    </volist>
-
-                </div>
+                    <div class="top">现货账户</div>
+                    <div class="bottom">
+                        <volist name="project_cunhuo" id="item">
+                            <h2>{$item['name_project']}</h2>
+                            <div class="content">
+                                <label>资产现金：</label><input type="text" name="" ><i>(元)</i>
+                                <label class="mL">资产品：</label><input type="text" name=""><i>(元)</i>
+                                <br/>
+                                <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT"><i>(元)</i>
+                                <label class="mL">应&emsp;收：</label><input type="text" name=""><i>(元)</i>
+                                <br/>
+                                <label>融资负债/授信：</label><input type="text" name="" class="mT"><i>(元)</i>
+                                <br/>
+                                <br/>
+                                <label>备注：</label><textarea name="" cols="70" rows="5"></textarea>
+                            </div>
+                        </volist>
+                    </div>
+                    <div class="leftBar" index="{:count($project_cunhuo)}"></div>
             </div>
 
             <div class="mainContent mT">
-                <div class="top">期货账户</div>
-                <div class="bottom">
+                <div class="top" style="background: #f8f8fa">期货账户</div>
+                <div class="bottom" style="background: #f8f8fa">
                     <volist name="project_qihuo" id="item">
                         <h2>{$item['name_project']}</h2>
                         <div class="content">
-                            <label>资产现金：</label><input type="text" name="" >
-                            <label class="mL">保证金：</label><input type="text" name="">
+                            <label>资产现金：</label><input type="text" name="" class="backcolor"><i>(元)</i>
+                            <label class="mL">保证金：</label><input type="text" name="" class="backcolor"><i>(元)</i>
                             <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
-                            <label class="mL">应&emsp;收：</label><input type="text" name="">
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT backcolor"><i>(元)</i>
+                            <label class="mL">应&emsp;收：</label><input type="text" name="" class="backcolor"><i>(元)</i>
                             <br/>
-                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT backcolor"><i>(元)</i>
                             <br/>
                             <br/>
-                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                            <label>备注：</label><textarea name="" cols="70" rows="5" class="backcolor"></textarea>
                         </div>
                     </volist>
                 </div>
+                <div class="leftBar" index="{:count($project_qihuo)}"></div>
             </div>
 
             <div class="mainContent mT">
@@ -61,23 +68,24 @@
                     <volist name="project_bank" id="item">
                         <h2>{$item['name_project']}</h2>
                         <div class="content">
-                            <label>资产现金：</label><input type="text" name="" >
-                            <label class="mL">资产品：</label><input type="text" name="">
+                            <label>资产现金：</label><input type="text" name="" ><i>(元)</i>
+                            <label class="mL">资产品：</label><input type="text" name=""><i>(元)</i>
                             <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
-                            <label class="mL">资产品：</label><input type="text" name="">
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT"><i>(元)</i>
+                            <label class="mL">资产品：</label><input type="text" name=""><i>(元)</i>
                             <br/>
-                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT"><i>(元)</i>
                             <br/>
                             <br/>
-                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                            <label>备注：</label><textarea name="" cols="70" rows="5"></textarea>
                         </div>
                     </volist>
                 </div>
+                <div class="leftBar" index="{:count($project_bank)}"></div>
             </div>
+            <input type="submit" value="上一步" class="cancelButton" formaction="{:U('admin/NewReport/dateChoose')}">
+            <input type="submit" value="下一步" class="cancelButton nextButton" formaction="{:U('admin/NewReport/nextButtonFAI')}">
         </form>
-        <a href="{:U('admin/NewReport/dateChoose')}"><button class="cancelButton">上一步</button></a>
-        <a href="{:U('admin/NewReport/nextButtonFAI')}"><button class="cancelButton nextButton">下一步</button></a>
     </div>
 
 </block>
@@ -88,28 +96,35 @@
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
         $(function(){
-            $(".navDiv:gt(1)").css("background-color","#c8dfe6");
-            var leftBlockC = document.getElementById("myCanvasInput1")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvasInput2")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvasInput3")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
+            //点击输入框，变色
+            $("input[type='text']").on('focus',function(){
+               $(this).css('border','2px solid #8adef1')
+            }).on('focusout',function(){
+                $(this).css('border','2px solid #dfdfe0')
+            })
+            //点击textarea变色
+            $("textarea").on('focus',function(){
+                $(this).css('border','2px solid #8adef1')
+            }).on('focusout',function(){
+                $(this).css('border','2px solid #dfdfe0')
+            })
+            //控制左边边框的颜色，高度
+            $(".leftBar").each(function(index,value){
+                var number = $(value).attr('index');
+                var height = 90 + 220*number + (number-1)*50
+                $(value).css('height',height)
+                switch (index){
+                    case 0:
+                        $(value).css('background',"#e36f64")
+                        break;
+                    case 1:
+                        $(value).css('background',"#8ccd5a")
+                        break;
+                    case 2:
+                        $(value).css('background',"#01b6e1")
+                        break;
+                }
+            })
         })
 
     </script>

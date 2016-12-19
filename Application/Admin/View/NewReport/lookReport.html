@@ -4,33 +4,50 @@
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style>
-
+        .yljqr .mainContent .box h2{color: #262b46;width: 180px;height: 22px;background: #f2f5fa;line-height: 22px;text-align: center;margin-left: 35px}
+        .yljqr .mainContent {background-color: white}
+        .yljqr .content{padding-bottom: 50px}
+        .yljqr .mainContent .content table{width: 800px;margin-left: 35px}
+        .yljqr .mainContent .content table thead{height: 30px;background: #e3ebf4;color: #717787;}
+        .yljqr .mainContent .content table tbody tr{height: 45px;color: #262b46}
+        .yljqr .mainContent .content table tbody tr:nth-child(odd){background: #f1f5f9;}
+        .yljqr .mainContent .content table tbody tr:nth-child(even){background: #e3ebf4;}
+        .yljqr form{background: white}
+        .yljqr canvas{ display: inline-block; background: #e3ebf4; position: relative;  left: -29px;  top: 5px;}
+        .yljqr th:nth-of-type(1){
+            vertical-align: baseline;
+        }
+        .yljqr td:nth-of-type(1){
+            text-align: center;
+        }
+        .yljqr td:nth-of-type(2),td:nth-of-type(3),td:nth-of-type(4),td:nth-of-type(5),td:nth-of-type(6){
+            text-align: right;
+        }
+        .yljqr .dailyLook{font-size: 18px;line-height: 50px;padding-left: 58px;color: #918f8f;}
+        .yljqr .mt{margin-top: 0px}
+        .yljqr .mainContent .top .date{width: 129px;position: relative;left: -25px;color: #e15e6b;font-weight: bold;border-bottom: 5px solid #e15e6b;height: 30px; }
     </style>
 </block>
 <block name="body">
     <!--预览及确认-->
     <div class="yljqr">
-        <div class="nav">资产日报 &gt; <i class="now">预览及确认</i></div>
-        <div class="step">
-            <div class="step1 fontColor">1.日期日报选择</div>
-            <div class="step1 fontColor step2">2.填写账户信息</div>
-            <div class="step1 step2 border fontColor">3.预览及确认</div>
-        </div>
+        <div class="nav">资产日报 &gt; <i class="now">资产日报查阅</i></div>
+        <div class="step dailyLook">日报查看</div>
         <form>
-            <div class="mainContent">
-                <div class="top">日报预览</div>
+            <div class="mainContent mt">
+                <div class="top"><div class="date">2016年11月20号</div></div>
                 <div class="content">
                     <div class="box">
                         <h2>现货账户 (万元)</h2>
                         <table cellpadding="0" cellspacing="0">
                             <thead>
-                                <th><canvas id="canvas1" width="20" height="20" class="canvas"></canvas> 账户</th>
-                                <th>资产现金</th>
-                                <th>资产品</th>
-                                <th>融资负债/授信</th>
-                                <th>应收</th>
-                                <th>应付</th>
-                                <th>备注</th>
+                            <th><canvas id="canvas1" width="20" height="20" class="canvas"></canvas> 账户</th>
+                            <th>资产现金</th>
+                            <th>资产品</th>
+                            <th>融资负债/授信</th>
+                            <th>应收</th>
+                            <th>应付</th>
+                            <th>备注</th>
                             </thead>
                             <tbody>
 

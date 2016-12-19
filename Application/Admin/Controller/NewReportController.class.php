@@ -14,6 +14,7 @@ class NewReportController extends ChannelsController{
         echo 123;
         die();
     }
+
     //表单输入
     public function dateChoose(){
         $this->display();
@@ -38,6 +39,7 @@ class NewReportController extends ChannelsController{
         $result_qihuo = $Branch->getBranchProjectByUserId($user_id,2);
         //现货库存结存
         $result_cunhuo = $Branch->getBranchProjectByUserId($user_id,3);
+
         $this->assign('project_qihuo', $result_qihuo);
         $this->assign('project_bank', $result_bank);
         $this->assign('project_cunhuo',$result_cunhuo);
@@ -45,8 +47,14 @@ class NewReportController extends ChannelsController{
     }
     //填写账户信息页面下一步按钮
     public function nextButtonFAI(){
+
         $this->display("NewReport/previewConfirm");
     }
+    //查阅日报
+    public function lookReport(){
+        $this->display();
+    }
+
     //资产日报
     public function dailyPaper(){
 

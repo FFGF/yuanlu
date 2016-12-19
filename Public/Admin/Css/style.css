@@ -26,14 +26,14 @@ i,b{ font-style: normal; font-weight: 100;}
 
 .platNav{width: 100%}
 .platNav>li{ width: 100%; line-height: 65px; font-size: 16px; color: #cecece; text-align: center; position: relative;}
-.icon1a,.icon2a,.icon3a,.icon4a,.icon5a,.icon6a{ background: url(../Images/second/sprite.png) no-repeat 0px 0px; width: 31px; height: 29px; position: absolute; left: 20px; top: 18px;}
-.icon1a{ background-position: 0px 0px}
-.icon2a{ background-position: -32px 0px}
-.icon3a{ background-position: 0px -36px}
-.icon4a{ background-position: -35px -36px}
+.icon1a,.icon2a,.icon3a,.icon4a,.icon5a,.icon6a{ background: url(../Images/second/6set.png) no-repeat 0px 0px; width: 31px; height: 29px; position: absolute; left: 20px; top: 18px;}
+.icon1a{ background-position: 0px -88px}
+.icon2a{ background-position: 0px 0px}
+.icon3a{ background-position: 0px -30px}
+.icon4a{ background-position: 0px -58px}
 
-.platNav>li .arrowa{ background: url(../Images/second/sprite.png) no-repeat -0px -76px; width: 8px; height: 13px; position: absolute; right: 20px; top: 26px;}
-.platNav>li.active .arrowa{ background-position: -44px -76px;}
+.platNav>li .arrowa{ background: url(../Images/second/6set.png) no-repeat -11px -157px; width: 8px; height: 13px; position: absolute; right: 20px; top: 26px;}
+.platNav>li.active .arrowa{ background-position: -11px -145px;}
 
 
 .platNav>li.active{color: #fff;background-color: #39b1e3}
@@ -254,7 +254,7 @@ i,b{ font-style: normal; font-weight: 100;}
 /* 站内信页面开始 */
 .platTop{ width: 100%; background: #f3f3f5; height: 84px; line-height: 84px;}
 .platTop .Tit{ font-size: 22px; color: #444; font-weight: bold; text-indent: 30px; float: left;}
-.platTop .TopR{ float: right; margin-right: 200px; font-size: 16px; color: #918f8f;}
+.platTop .TopR{ float: right; margin-right: 260px; font-size: 16px; color: #918f8f;}
 .platTop .TopR a{ font-size: 16px; color: #2e97de; padding: 0 10px;margin-right: 120px;}
 .platTop .TopR .out{width: 35px;height: 35px;background: url(../Images/second/out.png);background-size: contain;float: right;position: relative;top: 25px;right: 125px}
 

@@ -1,23 +1,62 @@
 /*reportInput.html页面*/
+.nav{background: white;padding-left: 35px;height: 40px;line-height: 40px;font-size: 20px;}
+.now{color: #01b6e1}
+.step{height: 50px;background: white;margin-top: 8px;}
 
-.txzhxx .mainContent .bottom h2{display: inline-block;border-bottom: 2px solid}
-.txzhxx .mainContent .bottom input{background-color:#4a4a751a;border-radius: 2px;border: 1px solid #4a4a75e6;}
-.txzhxx .mainContent .bottom textarea{background-color: #4a4a751a;border-radius: 2px;border: 1px solid #4a4a75e6;margin-top: 10px;vertical-align:top}
-.txzhxx .mainContent .bottom .mL{margin-left: 200px} .mT{margin-top: 10px}
+.step .step1{float: left;line-height: 50px;font-size: 16px;margin-left: 21px;width: 190px;height: 45px;text-align: center;  }
+.step .step2{float: left;margin-left: 114px;color: #c7c6c6;border-bottom: 0px}
+.step .border{border-bottom: 5px solid #01b6e1; }
+.step .fontColor{color: #01b6e1}
+
+.mainContent{margin-top: 1px;}
+.mainContent .top{background-color: white;padding-top: 30px;height: 30px;border-radius: 5px;font-size: 16px;color: #918f8f;line-height: 30px;padding-left: 60px;}
+.mainContent .bottom{background-color: white;padding-left: 20px;padding-top: 20px;padding-bottom: 30px}
+.mainContent h2{color: #e15e6b;margin-bottom: 10px;margin-left: 41px;margin-top: 16px;font-size: 16px}
+.mainContent h3{color: #e15e6b;display: inline-block;margin-left: 39px;margin-top: 38px;}
+.mainContent .date{width: 200px;border-bottom: 1px solid red;height: 20px;display: inline-block;text-align: center}
+.mainContent .bottom button{border-radius: 5px;width: 100px;height: 30px;background-color: #f3f3f5;color: #acadb5;margin-left: 60px;border: 0px;cursor: pointer;}
+.mainContent .bottom .otherDay{background: #eaeaec;color: white;margin-left: 50px}
+body .cancelButton{cursor: pointer;width:98px;height:30px;font-size:16px;margin: 50px 145px 0px;border-radius: 10px;border: 2px solid #8ccd5a;  background-color: white;  color: #8ccd5a;margin-bottom: 100px;}
+body .cancelButtonRelative{position: relative;left: 100px;}
+body .nextButton{background-color:  #8ccd5a;margin-left: 50px;color: white}
+.rbrqxz form{background: white; min-width: 1000px;}
+
+.txzhxx form{background: white}
+.txzhxx .mainContent{position: relative}
+.txzhxx .mainContent .bottom{padding-top: 0px}
+.txzhxx .mainContent .bottom h2{display: inline-block;}
+.txzhxx .mainContent .bottom input{background-color:white;border-radius: 2px;border: 2px solid #dfdfe0;}
+.txzhxx .mainContent .bottom textarea{background-color: white;border-radius: 2px;border: 2px solid #dfdfe0;margin-top: 10px;vertical-align:top}
+.txzhxx .mainContent .bottom .mL{margin-left: 170px} .mT{margin-top: 10px}
 .txzhxx .mT{margin-top: 15px}
-.txzhxx .mainContent .bottom .content{margin-bottom: 20px}
+.txzhxx .mainContent .bottom .content{margin-bottom: 20px;margin-left: 40px}
+.txzhxx .mainContent .bottom .content i{color: #e15e6b;margin-left: 10px;}
+.txzhxx .mainContent .leftBar{width: 5px;position: absolute;top: 24px;}
+.txzhxx .mainContent .bottom .content .backcolor{background-color: #f8f8fa}
 
+.yljqr .mainContent .box h2{color: #262b46;width: 180px;height: 22px;background: #f2f5fa;line-height: 22px;text-align: center;margin-left: 35px}
 .yljqr .mainContent {background-color: white}
 .yljqr .content{padding-bottom: 50px}
-.yljqr .mainContent .content table{width: 800px; margin-left: 20px;margin-top: 30px;border-right:1px solid #625050;border-bottom:1px solid #625050;}
-.yljqr .mainContent .content table thead th{font-weight: bold; border-left:1px solid #625050;height: 30px;background-color: #13b1e699;text-align: left;color: white;padding-left: 10px}
-.yljqr .mainContent .content table td{border-left:1px solid #625050;border-top:1px solid #625050}
-.yljqr .mainContent .content table tr:first-child{font-weight: bold;text-align: center}
-.yljqr .mainContent .content table tbody .tR{text-align: right}
-.yljqr .mainContent .content table tr th{font-weight: bold;border-left:1px solid #625050;border-top:1px solid #625050}
-.yljqr .mainContent .content table tr{height: 25px}
-.yljqr .mainContent .content .mT{margin-top: 0px}
-.yljqr .mainContent .content .borderT{border-top: 0px}
+.yljqr .mainContent .content table{width: 800px;margin-left: 35px}
+.yljqr .mainContent .content table thead{height: 30px;background: #e3ebf4;color: #717787;}
+.yljqr .mainContent .content table tbody tr{height: 45px;color: #262b46}
+.yljqr .mainContent .content table tbody tr:nth-child(odd){background: #f1f5f9;}
+.yljqr .mainContent .content table tbody tr:nth-child(even){background: #e3ebf4;}
+.yljqr form{background: white}
+.yljqr canvas{ display: inline-block; background: #e3ebf4; position: relative;  left: -29px;  top: 5px;}
+.yljqr th:nth-of-type(1){
+    vertical-align: baseline;
+}
+.yljqr td:nth-of-type(1){
+    text-align: center;
+}
+.yljqr td:nth-of-type(2),td:nth-of-type(3),td:nth-of-type(4),td:nth-of-type(5),td:nth-of-type(6){
+    text-align: right;
+}
+/*lookReport.html*/
+.yljqr .dailyLook{font-size: 18px;line-height: 50px;padding-left: 58px;color: #918f8f;}
+.yljqr .mt{margin-top: 0px}
+.yljqr .mainContent .top .date{width: 129px;position: relative;left: -25px;color: #e15e6b;font-weight: bold;border-bottom: 5px solid #e15e6b;height: 30px; }
 /*userManage.html*/
 .accountUserManageTop{width: 900px;height: 40px;background-color: #1ccdd499;font-size: 20px;padding-left: 20px;margin-left: 30px;margin-top: 30px;color: white;border-radius: 5px;line-height: 40px;}
 .accountUserManageBottom{width: 920px;background-color: white;margin-left: 30px;padding-bottom: 50px;overflow: hidden}

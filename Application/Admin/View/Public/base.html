@@ -17,16 +17,17 @@
         </div>
         <ul class="platNav">
 
-            <li class="arrowDown">
-            <i class="icon icon1a"></i>首页
+            <li <if condition="CONTROLLER_NAME=='FirstPage' AND ACTION_NAME=='firstpage' ">class="active arrowDown"</if>>
+            <a href="{:U('admin/FirstPage/firstPage')}" style="color: white"><i class="icon icon1a"></i>首页</a>
             </li>
 
             <li <if condition="CONTROLLER_NAME=='NewReport'">class="active arrowDown"</if>>
-            <i class="icon icon2a"></i>二期资产日报<i class="arrowa"></i>
+            <i class="icon icon2a"></i>资产日报<i class="arrowa"></i>
             <ul class="childLi">
                 <if condition="session('admin')['power'] eq 1">
                     <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
                     <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='dailypaper'">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
+                    <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='lookreport'">class="now"</if>><a href="{:U('admin/NewReport/lookReport')}">资产日报查阅</a></li>
                 </if>
 
             </ul>
@@ -43,7 +44,6 @@
             <li class=" arrowDown">
                 <i class="icon icon4a"></i>财务管理<i class="arrowa"></i>
                 <ul class="childLi">
-
                 </ul>
             </li>
 

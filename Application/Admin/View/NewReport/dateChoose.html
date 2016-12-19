@@ -4,23 +4,7 @@
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style type="text/css">
-        .nav{background: white;height: 72px;line-height: 72px;font-size: 24px;padding-left: 35px}
-        .now{color: #01b6e1}
-        .step{height: 88px;background: white;margin-top: 8px;}
-        .step .step1{float: left;line-height: 88px;font-size: 24px;margin-left: 21px;border-bottom: 5px solid #01b6e1;width: 200px;height: 83px;text-align: center;color:#01b6e1;}
-        .step .step2{float: left;margin-left: 114px;color: #c7c6c6;border-bottom: 0px}
 
-        .mainContent{margin-top: 1px;}
-        .mainContent .top{background-color: white;padding-top: 30px;height: 30px;border-radius: 5px;font-size: 20px;color: #918f8f;line-height: 30px;padding-left: 60px;}
-        .mainContent .bottom{background-color: white;padding-left: 20px;padding-top: 20px;padding-bottom: 30px}
-        .mainContent h2{color: red;margin-bottom: 10px;margin-left: 41px;margin-top: 92px;}
-        .mainContent h3{color: red;display: inline-block;margin-left: 39px;margin-top: 70px;}
-        .mainContent .date{width: 200px;border-bottom: 1px solid red;height: 20px;display: inline-block;text-align: center}
-        .mainContent .bottom button{border-radius: 5px;width: 100px;height: 30px;background-color: #f3f3f5;color: #acadb5;margin-left: 120px;border: 0px;cursor: pointer;}
-        .mainContent .bottom .otherDay{background: #eaeaec;color: white;margin-left: 50px}
-        body .cancelButton{margin-left: 170px;cursor: pointer;width:220px;height:61px;font-size:30px;margin: 50px 145px 0px;border-radius: 10px;border: 2px solid #8ccd5a;  background-color: white;  color: #8ccd5a;margin-bottom: 100px;}
-        body .nextButton{background-color: white;margin-left: 20px}
-        .rbrqxz form{display: inline-block}
     </style>
 </block>
 <block name="body">
@@ -28,25 +12,28 @@
     <div class="rbrqxz">
         <div class="nav">资产日报 &gt; <i class="now">资产日报录入</i></div>
         <div class="step">
-            <div class="step1">1.日期日报选择</div>
+            <div class="step1 border">1.日期日报选择</div>
             <div class="step1 step2">2.填写账户信息</div>
             <div class="step1 step2">3.预览及确认</div>
         </div>
 
-
-        <div class="mainContent">
-            <div class="top">日期选择</div>
-            <div class="bottom">
-                <h2>您好</h2>
-                <h3>本次日报填报日期为:</h3>
-                <div class="date" id="date"></div>
-                <button id="defaultToday">默认今日</button>
-                <div class="input-parent input-container" style="width: 30px;display: inline-block">
-                    <button class="otherDay" id="chooseOtherDay" data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">选择其他日</button>
+        <form  onsubmit="return checkDateChoose()">
+            <div class="mainContent">
+                <div class="top">日期选择</div>
+                <div class="bottom">
+                    <h2>您好</h2>
+                    <h3>本次日报填报日期为:</h3>
+                    <div class="date" id="date"></div>
+                    <button id="defaultToday" type="button">默认今日</button>
+                    <div class="input-parent input-container" style="width: 30px;display: inline-block">
+                        <button type="button" class="otherDay" id="chooseOtherDay" data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">选择其他日</button>
+                    </div>
                 </div>
+
             </div>
-        </div>
-        <button class="cancelButton">取消录入</button><form action="{:U('admin/NewReport/nextButtonDateChoose')}" onsubmit="return checkDateChoose()"><button class="cancelButton nextButton">下一步</button></form>
+            <input type="submit" value="取消录入" class="cancelButton" formaction="">
+            <input type="submit" value="下一步" class="cancelButton nextButton" formaction="{:U('admin/NewReport/nextButtonDateChoose')}">
+        </form>
     </div>
 
 </block>
@@ -98,74 +85,6 @@
                 }
                 return date.getFullYear() + seperator1 + month + seperator1 + strDate;
             }
-
-
-            var leftBlockC = document.getElementById("myCanvas1")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvas2")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvas3")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-
-
-            var leftBlockC = document.getElementById("myCanvasInput1")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvasInput2")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvasInput3")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-
-            var leftBlockC = document.getElementById("myCanvasPreview1")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvasPreview2")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
-            var leftBlockC = document.getElementById("myCanvasPreview3")
-            var leftBlockCtx = leftBlockC.getContext("2d");
-            leftBlockCtx.moveTo(0,0);
-            leftBlockCtx.lineTo(10,15);
-            leftBlockCtx.lineTo(0,30);
-            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
-            leftBlockCtx.stroke()
         })
 
     </script>

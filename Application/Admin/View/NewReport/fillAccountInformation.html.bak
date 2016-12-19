@@ -1,0 +1,116 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+</block>
+<block name="body">
+    <!--填写账户信息-->
+    <div class="txzhxx">
+        <div class="nav">资产日报 &gt; 资产日报录入</div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput1" class="fgf" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">日报日期选择</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput2" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">填写账户信息</div></div>
+        <div class="navDiv"><div class="leftBlock">1</div><canvas id="myCanvasInput3" width="20px" height="30px" style="float:left;"></canvas><div class="rightBlock">预览及确认</div></div>
+        <form>
+            <div class="mainContent">
+                <div class="top">现货账户</div>
+                <div class="bottom">
+                    <volist name="project_cunhuo" id="item">
+                        <h2>{$item['name_project']}</h2>
+                        <div class="content">
+                            <label>资产现金：</label><input type="text" name="" >
+                            <label class="mL">资产品：</label><input type="text" name="">
+                            <br/>
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
+                            <label class="mL">应&emsp;收：</label><input type="text" name="">
+                            <br/>
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <br/>
+                            <br/>
+                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                        </div>
+                    </volist>
+
+                </div>
+            </div>
+
+            <div class="mainContent mT">
+                <div class="top">期货账户</div>
+                <div class="bottom">
+                    <volist name="project_qihuo" id="item">
+                        <h2>{$item['name_project']}</h2>
+                        <div class="content">
+                            <label>资产现金：</label><input type="text" name="" >
+                            <label class="mL">保证金：</label><input type="text" name="">
+                            <br/>
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
+                            <label class="mL">应&emsp;收：</label><input type="text" name="">
+                            <br/>
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <br/>
+                            <br/>
+                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+
+            <div class="mainContent mT">
+                <div class="top">银行账户</div>
+                <div class="bottom">
+                    <volist name="project_bank" id="item">
+                        <h2>{$item['name_project']}</h2>
+                        <div class="content">
+                            <label>资产现金：</label><input type="text" name="" >
+                            <label class="mL">资产品：</label><input type="text" name="">
+                            <br/>
+                            <label>应&emsp;&emsp;付：</label><input type="text" name="" class="mT">
+                            <label class="mL">资产品：</label><input type="text" name="">
+                            <br/>
+                            <label>融资负债/授信：</label><input type="text" name="" class="mT">
+                            <br/>
+                            <br/>
+                            <label>备注：</label><textarea name="" cols="100" rows="5"></textarea>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </form>
+        <a href="{:U('admin/NewReport/dateChoose')}"><button class="cancelButton">上一步</button></a>
+        <a href="{:U('admin/NewReport/nextButtonFAI')}"><button class="cancelButton nextButton">下一步</button></a>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".navDiv:gt(1)").css("background-color","#c8dfe6");
+            var leftBlockC = document.getElementById("myCanvasInput1")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvasInput2")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+            var leftBlockC = document.getElementById("myCanvasInput3")
+            var leftBlockCtx = leftBlockC.getContext("2d");
+            leftBlockCtx.moveTo(0,0);
+            leftBlockCtx.lineTo(10,15);
+            leftBlockCtx.lineTo(0,30);
+            leftBlockCtx.strokeStyle = 'rgba(255,255,255,1)';
+            leftBlockCtx.stroke()
+        })
+
+    </script>
+</block>
