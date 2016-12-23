@@ -4,17 +4,7 @@
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style type="text/css">
-        .souye .box{width: 100%;height: 400px;background: white;padding-top: 20px;padding-left: 25px;}
-        .souye .mt{margin-top: 10px}
-        .souye .top{color: #262b46;height: 24px;position: relative}
-        .souye .top h2{width: 130px;float: left}
-        .souye .top .branch{height: 24px;margin-left: 94px;width: 100px;text-align: center;color: #918f8f}
-        .souye .top .branch1{margin-left: 50px;width: 140px;}
-        .souye .top ul{width: 100px;position: absolute;left: 225px;cursor: pointer;display: none;background: white}
-        .souye .top ul li{height: 20px;line-height: 20px;color: #918f8f;text-align: center}
-        .souye .time{margin-left: 52px;height: 24px;text-align: center;color: #918f8f}
-        .souye .timeML{margin-left: -50px}
-        .souye .chart{width: 850px;height: 238px;margin-top: 10px;}
+
     </style>
 </block>
 <block name="body">
@@ -24,21 +14,19 @@
                 <h2>资产盈亏折线图</h2>
                 <input type="text" id="branch" class="branch" placeholder="选择部门" readonly>
                 <ul id="ul">
-                    <li>部门一</li>
-                    <li>部门二</li>
-                    <li>部门三</li>
-                    <li>部门四</li>
-                    <li>部门五</li>
-                    <li>部门六</li>
+                    <volist name="branch_name" id="item">
+                        <li>{$item['name']}</li>
+                    </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: -50px">
-                    <input type="text" id="" class="time" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                    <input type="text" id="start" class="time" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
                 </div>
                 <div  style="display: inline-block;margin-left: 100px">
-                    <input type="text" id="" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                    <input type="text" id="end" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">
                 </div>
             </div>
-            <div class="chart"></div>
+            <div class="chart" id="container">
+            </div>
         </div>
         <div class="box mt">
             <div class="top">
@@ -91,8 +79,64 @@
     <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
     <script src="__JS__/BeatPicker.min.js"></script>
     <script src="__JS__/changeDate.js"></script>
+    <script src="__JS__/highcharts.js"></script>
     <script type="text/javascript">
+
         $(function(){
+            myDatePicker.on("select",function(data){
+                var start_date = $("#start").val();
+                var end_date = data.string;
+                var branch_name = $("#branch").val();
+                if(!branch_name){
+                    alert('请选择部门')
+                    return
+                }
+                if(!start_date){
+                    alert('请选择开始时间')
+                    return
+                }
+                if(DateToUnix(start_date)>DateToUnix(end_date)){
+                    alert("结束时间须大于开始时间")
+                    return
+                }
+                var url = 'admin/' + 'first_page-getassetproffitloss.html';
+                var data={'start_date':start_date,'end_date':end_date,'branch_name':branch_name};
+                $.get(url,data,function(response){
+                    var working_capital_data = response['working_capital_data'];
+                    var add_money_product = response['add_money_product'];
+                    var date_array = response['date_array'];
+                    var branch_name = response['branch_name'];
+                    var title = {text: '部门'};
+                    var subtitle = {text: branch_name};
+                    var xAxis = {categories:date_array};
+                    var yAxis = {title: {text: '金额 (元)'},
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    };
+                    var tooltip = {valueSuffix: '元',shared:true}
+                    var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
+                    var series =  [
+                        {name: '可用资产', data:add_money_product},
+                        {name: '运营资金', data: working_capital_data}
+                    ];
+                    var json = {};
+                    json.title = title;
+                    json.subtitle = subtitle;
+                    json.xAxis = xAxis;
+                    json.yAxis = yAxis;
+                    json.tooltip = tooltip;
+                    json.legend = legend;
+                    json.series = series;
+                    $('#container').highcharts(json);
+                })
+            })
+        })
+
+        $(function(){
+
             $("#branch").on('click',function(event){
                $('#ul').show()
                 event.stopPropagation()

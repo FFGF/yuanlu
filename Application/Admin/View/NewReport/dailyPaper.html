@@ -4,33 +4,12 @@
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style type="text/css">
-        .dailyPaperTop{line-height: 40px;width: 900px;height: 40px;background: #21a5f999;margin-left: 30px;border-radius: 5px;margin-top: 10px;font-size: 15px;color: white;font-weight: bold;padding-left: 30px;}
-        .dailyPaperYear{width: 930px;height: 50px;background: white;margin-left: 30px;border-radius: 5px;position: relative;}
-        .dailyPaperYear p:nth-of-type(1) a{font-size: 30px;line-height: 50px;margin-left: 30px;color: gray;width: 100px;float: left;}
-        .dailyPaperYear p:nth-of-type(2){margin-left: 400px;font-size: 30px;color: red;line-height: 50px;width: 200px;text-align: center}
-        .dailyPaperYear .dateChoose{width: 200px;height: 200px;background: #9c787833;position: absolute;z-index: 1;top:50px;display: none;}
-        .dailyPaperYear .dateChoose .YearLeft{float: left;margin-top: 80px;cursor: pointer}
-        .dailyPaperYear .dateChoose .YearRight{float: right;margin-top: 80px;cursor: pointer}
-        .dailyPaperYear .dateChoose .yearChooseCenter{width: 153px;height: 150px;background-color: white;margin-left: 4px;margin-top: 30px;float: left}
-        .dailyPaperYear .dateChoose .yearChooseCenter .yearChooseCenterItem{cursor: pointer;opacity: 0.8; font-size: 20px;line-height: 50px;color: gray;width: 50px;height: 50px;background: red;border-right: 1px solid gray;border-bottom: 1px solid gray;float: left;}
-        .dailyPaperYear .dateYear{cursor: pointer}
 
-        .leftArrow{display: inline-block;float: left;margin-top: 10px;cursor: pointer}
-        .rightArrow{display: inline-block;float: right;margin-top: 10px;cursor: pointer}
-        .dailyPaperYear .splitLine{width: 930px;height: 30px;background: #21a5f999;border-radius: 5px;}
-        .dailyPaperYear .date{width: 930px;background-color: white;padding-bottom: 50px;overflow: hidden}
-        .dailyPaperYear .date .day{width: 132px;height: 90px;background-color: white;border-bottom: 1px solid #80747433;float: left;border-right: 1px solid #80747433;}
-
-        .dailyPaperYear .date > div:nth-child(7n+1){background-color: lightgray;}
-        .dailyPaperYear .date > div:nth-child(7n+7){background-color: lightgray;border-right: 0px}
-        .dailyPaperYear .date .day aside{margin-left: 100px;margin-top: 5px;font-size: 20px;font-weight: bold;}
-        .dailyPaperYear .date .day .businessInput{opacity: 0.8;border: 0px;width: 90%;background-color: #f009;color: white;margin-top: 7px;margin-left: 8px;border-radius: 5px}
-        .dailyPaperYear .date .day .financeInput{opacity: 0.8;border: 0px;width: 90%;margin-left: 8px;border-radius: 5px;background-color: #00f6ff99;margin-top: 5px;color: white}
     </style>
 </block>
 <block name="body">
-    <div class="nav">资产日报 &gt; 资产日报查询</div>
-    <div class="dailyPaperTop">日报查看</div>
+    <div class="nav">资产日报 &gt; <i class="now">资产日报查阅</i></div>
+    <div class="dailyPaperTop">日报查询</div>
     <div class="dailyPaperYear">
         <p><a><span id="dateYear" class="dateYear"></span>年</a></p>
         <div class="dateChoose" id="year">
@@ -41,13 +20,24 @@
             <canvas id="YearRight" width="20px" height="50px" class="YearRight"></canvas>
         </div>
         <p> <canvas id="leftArrow" class="leftArrow" width="20px" height="30px"></canvas><span id="month"></span>月<canvas id="rightArrow" class="rightArrow" width="20px" height="30px"></canvas></p>
-        <div class="splitLine"></div>
-        <div class="date" id="date">
-            <div class="day">
-                <aside>29</aside>
-                <a href="#"><button class="businessInput">业务录入</button></a>
-                <a href="#"><button class="financeInput">财务录入</button></a>
+
+        <div class="bcW">
+            <div class="splitLine">
+                <i>日</i>
+                <i>一</i>
+                <i>二</i>
+                <i>三</i>
+                <i>四</i>
+                <i>五</i>
+                <i>六</i>
             </div>
+        <div class="date" id="date">
+            <!--<div class="day">-->
+                <!--<aside>29</aside>-->
+                <!--<a href="#"><button class="businessInput">业务录入</button></a>-->
+                <!--<a href="#"><button class="financeInput">财务录入</button></a>-->
+            <!--</div>-->
+        </div>
         </div>
     </div>
 
@@ -69,9 +59,20 @@
                 var url = "/admin/" + "new_report-getdailypaperdate.html";
                 $.get(url,_data,function(response){
                     var date_html = '';
-                    for(var i=0;i<response.length;i++){
-                      date_html = date_html +' <div class="day"><aside>'+ response[i].substring(8,10)+'</aside><a href="#"><button class="businessInput">业务录入</button></a><a href="#"><button class="financeInput">财务录入</button></a> </div>'
+                    var business_html = '';
+                    var finance_html = '';
+                    for(var i=0;i<response[0]['week'];i++){
+                        date_html = date_html +  '<div class="day"></div>'
                     }
+                    $.each(response,function(index,value){
+                        date_html = date_html +' <div class="day"><aside>'+ value['date'].substring(8,10)+'</aside>'
+                        business_html =  '<a href="/admin/new_report-getperdaydataitembybranchid?date=' + value['date']+'&type=business"><button class="businessInput">业务录入</button></a>'
+                        finance_html =   '<a href="/admin/new_report-getperdaydataitembybranchid?date=' + value['date']+'&type=finance"><button class="financeInput">财务录入</button></a>'
+                        value['business']&&(date_html = date_html + business_html)
+                        value['finance']&&(date_html = date_html + finance_html)
+                        date_html = date_html + '</div>';
+                    })
+
                     $("#date").html(date_html)
                 })
             }
@@ -174,7 +175,8 @@
             leftArrowCtx.moveTo(10,0);
             leftArrowCtx.lineTo(0,15);
             leftArrowCtx.lineTo(10,30);
-            leftArrowCtx.strokeStyle = 'rgba(0,0,255,1)';
+            leftArrowCtx.lineWidth = 2
+            leftArrowCtx.strokeStyle = 'rgb(189,189,189)';
             leftArrowCtx.stroke()
 
             var rightArrowC = document.getElementById("rightArrow")
@@ -182,7 +184,8 @@
             rightArrowCtx.moveTo(10,0);
             rightArrowCtx.lineTo(20,15);
             rightArrowCtx.lineTo(10,30);
-            rightArrowCtx.strokeStyle = 'rgba(0,0,255,1)';
+            rightArrowCtx.lineWidth = 2
+            rightArrowCtx.strokeStyle = 'rgb(189,189,189)';
             rightArrowCtx.stroke()
 
             var YearLeftC = document.getElementById("YearLeft")

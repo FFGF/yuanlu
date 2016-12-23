@@ -17,7 +17,7 @@
             <div class="step1 step2">3.预览及确认</div>
         </div>
 
-        <form  onsubmit="return checkDateChoose()">
+        <form  onsubmit="return checkDateChoose()" method="post">
             <div class="mainContent">
                 <div class="top">日期选择</div>
                 <div class="bottom">
@@ -26,6 +26,7 @@
                     <div class="date" id="date"></div>
                     <button id="defaultToday" type="button">默认今日</button>
                     <div class="input-parent input-container" style="width: 30px;display: inline-block">
+                        <input type="hidden" value="" id="dateChoose" name="dateChoose">
                         <button type="button" class="otherDay" id="chooseOtherDay" data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">选择其他日</button>
                     </div>
                 </div>
@@ -54,7 +55,7 @@
             $("#defaultToday").on("click",function(){
                 var date = getDate()
                 $("#date").text(date)
-
+                $("#dateChoose").val(date)
             })
             myDatePicker.on("select",function(data){
                 var date = data.string
@@ -66,9 +67,9 @@
                         alert("数据已经存储了")
                     }else if(response['code'] == 0){
                         $("#date").text(date)
+                        $("#dateChoose").val(date)
                     }
                 })
-
             })
             //获得当前日期 xxxx-xx-xx格式
             var getDate = function(){

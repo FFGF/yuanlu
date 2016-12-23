@@ -207,6 +207,7 @@ ORDER BY b.id";
             $this->assign('working_capital',$working_capital_array);
             $this->assign('branch_name1',$branch_name);
             $this->assign('branch_name',$branch_name_array);
+
             $this->display('linechart');
         }else{
             $this->assign('branch_name',$branch_name_array);

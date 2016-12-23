@@ -13,7 +13,7 @@
     <div class="platLeft">
         <div class="platLogo">
             <div class="headPhoto"></div>
-            <div class="userName">冯郭飞</div>
+            <div class="userName">{:session('admin')['user_name']}</div>
         </div>
         <ul class="platNav">
 
@@ -24,10 +24,9 @@
             <li <if condition="CONTROLLER_NAME=='NewReport'">class="active arrowDown"</if>>
             <i class="icon icon2a"></i>资产日报<i class="arrowa"></i>
             <ul class="childLi">
-                <if condition="session('admin')['power'] eq 1">
-                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
-                    <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='dailypaper'">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
-                    <li <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='lookreport'">class="now"</if>><a href="{:U('admin/NewReport/lookReport')}">资产日报查阅</a></li>
+                <if condition="session('admin')['power'] eq 1 or session('admin')['power'] eq 2">
+                    <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai' OR ACTION_NAME=='modifydailydata')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
+                    <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaper' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
                 </if>
 
             </ul>

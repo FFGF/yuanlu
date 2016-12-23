@@ -53,6 +53,37 @@ body .nextButton{background-color:  #8ccd5a;margin-left: 50px;color: white}
 .yljqr td:nth-of-type(2),td:nth-of-type(3),td:nth-of-type(4),td:nth-of-type(5),td:nth-of-type(6){
     text-align: right;
 }
+.yljqr td:nth-of-type(7){
+    text-align: center;
+}
+/* dailyPaper,html*/
+.dailyPaperTop{line-height: 40px;width: 930px;height: 40px;background: white;border-radius: 5px;margin-top: 10px;font-size: 15px;color: #918f8f;font-weight: bold;padding-left: 30px;}
+.dailyPaperYear{width: 960px;height: 50px;background: white;border-radius: 5px;position: relative;}
+.dailyPaperYear p:nth-of-type(1) a{font-size: 30px;line-height: 50px;margin-left: 30px;color: gray;width: 100px;float: left;}
+.dailyPaperYear p:nth-of-type(2){margin-left: 400px;font-size: 30px;color: #e36d78;line-height: 50px;width: 200px;text-align: center}
+.dailyPaperYear .dateChoose{width: 200px;height: 200px;background: #9c787833;position: absolute;z-index: 1;top:50px;display: none;}
+.dailyPaperYear .dateChoose .YearLeft{float: left;margin-top: 80px;cursor: pointer}
+.dailyPaperYear .dateChoose .YearRight{float: right;margin-top: 80px;cursor: pointer}
+.dailyPaperYear .dateChoose .yearChooseCenter{width: 153px;height: 150px;background-color: white;margin-left: 4px;margin-top: 30px;float: left}
+.dailyPaperYear .dateChoose .yearChooseCenter .yearChooseCenterItem{cursor: pointer;opacity: 0.8; font-size: 20px;line-height: 50px;color: gray;width: 50px;height: 50px;background: red;border-right: 1px solid gray;border-bottom: 1px solid gray;float: left;}
+.dailyPaperYear .dateYear{cursor: pointer}
+.dailyPaperYear p:nth-child(1) a {color:#e36d78}
+.dailyPaperYear .bcW{background-color: white}
+
+.leftArrow{display: inline-block;float: left;margin-top: 10px;cursor: pointer}
+.rightArrow{display: inline-block;float: right;margin-top: 10px;cursor: pointer}
+.dailyPaperYear .splitLine{width: 930px;height: 30px;background: #f5f5f6;margin-left: 30px}
+.dailyPaperYear .splitLine i{width: 130px;display: inline-block;height: 30px; line-height: 30px; font-size: 16px;text-align: center;font-weight: bold}
+.dailyPaperYear .splitLine i:last-child,i:first-child{color: #b9b9b9}
+.dailyPaperYear .date{width: 930px;background-color: white;padding-bottom: 50px;overflow: hidden;margin-left: 30px}
+.dailyPaperYear .date .day{width: 132px;height: 90px;background-color: white;border-bottom: 1px solid #80747433;float: left;}
+.dailyPaperYear .date .day button{cursor: pointer}
+
+/*.dailyPaperYear .date > div:nth-child(7n+1){background-color: lightgray;}*/
+/*.dailyPaperYear .date > div:nth-child(7n+7){background-color: lightgray;border-right: 0px}*/
+.dailyPaperYear .date .day aside{text-align: center;margin-top: 5px;font-size: 20px;font-weight: bold;color: #262b46}
+.dailyPaperYear .date .day .businessInput{border: 0px; width: 90%;background-color: white;color: #edaaaf;margin-top: 7px; margin-left: 8px;font-weight: bold;}
+.dailyPaperYear .date .day .financeInput{border: 0px;width: 90%;margin-left: 8px;background-color: white;margin-top: 5px;color: #8dd5ed;font-weight: bold;}
 /*lookReport.html*/
 .yljqr .dailyLook{font-size: 18px;line-height: 50px;padding-left: 58px;color: #918f8f;}
 .yljqr .mt{margin-top: 0px}
@@ -69,3 +100,15 @@ body .nextButton{background-color:  #8ccd5a;margin-left: 50px;color: white}
 .accountUserManageBottom .user .left .branch{text-align: center;margin-top: 15px;font-size: 15px;font-weight: bold;}
 .accountUserManageBottom .user .right{margin-left: 40%;height: 100%;overflow: hidden}
 .accountUserManageBottom .user .right p{margin-left: 15%;margin-top: 7px;color: #41d7dd}
+/* firstPage.html*/
+.souye .box{width: 100%;height: 400px;background: white;padding-top: 20px;padding-left: 25px;}
+.souye .mt{margin-top: 10px}
+.souye .top{color: #262b46;height: 24px;position: relative}
+.souye .top h2{width: 130px;float: left}
+.souye .top .branch{height: 24px;margin-left: 94px;width: 100px;text-align: center;color: #918f8f}
+.souye .top .branch1{margin-left: 50px;width: 140px;}
+.souye .top ul{width: 100px;position: absolute;left: 225px;cursor: pointer;display: none;background: white;z-index: 1}
+.souye .top ul li{height: 20px;line-height: 20px;color: #918f8f;text-align: center;}
+.souye .time{margin-left: 52px;height: 24px;text-align: center;color: #918f8f}
+.souye .timeML{margin-left: -50px}
+.souye .chart{width: 850px;height: 350px;margin-top: 10px;}
