@@ -1,0 +1,249 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+    <style type="text/css">
+        /*;*/
+         .dailyPaperYear ul{width: 100px;position: absolute;cursor: pointer;background: white;z-index: 1;display: none}
+         .dailyPaperYear ul li{height: 20px;line-height: 20px;color: #918f8f;text-align: center;}
+         .branchChooseLead{margin-left: 100px;position: relative; top: -4px;text-align: center;}
+    </style>
+</block>
+<block name="body">
+    <div class="nav">资产日报 &gt; <i class="now">资产日报查阅</i></div>
+    <div class="dailyPaperTop">日报查询</div>
+    <div class="dailyPaperYear">
+        <p><a><span id="dateYear" class="dateYear"></span>年</a></p>
+        <div class="dateChoose" id="year">
+            <canvas id="YearLeft" width="20px" height="50px" class="YearLeft"></canvas>
+            <div class="yearChooseCenter">
+                <div class="yearChooseCenterItem">2016</div>
+            </div>
+            <canvas id="YearRight" width="20px" height="50px" class="YearRight"></canvas>
+        </div>
+        <p style="display: inline-block; margin-left: 200px;"> <canvas id="leftArrow" class="leftArrow" width="20px" height="30px"></canvas><span id="month"></span>月<canvas id="rightArrow" class="rightArrow" width="20px" height="30px"></canvas></p>
+        <input type="text" id="branch" class="branchChooseLead" placeholder="选择部门" readonly autocomplete="off">
+        <ul id="ul" style="left: 657px;top: 36px">
+            <volist name="branch_name" id="item">
+                <li>{$item['name']}</li>
+            </volist>
+        </ul>
+
+        <div class="bcW">
+            <div class="splitLine">
+                <i>日</i>
+                <i>一</i>
+                <i>二</i>
+                <i>三</i>
+                <i>四</i>
+                <i>五</i>
+                <i>六</i>
+            </div>
+            <div class="date" id="date">
+                <!--<div class="day">-->
+                <!--<aside>29</aside>-->
+                <!--<a href="#"><button class="businessInput">业务录入</button></a>-->
+                <!--<a href="#"><button class="financeInput">财务录入</button></a>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+        var chineseToNumber = {'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,'十一':11,'十二':12};
+        var numberToChinese = {'1':'一','2':'二','3':'三','4':'四','5':'五','6':'六','7':'七','8':'八','9':'九','10':'十','11':'十一','12':'十二'}
+        function DatePaper(year,month,branch_name){
+            if(!branch){
+                alert("请选择部门");
+                return;
+            }
+            this.year = year;
+            this.month = month;
+            this.display=function(){
+                var _data={'year':this.year,'month':this.month,'branch_name':branch_name}
+                var url = "/admin/" + "new_report-getdailypaperdate.html";
+                $.get(url,_data,function(response){
+                    var date_html = '';
+                    var business_html = '';
+                    var finance_html = '';
+                    for(var i=0;i<response[0]['week'];i++){
+                        date_html = date_html +  '<div class="day"></div>'
+                    }
+                    $.each(response,function(index,value){
+                        date_html = date_html +' <div class="day"><aside>'+ value['date'].substring(8,10)+'</aside>'
+                        business_html =  '<a href="/admin/new_report-getperdaydataitembybranchid?date=' + value['date']+'&type=business"><button class="businessInput">业务录入</button></a>'
+                        finance_html =   '<a href="/admin/new_report-getperdaydataitembybranchid?date=' + value['date']+'&type=finance"><button class="financeInput">财务录入</button></a>'
+                        value['business']&&(date_html = date_html + business_html)
+                        value['finance']&&(date_html = date_html + finance_html)
+                        date_html = date_html + '</div>';
+                    })
+
+                    $("#date").html(date_html)
+                })
+            }
+        }
+        $("#leftArrow").on('click',function(){
+            var year = $("#dateYear").text();
+            var month = $("#month").text();
+            var branch_name = $("#branch").val();
+            month = chineseToNumber[month]
+            if(month == 1){
+                year = year - 1;
+                $("#dateYear").text(year);
+                $("#month").text(numberToChinese['12'])
+                var a = new DatePaper(year, 12,branch_name);
+                a.display()
+            }else{
+                month = month - 1;
+                month = numberToChinese[month];
+                $("#month").text(month)
+                var a = new DatePaper(year, chineseToNumber[month],branch_name);
+                a.display()
+            }
+        })
+
+        $("#rightArrow").on('click',function(){
+            var year = $("#dateYear").text();
+            var month = $("#month").text();
+            var branch_name = $("#branch").val();
+            month = chineseToNumber[month];
+            if(month == 12){
+                year = parseInt(year) + 1;
+                $("#dateYear").text(year);
+                $("#month").text(numberToChinese['1'])
+                var a = new DatePaper(year, 1,branch_name);
+                a.display()
+            }else{
+                month = month + 1;
+                month = numberToChinese[month];
+                $("#month").text(month)
+                var a = new DatePaper(year, chineseToNumber[month],branch_name);
+                a.display()
+            }
+        })
+        //点击年数显示年框，点击页面其他区域，年框消失
+        $("#dateYear").click(function (event){
+            $("#year").show()
+            $(document).one("click", function (){
+                $("#year").hide();
+            });
+            event.stopPropagation();//阻止事件向上冒泡
+        });
+        $("#year").click(function (event){
+            event.stopPropagation();
+        });
+
+        function Year(startYear,lastYear){
+            this.startYear = startYear;
+            this.lastYear = lastYear;
+            var branch_name = $("#branch").val();
+            this.display = function(){
+                var _html = '';
+                for(;this.startYear<=this.lastYear;this.startYear++){
+                    _html = _html +  '<div class="yearChooseCenterItem">' + this.startYear +'</div>'
+                }
+                $(".yearChooseCenter").html(_html)
+                $(".yearChooseCenterItem").on('click',function(){
+                    var year = $(this).text();
+                    $("#dateYear").text(year);
+                    var month = $("#month").text();
+                    var monthNumber = chineseToNumber[month];
+                    var branch_name = $("#branch").val();
+                    var datePaper = new DatePaper(year,monthNumber,branch_name);
+                    datePaper.display()
+                    $("#year").hide();
+                })
+            }
+        }
+        $("#YearLeft").on('click',function(){
+            var lastYear = parseInt($('.yearChooseCenterItem:first').text()) - 1;
+            var firstYear = lastYear - 8;
+            var year = new Year(firstYear,lastYear)
+            year.display()
+        })
+        $("#YearRight").on('click',function(){
+            var lastYear = parseInt($('.yearChooseCenterItem:last').text()) + 1;
+            var firstYear = lastYear + 8;
+            var year = new Year(lastYear,firstYear)
+            year.display()
+        })
+
+        $(function(){
+            var date=new Date();
+            var year = new Year(date.getFullYear(),date.getFullYear()+8);
+            year.display()
+            $("#dateYear").text(date.getFullYear());
+            $("#month").text(numberToChinese[date.getMonth() +1])
+            //领导进来默认看到所有部门
+            var a = new DatePaper(date.getFullYear(),date.getMonth() +1,"所有部门");
+            a.display();
+
+
+            var leftArrowC = document.getElementById("leftArrow")
+            var leftArrowCtx = leftArrowC.getContext("2d");
+            leftArrowCtx.moveTo(10,0);
+            leftArrowCtx.lineTo(0,15);
+            leftArrowCtx.lineTo(10,30);
+            leftArrowCtx.lineWidth = 2
+            leftArrowCtx.strokeStyle = 'rgb(189,189,189)';
+            leftArrowCtx.stroke()
+
+            var rightArrowC = document.getElementById("rightArrow")
+            var rightArrowCtx = rightArrowC.getContext("2d");
+            rightArrowCtx.moveTo(10,0);
+            rightArrowCtx.lineTo(20,15);
+            rightArrowCtx.lineTo(10,30);
+            rightArrowCtx.lineWidth = 2
+            rightArrowCtx.strokeStyle = 'rgb(189,189,189)';
+            rightArrowCtx.stroke()
+
+            var YearLeftC = document.getElementById("YearLeft")
+            var YearLeftCtx = YearLeftC.getContext("2d");
+            YearLeftCtx.moveTo(10,0);
+            YearLeftCtx.lineTo(0,25);
+            YearLeftCtx.lineTo(10,50);
+            YearLeftCtx.strokeStyle = 'rgba(0,0,255,1)';
+            YearLeftCtx.stroke()
+
+            var YearRightC = document.getElementById("YearRight")
+            var YearRightCtx = YearRightC.getContext("2d");
+            YearRightCtx.moveTo(10,0);
+            YearRightCtx.lineTo(20,25);
+            YearRightCtx.lineTo(10,50);
+            YearRightCtx.strokeStyle = 'rgba(0,0,255,1)';
+            YearRightCtx.stroke()
+
+            $("#branch").on('click',function(event){
+                $('#ul').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul').hide()
+            })
+            $("#ul li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    $(this).css('background','white')
+                }).on('click',function(event){
+                    $("#branch").val($(this).text())
+
+
+                    event.stopPropagation()
+                    $('#ul').hide()
+                })
+            })
+
+        })
+
+
+    </script>
+</block>

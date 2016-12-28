@@ -148,6 +148,23 @@
             if("{:session('admin')['power']}" == 2){
                 $(".mainContent:lt(2)").remove()
             }
+            //检查输入的数据是否符合要求
+            $("input[type='text']").each(function(index,value){
+                $(value).on('keyup',function(){
+                    if(!(value.value == '-')){
+                        if (isNaN(value.value)) {
+                            value.value = "";
+                        }
+                    }
+                    if (value != null) {
+                        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+                        if (value.value.toString().split(".").length > 1 && value.value.toString().split(".")[1].length > 4) {
+                            alert("小数点后多于四位！");
+                            value.value = "";
+                        }
+                    }
+                })
+            })
 
         })
 

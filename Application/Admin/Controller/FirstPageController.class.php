@@ -24,6 +24,8 @@ class FirstPageController extends ChannelsController{
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
         list($working_capital_data,$add_money_product,$date_array) = $this->getAssetProffitLossData($branch_name,$start_date,$end_date);
+        //为了适应插件heighcharts插件需要对数据进行处理
+        array_walk($add_money_product,function(&$value,$key){$value = array('y'=>$value,'sum'=>12);});
         $json['working_capital_data'] = $working_capital_data;
         $json['add_money_product'] = $add_money_product;
         $json['date_array'] = $date_array;
@@ -56,4 +58,36 @@ class FirstPageController extends ChannelsController{
         return array_values($date_array);
     }
 
+    //部门资产结构数据
+    public function getBranchStructure(){
+        $data = I('get.');
+        $branch_name = $data['branch_name'];
+        $date = $data['date'];
+        $PerdayDataItem = D("PerdayDataItem");
+        $Branch = D("Branch");
+        $branch_id = $Branch->getBranchIdByBranchName($branch_name);
+        $branchStructureData = $this->getBranchStructureData($branch_id,$date);
+        //获得上一个交易日期
+        $lastDate = $PerdayDataItem->getLastDate($branch_id,$date);
+        $lastBranchStructureData = $this->getBranchStructureData($branch_id,$lastDate);
+        //计算差值
+        array_walk($lastBranchStructureData,function(&$value,$index)use($branchStructureData){$value = $branchStructureData[$index] - $value;});
+        $json['branchStructureData'] = $lastBranchStructureData;
+        $json['lastBranchStructureData'] = $lastBranchStructureData;
+        $this->ajaxReturn($json);
+    }
+    //获得部门资产结构相关数据
+    public function getBranchStructureData($branch_id,$date){
+        $PerdayDataItem = D("PerdayDataItem");
+        $result = $PerdayDataItem->getDataByBranchDay($branch_id,$date);
+        $branch_structure = [];
+        array_walk($result,function($value,$index) use(&$branch_structure){
+            $branch_structure['asset_money'] +=doubleval($value['asset_money']);
+            $branch_structure['asset_product'] += doubleval($value['asset_product']);
+            $branch_structure['finance_debt'] += doubleval($value['finance_debt']);
+            $branch_structure['receivable'] += doubleval($value['receivable']);
+            $branch_structure['payable'] += doubleval($value['payable']);
+        });
+        return $branch_structure;
+    }
 }

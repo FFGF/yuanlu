@@ -28,6 +28,10 @@
                     <li <if condition="(CONTROLLER_NAME=='NewReport') AND (ACTION_NAME=='datechoose' OR ACTION_NAME=='nextbuttondatechoose' OR ACTION_NAME=='nextbuttonfai' OR ACTION_NAME=='modifydailydata')">class="now"</if>><a href="{:U('admin/NewReport/dateChoose')}">资产日报录入</a></li>
                     <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaper' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
                 </if>
+                <if condition="session('admin')['power'] eq 3">
+                    <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaper' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaperLead')}">资产日报查询</a></li>
+                </if>
+
 
             </ul>
             </li>

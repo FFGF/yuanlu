@@ -127,5 +127,22 @@ class PerdayDataItemModel extends Model{
         }
         return $sum;
     }
-
+    //获得某个部门某天的数据,和操作员权限无关.某个部门下的所有的数据
+    public function getDataByBranchDay($branch_id,$date){
+        $maps['branch_id'] = $branch_id;
+        //如果传递过来的部门id为空，即要查询所有的部门下的所有的项目数据
+        if($branch_id == null){unset($maps['branch_id']);}
+        $maps['effect_date'] = $date;
+        $result = $this->where($maps)->select();
+        return $result;
+    }
+    //获得某个部门上一个交易日期
+    public function getLastDate($branch_id,$date){
+        $maps['branch_id'] = $branch_id;
+        //如果传递过来的部门id为空
+        if($branch_id == null){unset($maps['branch_id']);}
+        $maps['effect_date'] = array('lt',$date);
+        $last_date = $this->where($maps)->order('effect_date desc')->find()['effect_date'];
+        return $last_date;
+    }
 }

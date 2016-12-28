@@ -17,7 +17,7 @@ class NewReportController extends ChannelsController{
 
     //表单输入
     public function dateChoose(){
-        $this->display();
+        $this->display('NewReport/dateChoose');
     }
     //判断某一天是否已经录入数据
     public function judgeDataInput(){
@@ -77,7 +77,7 @@ class NewReportController extends ChannelsController{
         $this->assign('project_qihuo', $result_qihuo);
         $this->assign('project_bank', $result_bank);
         $this->assign('project_cunhuo',$result_cunhuo);
-        $this->display();
+        $this->display("NewReport/modifyDailyData");
     }
     //保存财务，业务数据
     public function saveDailyData(){
@@ -90,11 +90,11 @@ class NewReportController extends ChannelsController{
 
     //查看某一天的数据
     public function lookReport(){
-        $this->display();
+        $this->display("NewReport/lookReport");
     }
     //资产日报
     public function dailyPaper(){
-        $this->display();
+        $this->display("NewReport/dailyPaper");
     }
     public function getDailyPaperDate(){
         $year = I('year');
@@ -123,5 +123,20 @@ class NewReportController extends ChannelsController{
         $this->assign("date",$date);
         $this->display("NewReport/lookReport");
     }
-
+    //领导查看资产日报
+    public function dailyPaperLead(){
+        $Branch = D("Branch");
+        $branch_name = $Branch->getBranchNameByPower(session('admin')['power'],session('admin')['branch_id']);
+        $this->assign('branch_name',$branch_name);
+        $this->display("NewReport/lead/dailyPaper");
+    }
+    //领导查看获得
+    public function getDailyPaperDateLead(){
+        $year = I('year');
+        $month = I('month');
+        $branch_name = I('branch_name');
+        $Branch = D("Branch");
+        $branch_id = $Branch->getBranchIdByBranchName($branch_name);
+        $this->ajaxReturn(formatdailyPaperDate($year,$month,$branch_id));
+    }
 }

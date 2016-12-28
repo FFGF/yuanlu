@@ -17,26 +17,10 @@
         <form name="form1" action="{:U('admin/Account/newuser')}">
 
         <button type="submit">添加新账户</button>
-
         </form>
-
-<!--
-        <form name="form2" method="post" action="{:U('admin/Account/test')}">
--->
-
         <volist name="user" id="item">
-            <div class="user">
+            <div class="user" style="border:solid 1px #FFFFFF">
                 <div class="left">
-
-<!--
-                    <img src="__IMG__/delete.png">
--->
-
-<!--
-                    <a href="{:U('admin/Account/deluser',array('username'=>$key))}" >
-                        <img src="__IMG__/delete.png">
-                    </a>
--->
                     <a href="{:U('admin/Account/deluser',array('username'=>$key))}" >
                         <img src="__IMG__/delete.png" onclick="display_alert()">
                     </a>
@@ -48,29 +32,19 @@
                         }
                     </script>
 
-
-                    <!--
-                    <a href="{:U('admin/Account/newuser')}" >
-                        <img src="__IMG__/editor.png">
-                    </a>
-                    -->
                     <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
                         <img src="__IMG__/editor.png">
                     </a>
-
 
                     <img src="__IMG__/head.png" class="head">
                     <p class="name">{$key}</p>
                     <p class="branch">{$item[0]}</p>
                 </div>
                 <div class="right">
-
                     <a href="{:U('admin/Account/newbankaccot',array('username'=>$key,'branchname'=>$item[0]))}" >
 
                         <img align="right" src="__IMG__/newbankaccount.png">
                     </a>
-
-
                     <volist name="item" id="project">
                        <gt name="key" value="0">
                            <p>{$project}</p>
@@ -80,11 +54,6 @@
             </div>
         </volist>
 
-        <!--
-        </form>
-          -->
-
-
     </div>
 </block>
 <block name="script">
@@ -92,5 +61,20 @@
     <script src="__JS__/BeatPicker.min.js"></script>
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
+        $(".user").mouseover(function(){
+            $(this).css('border','solid 1px #FFF0AC');
+        })
+        $(".user").mouseout(function(){
+            $(this).css('border','solid 1px #FFFFFF');
+        })
+
+        $(".user").each(function(index,value){
+            $(value).on('mouseover',function(){
+                $(this).css('border','solid 1px #FFF0AC');
+            }).on('mouseout',function(){
+                $(this).css('border','solid 1px #FFFFFF');
+            })
+        })
+
     </script>
 </block>
