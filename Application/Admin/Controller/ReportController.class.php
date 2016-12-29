@@ -486,6 +486,7 @@ ORDER BY b.id";
             $formatData[$value] = $this->getBankData($result,$value,'name1');
             $formatData_last[$value] = $this->getBankData($last_result,$value,'name1');
         }
+
         //完善数据，如果董事长当天查看数据，但是没有录入，会无法查看，不知道数据是否输入
         $formatData = $this->formatShowData($formatData);
         $formatData_last = $this->formatShowData($formatData_last);

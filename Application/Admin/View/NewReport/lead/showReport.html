@@ -1,0 +1,172 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script type="text/javascript" src="__JS__/changeDate.js"></script>
+    <style type="text/css">
+        .table tr:last-child td{ background-color: #d8d9ef;}
+    </style>
+</block>
+
+<block name="body">
+    <div class="platCon">
+        <div class="platState white">
+            <div class="platTitle"><h2>数据呈现</h2></div>
+            <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
+            <div class="recordCou">
+                <form method="post" action="{:U('admin/Report/showdata')}" onsubmit="return checkDate()">
+                    <a href="{:U('admin/NewReport/exportexcel')}" style="display: inline-block;width: 100px;height: 23px;background-color: #2e97de;;text-align: center;padding-top: 6px;color: #fff;margin-left: 400px">导出</a>
+                </form>
+                <volist name="formatdata" id="vo">
+                    <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;">{$key}</button>
+                    <table class="table" cellspacing="0" cellpadding="0" style="padding-bottom: 10px">
+                        <thead>
+                        <th width="50px" class="leftradiu">账号</th>
+                        <th width="100px" class="lan">资产现金</th>
+                        <th width="100px">资产品</th>
+                        <th width="100px" class="lan">融资负债/授信</th>
+                        <th width="80px">应收</th>
+                        <th width="80px" class="lan">应付</th>
+                        <th width="100px" class="">资产现金+-</th>
+                        <th width="100px" class="lan">资产品+-</th>
+                        <th width="100px" class="">持仓授信+-</th>
+                        <th width="100px" class="lan ">备注</th>
+                        <th width="50px" class="rightradiu">制单人</th>
+                        </thead>
+                        <tbody>
+                        <volist name="vo" id="item">
+                            <if condition="$item.bank_category eq 0">
+                                <tr>
+                                    <td>{$item.name}</td>
+                                    <if condition="($item.name eq '部门总和') or($item.name eq '') ">
+                                        <td style="text-align:right;">{$item.asset_money|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.asset_product|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.finance_debt|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.receivable|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.payable|number_format=###,2}</td>
+                                        <else/>
+                                        <td style="text-align:right;">{$item.asset_money}</td>
+                                        <td style="text-align:right;">{$item.asset_product}</td>
+                                        <td style="text-align:right;">{$item.finance_debt}</td>
+                                        <td style="text-align:right;">{$item.receivable}</td>
+                                        <td style="text-align:right;">{$item.payable}</td>
+                                    </if>
+                                    <td style="text-align:right;">{$item.sum_asset_money|number_format=###,2}</td>
+                                    <td style="text-align:right;">{$item.sum_asset_product|number_format=###,2}</td>
+                                    <td style="text-align:right;">{$item.sum_finance_debt|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
+                                    <td>{$item.user_name}</td>
+                                </tr>
+                                <else/>
+                                <tr>
+                                    <td>{$item.name}</td>
+                                    <if condition="($item.name eq '部门总和') or($item.name eq '') ">
+                                        <td style="text-align:right;">{$item.asset_money|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.asset_product|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.finance_debt|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.receivable|number_format=###,2}</td>
+                                        <td style="text-align:right;">{$item.payable|number_format=###,2}</td>
+                                        <else/>
+                                        <td style="text-align:right;">${$item.asset_money_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.asset_product_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.finance_debt_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.receivable_navtive|number_format=###,2}</td>
+                                        <td style="text-align:right;">${$item.payable_navtive|number_format=###,2}</td>
+                                    </if>
+                                    <td style="text-align:right;">${$item.sum_asset_money_navtive|number_format=###,2}</td>
+                                    <td style="text-align:right;">${$item.sum_asset_product_navtive|number_format=###,2}</td>
+                                    <td style="text-align:right;">${$item.sum_finance_debt_navtive|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="content">{$item.remark}</td>
+                                    <td>{$item.user_name}</td>
+                                </tr>
+                            </if>
+                        </volist>
+                        </tbody>
+                    </table>
+                </volist>
+
+                <p id='flag' flag="0" style="display: none"></p>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script type="text/javascript">
+        function hide_show(button){
+            var ta = button.nextSibling.nextSibling;
+            var tb = ta.firstChild.nextSibling.nextSibling.nextSibling;
+            var tr = tb.childNodes
+            var tr_filter = new Array()
+            for(var i=0;i<tr.length;i++){
+                if(tr[i].nodeType == 1){
+                    tr_filter.push(tr[i])
+                }
+            }
+            if(button.innerHTML=="所有部门总和"){
+                var flag = document.getElementById('flag').getAttribute('flag')
+                if(flag == 0){
+                    var buton_array = document.getElementsByTagName('button')
+                    for(var i=0;i<buton_array.length-1;i++){
+                        buton_array[i].setAttribute('flag','0')
+                    }
+                    var tb_array = document.getElementsByTagName('tbody')
+                    for(var i=0;i<tb_array.length;i++){
+                        var tr_array = tb_array[i].getElementsByTagName('tr')
+                        for(var j=0;j<tr_array.length-1;j++){
+                            tr_array[j].style.display=""
+                        }
+                    }
+                    document.getElementById('flag').setAttribute('flag','1')
+                }else{
+                    var buton_array = document.getElementsByTagName('button')
+                    for(var i=0;i<buton_array.length-1;i++){
+                        buton_array[i].setAttribute('flag','1')
+                    }
+                    var tb_array = document.getElementsByTagName('tbody')
+                    for(var i=0;i<tb_array.length;i++){
+                        var tr_array = tb_array[i].getElementsByTagName('tr')
+                        for(var j=0;j<tr_array.length-1;j++){
+                            tr_array[j].style.display="none"
+                        }
+                    }
+                    document.getElementById('flag').setAttribute('flag','0')
+                }
+            }else{
+                // 0隐藏状态，1显示状态
+                if(button.getAttribute('flag') == 0){
+                    for(var i=0; i<tr_filter.length-1;i++){
+                        tr_filter[i].style.display="none"
+                    }
+                    button.setAttribute('flag','1')
+                }else{
+                    for(var i=0; i<tr_filter.length-1;i++){
+                        tr_filter[i].style.display=""
+                    }
+                    button.setAttribute('flag','0')
+                }
+            }
+        }
+        $(function () {
+            $(".content").each(function(){
+                var maxwidth=10;
+                if($(this).text().length>maxwidth){
+                    $(this).text($(this).text().substring(0,maxwidth));
+                    $(this).html($(this).html()+'…');
+                }
+            });
+            var tb_array = document.getElementsByTagName('tbody')
+            for(var i=0;i<tb_array.length;i++){
+                var tr_array = tb_array[i].getElementsByTagName('tr')
+                for(var j=0;j<tr_array.length-1;j++){
+                    tr_array[j].style.display="none"
+                }
+            }
+            if("{:session('s_time')}"){
+                $('#s_time').val("{:date('Y-m-d',session('s_time'))}");
+            }
+        })
+    </script>
+</block>

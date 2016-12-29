@@ -29,7 +29,7 @@
                     <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaper' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaper')}">资产日报查询</a></li>
                 </if>
                 <if condition="session('admin')['power'] eq 3">
-                    <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaper' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaperLead')}">资产日报查询</a></li>
+                    <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaperlead' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaperLead')}">资产日报查询</a></li>
                 </if>
 
 

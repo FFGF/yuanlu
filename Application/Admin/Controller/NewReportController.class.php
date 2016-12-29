@@ -137,6 +137,32 @@ class NewReportController extends ChannelsController{
         $branch_name = I('branch_name');
         $Branch = D("Branch");
         $branch_id = $Branch->getBranchIdByBranchName($branch_name);
-        $this->ajaxReturn(formatdailyPaperDate($year,$month,$branch_id));
+        //如果部门id为空，说明是查看所有部门
+        $branch_id == null ? $this->ajaxReturn(formatdailyPaperDateLead($year,$month,$branch_name)): $this->ajaxReturn(formatdailyPaperDate($year,$month,$branch_id));
     }
+    //领导根据日期查看数据
+    public function getPerdayDataLead(){
+        $data = I('get.');
+        $date = $data['date'];
+        $branch_name = $data['branch_name'];
+        $this->getLeadData($date,$branch_name);
+        die();
+    }
+    //获得领导查看的数据
+    public function getLeadData($date,$branch_name){
+        $Branch = D("Branch");
+        $PerdayDataItem = D("PerdayDataItem");
+        $branch_id = $Branch->getBranchIdByBranchName($branch_name);
+        $data = $PerdayDataItem->getLeadData($date,$branch_id);
+        $this->assign('formatdata',$data);
+        $this->display('NewReport/lead/showReport');
+    }
+    //数据导出
+    public function exportExcel(){
+        $objPHPExcel = exportExcel();
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+        browser_export('Excel2007','源庐.xlsx');//输出到浏览器
+        $objWriter->save("php://output");
+    }
+
 }

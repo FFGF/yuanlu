@@ -19,6 +19,15 @@ class PerdayDataItemModel extends Model{
         is_null($result)&&$flag = false;
         return $flag;
     }
+    //判断某一天是否录入数据
+    public function judgeDataInputLead($category,$date){
+        $maps['pd.effect_date'] = $date;
+        $maps['p.category'] = array('in',$category);
+        $flag = true;
+        $result = $this->alias('pd')->join('project p on pd.project_id=p.id')->where($maps)->select();
+        is_null($result)&&$flag = false;
+        return $flag;
+    }
     //获得莫某一天，某一个部门的数据，根据project的category,用户的power。如果power为2银行人员，则不按照部门来查找，因为没有项目属于银行部门
     public function getOneDayOneBranchByCategory($date,$branch_id,$category,$power){
         $maps['pd.branch_id'] = $branch_id;
@@ -144,5 +153,80 @@ class PerdayDataItemModel extends Model{
         $maps['effect_date'] = array('lt',$date);
         $last_date = $this->where($maps)->order('effect_date desc')->find()['effect_date'];
         return $last_date;
+    }
+    //获得领导查看部门数据
+    public function getLeadData($date,$branch_id){
+        $Model = new Model();
+        $Branch = D("Branch");
+        //获得上一个交易日期
+        $last_date = $this->getLastDate($branch_id,$date);
+        if($branch_id == null){
+            $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
+            if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
+            if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),format(pd.asset_product,2)) as asset_product,
+            if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
+            if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
+            if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
+            pd.remark,p.bank_category,e.onshore_exchange_rate,
+            pd.asset_money as asset_money_navtive,
+            pd.asset_product as asset_product_navtive,
+            pd.finance_debt as finance_debt_navtive,
+            pd.receivable as receivable_navtive,
+            pd.payable as payable_navtive,
+            u.user_name
+            from branch b,perday_data_item pd,project p,exchange_rate e,user u
+            where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date and u.id = pd.user_id
+            and e.effect_date='datetime'
+            ORDER BY b.id";
+        }else{
+            $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
+            if(p.bank_category = 1, format(pd.asset_money * e.onshore_exchange_rate,2),format(pd.asset_money,2)) as asset_money,
+            if(p.bank_category = 1, format(pd.asset_product * e.onshore_exchange_rate,2),format(pd.asset_product,2)) as asset_product,
+            if(p.bank_category = 1, format(pd.finance_debt * e.onshore_exchange_rate,2),format(pd.finance_debt,2)) as finance_debt,
+            if(p.bank_category = 1, format(pd.receivable * e.onshore_exchange_rate,2),format(pd.receivable,2)) as receivable,
+            if(p.bank_category = 1, format(pd.payable * e.onshore_exchange_rate,2),format(pd.payable,2)) as payable,
+            pd.remark,p.bank_category,e.onshore_exchange_rate,
+            pd.asset_money as asset_money_navtive,
+            pd.asset_product as asset_product_navtive,
+            pd.finance_debt as finance_debt_navtive,
+            pd.receivable as receivable_navtive,
+            pd.payable as payable_navtive
+            from branch b,perday_data_item pd,project p,exchange_rate e
+            where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+            and e.effect_date='datetime' and b.id = $branch_id
+            ORDER BY b.id";
+        }
+        $result = $Model->query(str_replace('datetime',$date,$select));
+        //上一个交易日的数据
+        $last_result = $Model->query(str_replace('datetime',$last_date,$select));
+
+        $maps['id'] = array('eq',$branch_id);
+        if($branch_id == null){
+            if(session('admin')['power'] >= 2){
+                unset($maps['id']);
+                $maps['id'] = array('not in',array('10','11','12'));//去掉一些无用的部门
+            }
+        }
+        $branch_name = M('branch')->where($maps)->getField('name',true);
+        $formatData = [];
+        $formatData_last = [];
+        foreach($branch_name as $key=>$value){
+            $formatData[$value] = getBankData($result,$value,'name1');
+            $formatData_last[$value] = getBankData($last_result,$value,'name1');
+        }
+        //完善数据，如果董事长当天查看数据，但是没有录入，会无法查看，不知道数据是否输入
+        $formatData = formatShowData($formatData);
+        $formatData_last = formatShowData($formatData_last);
+        $formatData_last = sumFuck($formatData_last);
+        $formatData = sumFuck($formatData);
+        if($branch_id == null){
+            $formatData = subtractDataAll($formatData,$formatData_last);
+        }else{
+            $formatData = subtractData($formatData, $formatData_last);
+        }
+        
+        //数据缓存
+        S(session('admin')['id'].'formatData',array_reverse($formatData));
+        return array_reverse($formatData);
     }
 }

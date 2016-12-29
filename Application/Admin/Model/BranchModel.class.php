@@ -40,4 +40,8 @@ class BranchModel extends Model{
     public function getBranchIdByBranchName($branch_name){
         return $this->where('name='.'\''.$branch_name.'\'')->getField('id',true)[0];
     }
+    //根据部门id获得部门name
+    public function getBranchNameById($branch_id){
+        return $this->where('id='.'\''.$branch_id.'\'')->getField('name',true)[0];
+    }
 }

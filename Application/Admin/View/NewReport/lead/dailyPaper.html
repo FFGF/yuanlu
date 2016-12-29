@@ -69,7 +69,7 @@
             this.month = month;
             this.display=function(){
                 var _data={'year':this.year,'month':this.month,'branch_name':branch_name}
-                var url = "/admin/" + "new_report-getdailypaperdate.html";
+                var url = "/admin/" + "new_report-getdailypaperdatelead.html";
                 $.get(url,_data,function(response){
                     var date_html = '';
                     var business_html = '';
@@ -79,13 +79,13 @@
                     }
                     $.each(response,function(index,value){
                         date_html = date_html +' <div class="day"><aside>'+ value['date'].substring(8,10)+'</aside>'
-                        business_html =  '<a href="/admin/new_report-getperdaydataitembybranchid?date=' + value['date']+'&type=business"><button class="businessInput">业务录入</button></a>'
-                        finance_html =   '<a href="/admin/new_report-getperdaydataitembybranchid?date=' + value['date']+'&type=finance"><button class="financeInput">财务录入</button></a>'
+                        console.log(value['branch_name'])
+                        business_html =  '<a href="/admin/new_report-getperdaydatalead?date=' + value['date']+'&type=business&branch_name='+value['branch_name']+'"><button class="businessInput">业务录入</button></a>'
+                        finance_html =   '<a href="/admin/new_report-getperdaydatalead?date=' + value['date']+'&type=finance&branch_name='+value['branch_name']+'"><button class="financeInput">财务录入</button></a>'
                         value['business']&&(date_html = date_html + business_html)
                         value['finance']&&(date_html = date_html + finance_html)
                         date_html = date_html + '</div>';
                     })
-
                     $("#date").html(date_html)
                 })
             }
@@ -183,7 +183,7 @@
             $("#dateYear").text(date.getFullYear());
             $("#month").text(numberToChinese[date.getMonth() +1])
             //领导进来默认看到所有部门
-            var a = new DatePaper(date.getFullYear(),date.getMonth() +1,"所有部门");
+            var a = new DatePaper(date.getFullYear(),date.getMonth() +1,"现货1");
             a.display();
 
 
@@ -236,6 +236,12 @@
                 }).on('click',function(event){
                     $("#branch").val($(this).text())
 
+                    var year = $("#dateYear").text();
+                    var month = $("#month").text();
+                    month = chineseToNumber[month];
+                    var a = new DatePaper(year,month,$(this).text());
+                    console.log(a)
+                    a.display();
 
                     event.stopPropagation()
                     $('#ul').hide()
