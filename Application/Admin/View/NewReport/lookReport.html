@@ -4,14 +4,19 @@
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style>
-
+        .export{border: 2px solid #8ccd5a;margin-left: 300px;height: 30px;width: 100px;border-radius: 13px;cursor: pointer;color: #8ccd5a;background: white;}
     </style>
 </block>
 <block name="body">
     <!--预览及确认-->
     <div class="yljqr">
         <div class="nav">资产日报 &gt; <i class="now">资产日报查阅</i></div>
-        <div class="step dailyLook">日报查看</div>
+        <div class="step dailyLook">日报查看
+            <if condition="session('admin')['power'] eq 2">
+                <?php $timestamp = strtotime($date);?>
+                <a href="{:U('admin/NewReport/exportexcelfinance',array('date'=>$timestamp))}"><button class="export">数据导出</button></a>
+            </if>
+        </div>
         <form>
             <div class="mainContent mt">
                 <div class="top"><div class="date">{$date}</div></div>

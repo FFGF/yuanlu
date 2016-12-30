@@ -114,8 +114,11 @@ class NewReportController extends ChannelsController{
 
         session('formatData',$OneDayOneBranchData);
         session('dateChoose',$date);
-        $type == 'business' &&($result_qihuo = getValueByKey('category','2',$OneDayOneBranchData))&&($result_cunhuo = getValueByKey('category','3',$OneDayOneBranchData));
-        $type == 'finance' &&($result_bank = getValueByKey('category','1',$OneDayOneBranchData));
+        //之前根据button类型来显示一个部门的业务，财务数据。。。后来修改了，全部显示
+//        $type == 'business' &&
+        ($result_qihuo = getValueByKey('category','2',$OneDayOneBranchData))&&($result_cunhuo = getValueByKey('category','3',$OneDayOneBranchData));
+//        $type == 'finance' &&
+        ($result_bank = getValueByKey('category','1',$OneDayOneBranchData));
 
         $this->assign("result_qihuo",$result_qihuo);
         $this->assign("result_cunhuo",$result_cunhuo);
@@ -164,5 +167,11 @@ class NewReportController extends ChannelsController{
         browser_export('Excel2007','源庐.xlsx');//输出到浏览器
         $objWriter->save("php://output");
     }
-
+    //财务人员导出数据
+    public function exportExcelFinance(){
+        $date = date('Y-m-d',I('date'));
+        $PerdayDataItem = D("PerdayDataItem");
+        $data = $PerdayDataItem->getLeadData($date,null);
+        $this->exportExcel();
+    }
 }

@@ -190,16 +190,16 @@ class PerdayDataItemModel extends Model{
             pd.asset_product as asset_product_navtive,
             pd.finance_debt as finance_debt_navtive,
             pd.receivable as receivable_navtive,
-            pd.payable as payable_navtive
-            from branch b,perday_data_item pd,project p,exchange_rate e
-            where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date
+            pd.payable as payable_navtive,
+            u.user_name
+            from branch b,perday_data_item pd,project p,exchange_rate e,user u
+            where pd.project_id = p.id and pd.branch_id = b.id and pd.effect_date = e.effect_date and u.id = pd.user_id
             and e.effect_date='datetime' and b.id = $branch_id
             ORDER BY b.id";
         }
         $result = $Model->query(str_replace('datetime',$date,$select));
         //上一个交易日的数据
         $last_result = $Model->query(str_replace('datetime',$last_date,$select));
-
         $maps['id'] = array('eq',$branch_id);
         if($branch_id == null){
             if(session('admin')['power'] >= 2){
@@ -224,7 +224,6 @@ class PerdayDataItemModel extends Model{
         }else{
             $formatData = subtractData($formatData, $formatData_last);
         }
-        
         //数据缓存
         S(session('admin')['id'].'formatData',array_reverse($formatData));
         return array_reverse($formatData);

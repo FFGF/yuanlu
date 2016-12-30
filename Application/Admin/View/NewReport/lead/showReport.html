@@ -6,6 +6,12 @@
     <script type="text/javascript" src="__JS__/changeDate.js"></script>
     <style type="text/css">
         .table tr:last-child td{ background-color: #d8d9ef;}
+        /*去掉button点击时的虚线*/
+        ::-moz-focus-inner{border:0px;}
+        .table thead tr th.lan{ background: #e3ebf4;}
+        .table thead tr th{ height: 50px; line-height: 50px; text-align: center; font-size: 15px; color: #717787; background: #e3ebf4; font-weight: 100;}
+        .table tr:nth-child(odd) td  {  background-color: #e3e3e3;  }
+        .table tr:nth-child(even) td  {  background-color:#c7e0f2;  }
     </style>
 </block>
 
@@ -16,12 +22,12 @@
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
                 <form method="post" action="{:U('admin/Report/showdata')}" onsubmit="return checkDate()">
-                    <a href="{:U('admin/NewReport/exportexcel')}" style="display: inline-block;width: 100px;height: 23px;background-color: #2e97de;;text-align: center;padding-top: 6px;color: #fff;margin-left: 400px">导出</a>
+                    <a href="{:U('admin/NewReport/exportexcel')}" style="font-size:15px ;display: inline-block;border: 2px solid #8ccd5a;width: 100px;height: 23px;color: #8ccd5a;text-align: center;padding-top: 6px;margin-left: 400px;border-radius: 5px">导出</a>
                 </form>
                 <volist name="formatdata" id="vo">
-                    <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;">{$key}</button>
+                    <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;border: 2px solid #8ccd5a;border-radius: 13px;cursor: pointer;color: #8ccd5a;background: white;">{$key}</button>
                     <table class="table" cellspacing="0" cellpadding="0" style="padding-bottom: 10px">
-                        <thead>
+                        <thead style="background: #e3ebf4;color: #717787;">
                         <th width="50px" class="leftradiu">账号</th>
                         <th width="100px" class="lan">资产现金</th>
                         <th width="100px">资产品</th>
