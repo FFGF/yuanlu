@@ -42,12 +42,14 @@
                 </ul>
             </li>
 
-            <li <if condition="CONTROLLER_NAME=='Finance'">class="active arrowDown"</if>>
+            <if condition="session('admin')['power'] eq 2">
+                <li <if condition="CONTROLLER_NAME=='Finance'">class="active arrowDown"</if>>
                 <i class="icon icon4a"></i>财务管理<i class="arrowa"></i>
                 <ul class="childLi">
                     <li <if condition="CONTROLLER_NAME=='Finance' AND (ACTION_NAME=='inputexchangerate')">class="now"</if>><a href="{:U('admin/Finance/inputExchangeRate')}">汇率录入</a></li>
                 </ul>
-            </li>
+                </li>
+            </if>
 
 
 

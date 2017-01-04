@@ -10,14 +10,8 @@
         .hllr{margin-top: 10px;background-color: red;width: 900px;background: white;overflow: hidden;position: relative}
         .hllr .left{width: 50%;background-color: white;padding-top: 16px;float: left;padding-bottom: 100px}
         .hllr .tip{font-size: 20px;width: 100px;margin: 0px auto;margin-bottom: 20px;text-align: center;border-bottom: 4px solid #01b6e1;height: 30px;}
-        .hllr .left .zai{display: inline-block;width: 60px;margin-left: 150px;}
-        .hllr .left .li{display: inline-block;margin-left: 56px;}
-        .hllr .left .ul{margin-left: 36px;margin-top: 10px;font-size: 14px;width: 300px}
-        .hllr .left .ul li:hover{background-color: deepskyblue;cursor: pointer}
-        .hllr .left .ul .zaiRate{margin-left: 45px;color: #e78790}
-        .hllr .left .ul .liRate{margin-left: 77px;color: #84d2ec;}
-        .hllr .left .ul li{margin-bottom: 10px}
-        .hllr .left button{cursor: pointer;background-color: white;width: 100px;border: 2px solid #e2e2e3;margin-left: 130px;margin-top: 25px;font-size: 17px;border-radius: 5px;color: #e2e2e3;}
+        .hllr .left ul{width: 290px;margin: 30px auto;font-size: 15px; color: #d7d7db;}
+        .hllr .left ul li{margin-bottom: 15px;line-height: 25px}
 
         .hllr .right{padding-top: 16px;float: left;background-color: white;width: 50%;padding-bottom: 20px}
         .hllr .right ul{margin-left: 100px;}
@@ -39,32 +33,24 @@
 <block name="body">
     <!--汇率录入-->
     <div class="rbrqxz ">
-        <div class="nav">财务管理 &gt; <i class="now">汇率录入</i> &gt;</div>
+        <div class="nav">财务管理 &gt; <i class="now">汇率录入</i> &gt; <i class="now">历史汇率</i> &gt; <i class="now">汇率修改</i></div>
         <div class="step">
-            <div class="step1 color marginLeft">汇率录入</div>
+            <div class="step1 color marginLeft">汇率修改</div>
         </div>
         <div class="hllr">
             <div class="left">
-                <div class="tip">历史汇率</div>
-                <h3 class="zai">在岸汇率</h3>
-                <h3 class="li">离岸汇率</h3>
-                <ul class="ul">
-                    <volist name="historyExchangeRate" id="item">
-                        <if condition="$key gt 7">
-                            <a href="{:U('admin/Finance/modifyExchangeRate',array('effect_date'=>strtotime($item['effect_date'])))}"><li style="display: none"><i class="date">{$item['effect_date']}</i><i class="zaiRate">{$item['onshore_exchange_rate']}</i><i class="liRate">{$item['offshore_exchange_rate']}</i></li></a>
-                            <else/>
-                            <a href="{:U('admin/Finance/modifyExchangeRate',array('effect_date'=>strtotime($item['effect_date'])))}"><li><i class="date">{$item['effect_date']}</i><i class="zaiRate">{$item['onshore_exchange_rate']}</i><i class="liRate">{$item['offshore_exchange_rate']}</i></li></a>
-                        </if>
-
-                    </volist>
-
+                <div class="tip">修改须知</div>
+                <ul>
+                    <li>修改须知修改须知修改须知修改须知修改须知修改须知</li>
+                    <li>修改须知修改须知修改须知修改须知修改须知修改须知</li>
+                    <li>修改须知修改须知修改须知修改须知修改须知修改须知</li>
+                    <li>修改须知修改须知修改须知修改须知修改须知修改须知</li>
                 </ul>
-                <button id="all">全部</button>
             </div>
             <div class="right">
                 <div class="tip">汇率录入</div>
                 <ul>
-                    <li><i class="bold">日期：</i><div class="input-parent input-container" style="margin-left: 46px;margin-top: -19px;"><input name="effect_date" id="effect_date" type="text" placeholder="请选择录入日期" data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker"></div></li>
+                    <li><i class="bold">日期：</i><input name="effect_date" id="effect_date" type="text" value="{$date}" readonly="true"></li>
                     <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate"></li>
                     <li><i class="bold">在岸汇率</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate"></li>
                 </ul>
@@ -83,24 +69,6 @@
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
         $(function(){
-            $("#all").on('click',function(){
-                $(".left .ul li").css("display","block");
-                $(this).css("background-color","#e15e6b").css("border","0px");
-            })
-            myDatePicker.on("select",function(data){
-                var date = data.string
-                //需要做一个判断，这个日期数据是否填写完毕
-                var url = "/admin/" + "finance-judgeexchangerateinput.html";
-                var data = {'date':date};
-                $.get(url,data,function(response){
-                    if(response['code'] == 1){
-                        alert("数据已经存储了")
-                        $("#effect_date").val("")
-                    }else if(response['code'] == 0){
-                        $("#effect_date").val(date)
-                    }
-                })
-            })
 
             $("#submit").on('click',function(){
                 var effect_date = $("#effect_date").val();
@@ -122,13 +90,12 @@
                 var data = {"effect_date":effect_date,"onshore_exchange_rate":onshore_exchange_rate,"offshore_exchange_rate":offshore_exchange_rate};
                 $.get(url,data,function(response){
                     if(response['code'] == 1){
-                        alert("数据保存成功");
+                        alert("数据修改成功");
                         window.location.reload()
                     }else{
-                        alert("数据保存失败")
+                        alert("数据修改失败")
                     }
                 })
-
             })
         })
 
