@@ -23,9 +23,17 @@ class FirstPageController extends ChannelsController{
         $branch_name = $data['branch_name'];
         $start_date = $data['start_date'];
         $end_date = $data['end_date'];
-        list($working_capital_data,$add_money_product,$date_array) = $this->getAssetProffitLossData($branch_name,$start_date,$end_date);
+        list($working_capital_data,$add_money_product,$date_array,$float_asset_money,$float_asset_product) = $this->getAssetProffitLossData($branch_name,$start_date,$end_date);
         //为了适应插件heighcharts插件需要对数据进行处理
-        array_walk($add_money_product,function(&$value,$key){$value = array('y'=>$value,'sum'=>12);});
+        //浮动盈亏 = 资产现金＋资产品－运营资金
+        array_walk($add_money_product,function(&$value,$key) use($working_capital_data,$float_asset_money,$float_asset_product,$working_capital_data){
+            $value = array('y'=>$value,
+                'FloatProfit'=>$value-$working_capital_data[$key],
+                'FloatAssetMoney'=>$float_asset_money[$key],
+                'FloatAssetProduct'=>$float_asset_product[$key],
+                'working'=>$working_capital_data[$key]);
+        });
+
         $json['working_capital_data'] = $working_capital_data;
         $json['add_money_product'] = $add_money_product;
         $json['date_array'] = $date_array;
@@ -45,7 +53,11 @@ class FirstPageController extends ChannelsController{
         $working_capital_data = $WorkingCapital->getDataByBranchId($branch_id,$date_array);
         //获得资产总和
         $add_money_product = $PerdayDataItem->getAddMoneyProduct($date_array,$branch_name);
-        return [$working_capital_data,$add_money_product,$date_array];
+        //获得资产现金浮动
+        $float_asset_money = $PerdayDataItem->getFloatAssetMoney($date_array,$branch_name);
+        //获得资产品浮动
+        $float_asset_product = $PerdayDataItem->getFloatAssetProduct($date_array,$branch_name);
+        return [$working_capital_data,$add_money_product,$date_array,$float_asset_money,$float_asset_product];
     }
     //获得有数据的日期
     public function getDataDate($date_array,$branch_id,$PerdayDataItem){

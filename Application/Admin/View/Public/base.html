@@ -32,10 +32,8 @@
                     <li <if condition="CONTROLLER_NAME=='NewReport' AND (ACTION_NAME=='dailypaperlead' OR ACTION_NAME=='getperdaydataitembybranchid')">class="now"</if>><a href="{:U('admin/NewReport/dailyPaperLead')}">资产日报查询</a></li>
                 </if>
 
-
             </ul>
             </li>
-
 
             <li class=" arrowDown">
                 <i class="icon icon3a"></i>账户管理<i class="arrowa"></i>
@@ -44,9 +42,10 @@
                 </ul>
             </li>
 
-            <li class=" arrowDown">
+            <li <if condition="CONTROLLER_NAME=='Finance'">class="active arrowDown"</if>>
                 <i class="icon icon4a"></i>财务管理<i class="arrowa"></i>
                 <ul class="childLi">
+                    <li <if condition="CONTROLLER_NAME=='Finance' AND (ACTION_NAME=='inputexchangerate')">class="now"</if>><a href="{:U('admin/Finance/inputExchangeRate')}">汇率录入</a></li>
                 </ul>
             </li>
 

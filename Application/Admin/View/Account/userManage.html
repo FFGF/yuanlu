@@ -11,18 +11,81 @@
 
 </block>
 <block name="body">
-    <div class="nav">账户管理 &gt; 账户管理</div>
-    <div class="accountUserManageTop">账户管理</div>
-    <div class="accountUserManageBottom">
-        <form name="form1" action="{:U('admin/Account/newuser')}">
 
-        <button type="submit">添加新账户</button>
-        </form>
+    <div class="toplabel">
+        <div style="width:200px;float:left">
+            <p>账户管理 &gt; <font color="#0099FF">&nbsp账户列表</font></p>
+        </div>
+
+        <div style="margin-left:540px;float:left">
+            <form name="form1" action="{:U('admin/Account/newuser')}">
+                <button type="submit" style="background-color: #8ccd5a;border: 0 none;border-radius: 5px;color: white;height: 30px;width: 100px">添加新账户</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div style="width: 980px;height: 40px;background-color: #FFFFFF;font-size: 20px;padding-left: 20px;margin-left: 30px;margin-top: 30px;color: #707070;border-radius: 5px;line-height: 40px;">
+        账户管理
+    </div>
+
+
+    <div class="accountUserManageBottom">
+
         <volist name="user" id="item">
-            <div class="user" style="border:solid 1px #FFFFFF">
+            <div class="user" style="border:solid 2px #E0E0E0">
                 <div class="left">
+
+
+
+                    <!--  添加鼠标的移入与 移出 -->
+                    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+
+                    <script>
+
+                        $(".user").mouseover(function(){
+                            $(this).css('border','solid 2px #FF99FF');
+                        })
+                        $(".user").mouseout(function(){
+                            $(this).css('border','solid 2px #E0E0E0');
+                        })
+                    </script>
+
+
+                    <!--
+
+                    $(".user").each(function(index,value){
+                        console.log(index)
+                        console.log(value)
+                        $(value).on('mouseover',function(){
+                            $(this).css('border','solid 1px #FFF0AC');
+                        }).on('mouseout',function(){
+                            $(this).css('border','solid 1px #FFFFFF');
+                        })
+                    })
+
+
+                    <a href="{:U('admin/Account/newuser')}" >
+                        <img src="__IMG__/editor.png">
+                    </a>
+                    -->
+
+
+
+                    <img src="__IMG__/head.png" class="head">
+                    <p class="name">{$key}</p>
+                    <p class="branch">{$item[0]}</p>
+                </div>
+                <div class="right">
+
+
+
+                    <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
+                        <img  style="margin-left: 120px" src="__IMG__/editor.png">
+                    </a>
+
                     <a href="{:U('admin/Account/deluser',array('username'=>$key))}" >
-                        <img src="__IMG__/delete.png" onclick="display_alert()">
+                        <img  src="__IMG__/delete.png" onclick="display_alert()">
                     </a>
 
                     <script type="text/javascript">
@@ -32,27 +95,21 @@
                         }
                     </script>
 
-                    <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
-                        <img src="__IMG__/editor.png">
-                    </a>
 
-                    <img src="__IMG__/head.png" class="head">
-                    <p class="name">{$key}</p>
-                    <p class="branch">{$item[0]}</p>
-                </div>
-                <div class="right">
-                    <a href="{:U('admin/Account/newbankaccot',array('username'=>$key,'branchname'=>$item[0]))}" >
 
-                        <img align="right" src="__IMG__/newbankaccount.png">
-                    </a>
+                    <br>
                     <volist name="item" id="project">
-                       <gt name="key" value="0">
-                           <p>{$project}</p>
-                       </gt>
+                        <gt name="key" value="0">
+                            <p style="color:#707070">{$project}</p>
+                        </gt>
                     </volist>
                 </div>
             </div>
         </volist>
+
+        <!--
+        </form>
+          -->
 
     </div>
 </block>
@@ -61,20 +118,5 @@
     <script src="__JS__/BeatPicker.min.js"></script>
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
-        $(".user").mouseover(function(){
-            $(this).css('border','solid 1px #FFF0AC');
-        })
-        $(".user").mouseout(function(){
-            $(this).css('border','solid 1px #FFFFFF');
-        })
-
-        $(".user").each(function(index,value){
-            $(value).on('mouseover',function(){
-                $(this).css('border','solid 1px #FFF0AC');
-            }).on('mouseout',function(){
-                $(this).css('border','solid 1px #FFFFFF');
-            })
-        })
-
     </script>
 </block>

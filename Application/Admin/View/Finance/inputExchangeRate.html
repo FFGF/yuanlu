@@ -1,0 +1,107 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+    <style type="text/css">
+        .rbrqxz .now{color:#01b6e1;}
+        .rbrqxz .step .color{color:#918f8f}
+        .rbrqxz .step .marginLeft{margin-left: -20px}
+        .hllr{margin-top: 10px;background-color: red;width: 900px;background: white;overflow: hidden;position: relative}
+        .hllr .left{width: 50%;background-color: white;padding-top: 16px;float: left;padding-bottom: 100px}
+        .hllr .tip{font-size: 20px;width: 100px;margin: 0px auto;margin-bottom: 20px;text-align: center;border-bottom: 4px solid #01b6e1;height: 30px;}
+        .hllr .left .zai{display: inline-block;width: 60px;margin-left: 150px;}
+        .hllr .left .li{display: inline-block;margin-left: 56px;}
+        .hllr .left .ul{margin-left: 36px;margin-top: 10px;font-size: 14px}
+        .hllr .left .ul .zaiRate{margin-left: 45px;color: #e78790}
+        .hllr .left .ul .liRate{margin-left: 77px;color: #84d2ec;}
+        .hllr .left .ul li{margin-bottom: 10px}
+        .hllr .left button{cursor: pointer;background-color: white;width: 100px;border: 2px solid #e2e2e3;margin-left: 130px;margin-top: 25px;font-size: 17px;border-radius: 5px;color: #e2e2e3;}
+
+        .hllr .right{padding-top: 16px;float: left;background-color: white;width: 50%;padding-bottom: 20px}
+        .hllr .right ul{margin-left: 100px;}
+        .hllr .right ul li{margin-bottom: 20px; border-bottom: 2px solid #f3f3f5; width: 300px;height: 30px;}
+        .hllr .right ul li input{font-size: 16px;}
+        .hllr .right ul > li:nth-of-type(1) input{margin-left: 70px;}
+        .hllr .right ul > li:nth-of-type(2) input{margin-left: 39px;}
+        .hllr .right ul > li:nth-of-type(3) input{margin-left: 56px;}
+        .hllr .right ul > li:last-of-type{margin-bottom: 0px }
+        .hllr .right .bold{color: black;font-size: 16px;font-weight: bold;}
+        .hllr .right button{cursor: pointer;width: 100px;margin-top: 25px;font-size: 17px;border-radius: 5px;color: #e2e2e3;margin-top: 160px;background-color: white;}
+        .hllr .right .leftButton{margin-left: 90px;border: 2px solid #8ccd5a;color:#8ccd5a}
+        .hllr .right .rightButton{margin-left: 60px;border: 2px solid #8ccd5a;background-color: #8ccd5a;color: white}
+        .hllr .centerBarRed{position: absolute;background-color: #e15e6b;width: 5px;height: 214px;left: 50%;top: 20px;}
+        .hllr .centerBarGray{position: absolute;width: 5px;height: 200px;background-color: #e2e2e3;left: 50%;top: 234px;}
+    </style>
+</block>
+<block name="body">
+    <!--汇率录入-->
+    <div class="rbrqxz ">
+        <div class="nav">财务管理 &gt; <i class="now">汇率录入</i> &gt;</div>
+        <div class="step">
+            <div class="step1 color marginLeft">汇率录入</div>
+        </div>
+        <div class="hllr">
+            <div class="left">
+                <div class="tip">历史汇率</div>
+                <h3 class="zai">在岸汇率</h3>
+                <h3 class="li">离岸汇率</h3>
+                <ul class="ul">
+                    <volist name="historyExchangeRate" id="item">
+                        <if condition="$key gt 7">
+                            <li style="display: none"><i class="date">{$item['effect_date']}</i><i class="zaiRate">{$item['onshore_exchange_rate']}</i><i class="liRate">{$item['offshore_exchange_rate']}</i></li>
+                            <else/>
+                            <li><i class="date">{$item['effect_date']}</i><i class="zaiRate">{$item['onshore_exchange_rate']}</i><i class="liRate">{$item['offshore_exchange_rate']}</i></li>
+                        </if>
+
+                    </volist>
+
+                </ul>
+                <button id="all">全部</button>
+            </div>
+            <div class="right">
+                <div class="tip">汇率录入</div>
+                <form action="{:U('Admin/Finance/saveExchangeRate')}" method="post" onsubmit="return checkExchangeRate()">
+                <ul>
+                    <li><i class="bold">日期：</i><div class="input-parent input-container" style="margin-left: 46px;margin-top: -19px;"><input name="effect_date" id="effect_date" type="text" placeholder="请选择录入日期" data-beatpicker="true" data-beatpicker-module="clear"></div></li>
+                    <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate"></li>
+                    <li><i class="bold">在岸汇率</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate"></li>
+                </ul>
+                <button class="leftButton" type="reset">取消</button><button class="rightButton">提交</button>
+                </form>
+            </div>
+            <div class="centerBarRed"></div>
+            <div class="centerBarGray"></div>
+        </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+
+        function checkExchangeRate(){
+            var effect_date = $("#effect_date").val();
+            if(!effect_date){
+                alert("请选择日期");
+                return false;
+            }
+            var onshore_exchange_rate = $("#onshore_exchange_rate").val();
+
+            var offshore_exchange_rate = $("#offshore_exchange_rate").val();
+            return false
+        }
+
+        $(function(){
+            $("#all").on('click',function(){
+                $(".left .ul li").css("display","block");
+                $(this).css("background-color","#e15e6b").css("border","0px");
+            })
+
+        })
+
+    </script>
+</block>

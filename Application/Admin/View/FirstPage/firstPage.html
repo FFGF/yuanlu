@@ -121,19 +121,8 @@
                     };
                     var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
                     var series =  [
-                        {name: '可用资产',
-                            data:add_money_product,
-                            tooltip:{
-                                valueSuffix: '元',
-                                shared:true,
-                                useHTML: true,
-                                headerFormat: '<small>{point.key}</small><table>',
-                                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
-                                +'<br><tr width="100px"><td style="color: {series.color}">总和：</td><td style="text-align: right"><b>{point.sum}元</b></td></tr>',
-                                footerFormat: '</table>'
-                            }
-                        },
                         {name: '运营资金', data: working_capital_data,
+                            color:'#d76364',
                             tooltip:{
                                 valueSuffix: '元',
                                 shared:true,
@@ -141,6 +130,22 @@
                                 headerFormat: '<small>{point.key}</small><table>',
                                 pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
                                 '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+                                footerFormat: '</table>'
+                            }
+                        },
+                        {name: '可用资金',
+                            data:add_money_product,
+                            color:'#01b6e1',
+                            tooltip:{
+                                valueSuffix: '元',
+                                shared:true,
+                                useHTML: true,
+                                headerFormat: '<small></small><table>',
+                                pointFormat: '<tr><td style="color: {series.color}">运营资金: </td>' + '<td style="text-align: right"><b>{point.working}</b></td></tr>'
+                                +'<br><tr><td style="color: {series.color}">资产总和: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
+                                +'<br><tr width="100px"><td style="color: {series.color}">浮动盈亏：</td><td style="text-align: right"><b>{point.FloatProfit}元</b></td></tr>'
+                                +'<br><tr width="100px"><td style="color: {series.color}">资产现金浮动：</td><td style="text-align: right"><b>{point.FloatAssetMoney}元</b></td></tr>'
+                                +'<br><tr width="100px"><td style="color: {series.color}">资产品浮动：</td><td style="text-align: right"><b>{point.FloatAssetProduct}元</b></td></tr>',
                                 footerFormat: '</table>'
                             }
                         }

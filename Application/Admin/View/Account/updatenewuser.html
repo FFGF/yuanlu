@@ -9,23 +9,25 @@
 </block>
 
 <block name="body">
-    <div class="platCon">
-        <div class="platState white">
 
-            <!--
-                     <div style="back-color:#00abdf" class="platTitle"><h2>添加新账户</h2></div>
-                     <td name="uname">{$uname}</td>
-             -->
-
-            <div style="background-color:#00abdf;height:35px;line-height:32px"><h2>&nbsp&nbsp&nbsp&nbsp添加新账户</h2></div>
+    <div style="background: white none repeat scroll 0 0;font-size: 20px;height: 50px;line-height: 50px;padding-left: 35px;width:1000px">
+        <p>账户管理 &gt; <font color="#0099FF">&nbsp账户列表</font> &gt; <font color="#0099FF"><u style="color:#0099FF;position:relative">&nbsp修改该账户信息</u></font></p>
+    </div>
 
 
-            <div style="background:#FFFFFF;width:1180px; height:400px" id="all">
+
+    <div>
+        <div>
+
+            <div style="width: 1030px;height: 40px;background-color: #FFFFFF;font-size: 18px;margin-top: 10px;color: #707070;line-height: 40px">
+                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp修改账户信息</p>
+            </div>
+
+
+            <div style="margin-top:2px;background:#FFFFFF;width:1030px;height:450px" id="all">
 
                 <!--   左侧列的div    -->
-                <div id="leftpart" style="background:#FFFFFF;float:left;margin-left:100px;width:250px; height: 300px">
-                    <br>
-                    <br>
+                <div id="leftpart" style="overflow:auto;background:#FFFFFF;float:left;margin-left:120px;width:250px; height: 400px">
                     <br>
 
                     <p style="font-weight:bold">
@@ -55,21 +57,60 @@
                         这是不同等级的权限说明
                     </p>
 
+                    <!--  以下P元素部分是测试滚动条-->
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p><br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+
                 </div>
 
-                <!--  div实现中间的分割竖线    -->
+                <!--  div实现中间的分割竖线
                 <div style="margin-top:80px;background:#00abdf;float:left;width:1px; height:350px"> </div>
-
+                 -->
 
                 <!--   右侧列的div    -->
-                <div id="rightpart" style="margin-left:100px;float:left;width:650px; height: 300px">
-                    <br>
-                    <br>
+                <div id="rightpart" style="margin-left:100px;float:left;width:530px; height: 400px">
                     <br>
 
                     <p style="font-weight:bold;margin-left:80px;">
                         <font size="2">
-                            &nbsp&nbsp新账户信息填写
+                            &nbsp&nbsp&nbsp账户信息修改
                         </font>
                     </p>
                     <p style="margin-left:76px;color:#00abdf">
@@ -79,7 +120,7 @@
                     <div>
                         <form name="form1" method="post" action="{:U('admin/Account/updatenewusersave')}">
 
-<!-- {:U('admin/Account/updatenewuser',array('username'=>$key))} -->
+                            <!-- {:U('admin/Account/updatenewuser',array('username'=>$key))} -->
                             <input type='hidden' name='uname' value="{$uname}">
 
                             <div>
@@ -104,7 +145,7 @@
                                         <br>
                                         <br>
                                         <br>
-                                        是否为经理：
+                                        是否经理：
                                     </p>
 
 
@@ -115,9 +156,9 @@
                                     <br>
                                     <br>
 
-<!--
-                                    <td name="uname">{$uname}</td>
--->
+                                    <!--
+                                                                        <td name="uname">{$uname}</td>
+                                    -->
 
                                     <input type="text" placeholder="请输入使用人姓名" name="user_name">
 
@@ -130,6 +171,7 @@
                                     <br>
                                     <select name="branch_id">
                                         <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
+                                        <option selected="selected" style="display:none">请选择账号的所属部门</option>
                                         <volist name="branchlist" id="vo">
                                             <option> {$vo.name}</option>
                                         </volist>
@@ -142,8 +184,11 @@
                                     <br>
                                     <br>
                                     <td width="100 px" name="branch_manager1">
-                                        <input type="radio" name="branch_manager" value="1">yes
-                                        <input type="radio" name="branch_manager" value="0">no
+                                        <select name="branch_manager">
+                                            <option selected="selected" style="display:none">请选择账户是否为经理</option>
+                                            <option value="1">是</option>
+                                            <option value="0">否</option>
+                                        </select>
                                     </td>
 
                                 </div>
@@ -153,7 +198,7 @@
 
 
 
-                            <div style="margin-left:50px;float:left">
+                            <div style="float:left">
                                 <!--
                                 <input style="background-color:#00abdf;height:30px;width:50px" type="reset" value="重置">
 
@@ -167,13 +212,13 @@
 
                             -->
                                 <a href="{:U('admin/Account/userManage')}" >
-                                    <input style="background-color:#00abdf;height:30px;width:50px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
+                                    <input style="background-color: white;border: 2px solid #8ccd5a;border-radius: 10px;color: #8ccd5a;cursor: pointer;font-size: 14px;height: 30px;margin: 20px 10px 30px;width: 98px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
                                 </a>
 
                             </div>
 
-                            <div style="margin-left:80px;float:left">
-                                <input style="background-color:#00abdf;height:30px;width:50px" type="submit" value="确定">
+                            <div style="float:left">
+                                <input style="background-color: #8ccd5a;border: 0 none;border-radius: 5px;margin: 20px 60px 30px;width: 98px;font-size: 14px;color: white;height: 30px;width: 100px" type="submit" value="确定">
                             </div>
                         </form>
                     </div>

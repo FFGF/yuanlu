@@ -93,9 +93,8 @@ class PerdayDataItemModel extends Model{
         $flag = $flag?true:false;
         return $flag;
     }
-    //获得某一个部门某天asset_money,asset_product的和
-    public function getAddMoneyProduct($date_array,$branch_name){
-        $sum = [];
+    //获得某一个日期数组内的，部门数据
+    public function getDateArrayData($date_array,$branch_name){
         $Model = new Model();
         if($branch_name == "所有部门"){
             $select = "select p.id as project_id,b.id,p.`name`,b.`name` as name1,
@@ -122,11 +121,57 @@ class PerdayDataItemModel extends Model{
                     and e.effect_date='datetime' and b.name='branchname'
                     ORDER BY b.id";
         }
+        $result = [];
         foreach($date_array as $key=>$value){
-            $result = $Model->query(str_replace('branchname',$branch_name,str_replace('datetime',$value,$select)));
-            $sum[] = $this->sumBranch($result);
+            $result[] = $Model->query(str_replace('branchname',$branch_name,str_replace('datetime',$value,$select)));
+        }
+        return $result;
+    }
+    //获得某一个部门某天asset_money,asset_product的和
+    public function getAddMoneyProduct($date_array,$branch_name){
+        $result = $this->getDateArrayData($date_array,$branch_name);
+        foreach($result as $value){
+            $sum[] = $this->sumBranch($value);
         }
         return $sum;
+    }
+    //获得资产现金浮动数据
+    public function getFloatAssetMoney($date_array,$branch_name){
+        $result = $this->getDateArrayData($date_array,$branch_name);
+        $asset_money = [];
+        //获得一个部门所有项目某一天资产现金和
+        foreach($result as $key=>$value){
+            $temp = 0;
+            foreach($value as $k=>$v){
+                 $temp += doubleval(str_replace(',','',$v['asset_money']));
+            }
+            $asset_money[$key] = $temp;
+        }
+        //计算两天差值
+        $float_asset_money = [];
+        for($i = 0;$i < count($asset_money); $i ++){
+            $float_asset_money[$i] = $asset_money[$i] - $asset_money[$i -1];
+        }
+        return $float_asset_money;
+    }
+    //获得资产品浮动数据
+    public function getFloatAssetProduct($date_array,$branch_name){
+        $result = $this->getDateArrayData($date_array,$branch_name);
+        $asset_product = [];
+        //获得一个部门所有项目某一天资产现金和
+        foreach($result as $key=>$value){
+            $temp = 0;
+            foreach($value as $k=>$v){
+                $temp += doubleval(str_replace(',','',$v['asset_product']));
+            }
+            $asset_product[$key] = $temp;
+        }
+        //计算两天差值
+        $float_asset_product = [];
+        for($i = 0;$i < count($asset_product); $i ++){
+            $float_asset_product[$i] = $asset_product[$i] - $asset_product[$i -1];
+        }
+        return $float_asset_product;
     }
     //计算一个数组asset_money，asset_product的和
     public function sumBranch($result){
