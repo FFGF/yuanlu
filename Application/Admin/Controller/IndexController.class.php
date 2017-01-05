@@ -9,6 +9,7 @@ class IndexController extends ChannelsController {
     //登录
     public function login(){
         $where['user_name'] = I('admin_id');
+        $where['finish'] = 0;
         $admin = M('user')->where($where)->find();
         if(empty($admin)){
             $this->error('管理员不存在！');
@@ -21,11 +22,11 @@ class IndexController extends ChannelsController {
             else{
                 session('admin', $admin);
                 if($admin['power'] == 2){
-                    redirect(__ROOT__.'/Admin/report-bank');
+                    redirect(__ROOT__.'/Admin/first_page-firstpage');
                 }if($admin['power'] == 3){
-                    redirect(__ROOT__.'/Admin/report-showdata');
+                    redirect(__ROOT__.'/Admin/first_page-firstpage');
                 }else{
-                    redirect(__ROOT__.'/Admin/report');
+                    redirect(__ROOT__.'/Admin/first_page-firstpage');
                 }
 
             }

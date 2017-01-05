@@ -16,6 +16,7 @@ class UserModel extends Model{
 
     public function getUserManage(){
         $maps['power'] = array('in',['1','2']);
+        $maps['finish'] = 0;
         $user_list = $this->where($maps)->getField("user_name",true);
         $formatData = [];
         $branch = M('branch');

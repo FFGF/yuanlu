@@ -360,24 +360,9 @@ class AccountController extends ChannelsController{
             ->select();
         $data['branch_id']=$result[0]["id"];
 
-
-        //dump($data);
-        //dump($data['user_name']);
-        //die();
-
         $user = M("user");
-
         $user->add($data);
         $this->success("插入数据成功");
-
-        //if($data['user_name']==NULL){
-        //    $user->add($data);
-        //    $this->success("插入数据成功");
-        //}
-        //else{
-        //    $user->update($data);
-        //    $this->success("编辑数据成功");
-        //}
 
     }
 
@@ -437,12 +422,6 @@ class AccountController extends ChannelsController{
         $this->success("修改账户数据成功");
 
     }
-
-
-    //public function test(){
-    //    dump(updatenewuser());
-    //    $this->display();
-    //}
 
 
 
@@ -517,14 +496,6 @@ class AccountController extends ChannelsController{
         }
 
     }
-
-
-    //public function test(){
-    //    $data = I('post.');
-    //   dump($data);
-    //$this->display();
-
-    //}
 
 
 
@@ -640,7 +611,9 @@ class AccountController extends ChannelsController{
 
         //删除该id的    user表中的这条数据，即这个用户
         $map2['id']=$userid[0]['id'];
-        $userlist->where($map2)->delete();
+//        $userlist->where($map2)->delete();
+        $data['finish'] = 1;
+        $userlist->where($map2)->save($data);
         $this->success('该用户删除成功');
 
     }

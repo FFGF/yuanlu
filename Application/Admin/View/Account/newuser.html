@@ -1,5 +1,3 @@
-
-
 <extend name="Public/base"/>
 
 <block name="style">
@@ -12,98 +10,54 @@
 
 
     <div style="background: white none repeat scroll 0 0;font-size: 20px;height: 50px;line-height: 50px;padding-left: 35px;width:1000px">
-        <p>账户管理 &gt; <font color="#0099FF">&nbsp账户列表</font> &gt; <font color="#0099FF"><u style="color:#0099FF;position:relative">&nbsp添加新账户</u></font></p>
+        <div style="float:left;width=500px">
+            <p>账户管理 &gt;
+                <font color="#0099FF">&nbsp账户列表</font> &gt;
+            </p>
+        </div>
+        <div style="float:left;width:115px;height:45px;border-style:solid;border-width:3px; border-color:#FFFFFF;border-bottom-color:#0099FF">
+            <font color="#0099FF">&nbsp添加新账户</font>
+        </div>
     </div>
-
 
 
     <div >
         <div >
-
-            <!--
-                     <div style="back-color:#00abdf" class="platTitle"><h2>添加新账户</h2></div>
-                     -->
-
-
             <div style="width: 1030px;height: 40px;background-color: #FFFFFF;font-size: 18px;margin-top: 10px;color: #707070;line-height: 40px;"><p>&nbsp&nbsp&nbsp&nbsp添加新账户</p>
             </div>
 
 
-            <div style="margin-top: 2px;background:#FFFFFF;width:1030px; height:450px" id="all">
+            <div style="margin-top: 2px;background:#FFFFFF;width:1030px; height:450px;position:relative" id="all">
 
-                <!--   左侧列的div    -->
-                <div id="leftpart" style="overflow:auto;background:#FFFFFF;float:left;margin-left:120px;width:250px; height: 400px">
-                    <br>
+                <!--   左侧列的div  -->
+                <div id="leftpart" style="margin-top:30px;background:#FFFFFF;float:left;margin-left:100px;width:250px; height: 400px;border-style:solid;border-width:2px; border-color:#FFFFFF;border-right-color:#0099FF">
 
-                    <p style="font-weight:bold">
-                        <font size="2">
+
+                    <!--  权限等级说明  这一行标题的div    -->
+                    <div style="border-style:solid;border-width:2px; border-color:#FFFFFF;border-bottom-color:#0099FF;width:120px">
+                        <font style="font-size:16px;font-weight:bold">
                             &nbsp&nbsp权限等级说明
                         </font>
-                    </p>
-                    <p style="color:#00abdf">
-                        --------------------
-                    </p>
-
-                    <br>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-
-                    <!--  以下P元素部分是测试滚动条-->
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p><br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
-                    <br>
-                    <p>
-                        这是不同等级的权限说明
-                    </p>
+                    </div>
 
 
+                    <br>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
+                    <br>
+                    <p>
+                        这是不同等级的权限说明
+                    </p>
 
                 </div>
 
@@ -112,114 +66,133 @@
                  -->
 
                 <!--   右侧列的div    -->
-                <div id="rightpart" style="margin-left:100px;float:left;width:530px; height: 400px">
-                    <br>
+                <div id="rightpart" style="margin-top:30px;margin-left:100px;float:left;width:530px; height: 400px">
 
-                    <p style="font-weight:bold;margin-left:80px;">
-                        <font size="2">
+
+                    <div style="border-style:solid;border-width:2px; border-color:#FFFFFF;border-bottom-color:#0099FF;width:140px;margin-left:80px">
+                        <font style="font-size:16px;font-weight:bold">
                             &nbsp&nbsp新账户信息填写
                         </font>
-                    </p>
-                    <p style="margin-left:76px;color:#00abdf">
-                        ------------------------
-                    </p>
+                    </div>
+
 
                     <div>
                         <form name="form1" method="post" action="{:U('admin/Account/newusersave')}">
 
 
                             <div>
-                                <div id="left1" style="float:left;width:100px;height:300px">
-                                    <p align="left">
-                                        <br>
-                                        <br>
-                                        <br>
-                                        姓名：
-                                        <br>
-                                        <br>
-                                        <br>
-                                        密码：
-                                        <br>
-                                        <br>
-                                        <br>
-                                        部门：
-                                        <br>
-                                        <br>
-                                        <br>
-                                        权限等级：
-                                        <br>
-                                        <br>
-                                        <br>
-                                        是否经理：
-                                    </p>
+
+                                <!--    把姓名文字  和   输入框设置成一行div     -->
+                                <div id="name1" style="margin-top:30px;width:530px;height:50px;line-height:50px;">
+                                    <!--    姓名div        -->
+                                    <div style="width:100px;float:left;text-align:left">
+                                        <font style="font-size:15px">姓名：</font>
+                                    </div>
+
+                                    <!--    姓名输入框div     -->
+                                    <div style="margin-left:30px;width:400px;float:left">
+                                        <input type="text" placeholder="请输入使用人姓名" name="user_name">
+                                    </div>
+
+                                    <div style="clear:both"></div>
+
+                                </div>
+
+                                <!-- 密码 -->
+                                <div style="margin-top:10px;width:530px;height:50px;line-height:50px;">
+
+                                    <div style="width:100px;float:left;text-align:left">
+                                        <font style="font-size:15px">密码：</font>
+                                    </div>
+
+                                    <div style="margin-left:30px;width:400px;float:left">
+                                        <input type="text" placeholder="请输入账户密码" name="user_password">
+                                    </div>
+                                    <div style="clear:both"></div>
+
+                                </div>
+
+                                <div>
+
+
+                                    <div style="margin-top:10px;width:530px;height:50px;line-height:50px;">
+                                        <!--    部门      -->
+                                        <div style="width:100px;float:left;text-align:left">
+                                            <font style="font-size:15px">部门：</font>
+                                        </div>
+
+                                        <div style="margin-left:30px;width:400px;float:left">
+                                            <select name="branch_id">
+
+                                                <option selected="selected" style="display:none">请选择账号的所属部门</option>
+
+                                                <volist name="branchlist" id="vo">
+                                                    <option> {$vo.name}</option>
+                                                </volist>
+                                            </select>
+                                        </div>
+
+                                        <div style="clear:both"></div>
+
+                                    </div>
+
+
+                                    <!--    权限等级     -->
+                                    <div style="margin-top:10px;width:530px;height:50px;line-height:50px;">
+
+                                        <div style="width:100px;float:left;text-align:left">
+                                            <font style="font-size:15px">权限等级：</font>
+                                        </div>
+
+                                        <div style="margin-left:30px;width:400px;float:left">
+                                            <input type="text" name="power" placeholder="请输入使用人等级权限">
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+
+
+                                    <!--    是否经理    -->
+                                    <div style="margin-top:10px;width:530px;height:50px;line-height:50px;">
+
+                                        <div style="width:100px;float:left;text-align:left">
+                                            <font style="font-size:15px">是否经理：</font>
+                                        </div>
+
+                                        <div style="margin-left:30px;width:400px;float:left">
+                                            <select name="branch_manager">
+                                                <option selected="selected" style="display:none">请选择账户是否为经理</option>
+                                                <option value="1">是</option>
+                                                <option value="0">否</option>
+                                            </select>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
 
 
                                 </div>
 
-                                <div id="left2" style="float:left;margin-left:50px;width:300px; height:300px; float:left">
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <input type="text" placeholder="请输入使用人姓名" name="user_name">
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <input type="text" placeholder="请输入账户密码" name="user_password">
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <select name="branch_id">
-                                        <!--  //需要从数据库中读取现有的所有部门汉子名字    但是需要向数据库中插入的是部门id  -->
-                                        <option selected="selected" style="display:none">请选择账号的所属部门</option>
-                                        <volist name="branchlist" id="vo">
-                                            <option> {$vo.name}</option>
-                                        </volist>
-                                    </select>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <input type="text" name="power" placeholder="请输入使用人等级权限">
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <td width="100 px" name="branch_manager1">
-
-                                        <select name="branch_manager">
-                                            <option selected="selected" style="display:none">请选择账户是否为经理</option>
-                                            <option value="1">是</option>
-                                            <option value="0">否</option>
-                                        </select>
 
 
-                                    </td>
+                                <div style="float:left">
+                                    <!--
+                                    <input style="background-color:#00abdf;height:30px;width:50px" type="reset" value="重置">
 
-                                </div>
-
-                                <div style="clear:both"></div>
-                            </div>
-
-
-
-                            <div style="float:left">
-                                <!--
-                                <input style="background-color:#00abdf;height:30px;width:50px" type="reset" value="重置">
-
-                            <a href="{:U('admin/Account/userManage')}" >
-                                <input style="background-color:#00abdf;height:30px;width:50px" value="&nbsp&nbsp取消">
-                            </a>
-
-                             <input style="background-color:#00abdf;height:30px;width:50px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
-
-                            -->
                                 <a href="{:U('admin/Account/userManage')}" >
-                                    <input style="background-color: white;border: 2px solid #8ccd5a;border-radius: 10px;color: #8ccd5a;cursor: pointer;font-size: 14px;height: 30px;margin: 20px 10px 30px;width: 98px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
+                                    <input style="background-color:#00abdf;height:30px;width:50px" value="&nbsp&nbsp取消">
                                 </a>
 
-                            </div>
+                                 <input style="background-color:#00abdf;height:30px;width:50px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
 
-                            <div style="float:left">
-                                <input style="background-color: #8ccd5a;border: 0 none;border-radius: 5px;margin: 20px 60px 30px;width: 98px;font-size: 14px;color: white;height: 30px;width: 100px" type="submit" value="确定">
-                            </div>
+                                -->
+                                    <a href="{:U('admin/Account/userManage')}" >
+                                        <input style="background-color: white;border: 2px solid #8ccd5a;border-radius: 10px;color: #8ccd5a;cursor: pointer;font-size: 14px;height: 30px;margin: 20px -60px 30px;width: 98px" type="button" href="{:U('admin/Account/userManage')}" value="取消">
+                                    </a>
+
+                                </div>
+
+                                <div style="float:left">
+                                    <input style="background-color: #8ccd5a;border: 0 none;border-radius: 5px;margin: 20px 100px 30px;width: 98px;font-size: 14px;color: white;height: 30px;width: 100px" type="submit" value="确定">
+                                </div>
                         </form>
                     </div>
                 </div>

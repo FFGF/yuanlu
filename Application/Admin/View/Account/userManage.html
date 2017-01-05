@@ -58,13 +58,9 @@
             <div class="user" style="border:solid 2px #E0E0E0">
                 <div class="left">
 
-
-
                     <!--  添加鼠标的移入与 移出 -->
                     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-
                     <script>
-
                         $(".user").mouseover(function(){
                             $(this).css('border','solid 2px #FF99FF');
                         })
@@ -72,49 +68,27 @@
                             $(this).css('border','solid 2px #E0E0E0');
                         })
                     </script>
-
-
-                    <!--
-
-                    $(".user").each(function(index,value){
-                        console.log(index)
-                        console.log(value)
-                        $(value).on('mouseover',function(){
-                            $(this).css('border','solid 1px #FFF0AC');
-                        }).on('mouseout',function(){
-                            $(this).css('border','solid 1px #FFFFFF');
-                        })
-                    })
-
-
-                    <a href="{:U('admin/Account/newuser')}" >
-                        <img src="__IMG__/editor.png">
-                    </a>
-                    -->
-
-
-
                     <img src="__IMG__/head.png" class="head">
                     <p class="name">{$key}</p>
                     <p class="branch">{$item[0]}</p>
                 </div>
                 <div class="right">
 
-
-
                     <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
                         <img  style="margin-left: 120px" src="__IMG__/editor.png">
                     </a>
 
-                    <a href="{:U('admin/Account/deluser',array('username'=>$key))}" >
-                        <img  src="__IMG__/delete.png" onclick="display_alert()">
-                    </a>
-
+                    <img  src="__IMG__/delete.png" data-name="{$key}" onclick="display_alert(this)" style="cursor: pointer">
                     <script type="text/javascript">
-                        function display_alert()
-                        {
-                            alert("是否确定删除该用户!")
+                        function display_alert(that){
+                            var mymessage=confirm("你确定删除")       ;
+                            if(mymessage==true) {
+                                var name = $(that).attr("data-name")
+                                window.location.href= '/admin/account-deluser?username=' + name
+                            }else {
+                            }
                         }
+
                     </script>
 
 
