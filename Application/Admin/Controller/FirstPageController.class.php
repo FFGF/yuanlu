@@ -102,4 +102,51 @@ class FirstPageController extends ChannelsController{
         });
         return $branch_structure;
     }
+    //获得部门业绩对比图
+    public function getBranchContrast(){
+        $data = I('get.');
+        $branch_name_array = explode(',',$data['branch_name']) ;
+        $start_date = $data['start_date'];
+        $end_date = $data['end_date'];
+        $data = [];
+        foreach($branch_name_array as $value){
+            $data [] = $this->getBranchContrastData($value,$start_date,$end_date);
+        }
+        $json['date_array'] = $this->getDateArray($branch_name_array[0],$start_date,$end_date);
+        $json['data'] = $data;
+        $this->ajaxReturn($json);
+    }
+    //获得部门业绩对比图数据
+    public function getBranchContrastData($branch_name,$start_date,$end_date){
+        $Branch = D("Branch");
+        $PerdayDataItem = D("PerdayDataItem");
+        $WorkingCapital = D("WorkingCapital");
+        $branch_id = $Branch->getBranchIdByBranchName($branch_name);
+        //获得一个时间数组，即从开始时间到结束时间
+        $date_array = getStartDateEndDateArray($start_date,$end_date);
+        //获得有数据的日期
+        $date_array = $this->getDataDate($date_array,$branch_id,$PerdayDataItem);
+        //获得运营资金数据
+        $working_capital_data = $WorkingCapital->getDataByBranchId($branch_id,$date_array);
+        //获得资产总和
+        $add_money_product = $PerdayDataItem->getAddMoneyProduct($date_array,$branch_name);
+        $data = [];
+        array_walk($working_capital_data,function($value,$index) use($add_money_product,&$data,$branch_name){
+            $data[] = array('y'=>($add_money_product[$index] - $value)/$value,
+                            'FloatProfit'=>$add_money_product[$index] - $value,
+                            'name'=>$branch_name);
+        });
+        return $data;
+    }
+    //获得有数据的日期数组
+    public function getDateArray($branch_name,$start_date,$end_date){
+        $Branch = D("Branch");
+        $PerdayDataItem = D("PerdayDataItem");
+        $branch_id = $Branch->getBranchIdByBranchName($branch_name);
+        //获得一个时间数组，即从开始时间到结束时间
+        $date_array = getStartDateEndDateArray($start_date,$end_date);
+        //获得有数据的日期
+        $date_array = $this->getDataDate($date_array,$branch_id,$PerdayDataItem);
+        return $date_array;
+    }
 }

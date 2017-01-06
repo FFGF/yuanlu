@@ -309,10 +309,11 @@ function exportExcel(){
         ->setCellValue("D2",' '.number_format($formatData['所有部门总和'][0]['finance_debt'],2,'.',''))
         ->setCellValue("E2",' '.number_format($formatData['所有部门总和'][0]['receivable'],2,'.',''))
         ->setCellValue("F2",' '.number_format($formatData['所有部门总和'][0]['payable'],2,'.',''))
-        ->setCellValue("G2","")
-        ->setCellValue("H2",' '.number_format($formatData['所有部门总和'][0]['sum_asset_money'],2,'.',''))
-        ->setCellValue("I2",' '.number_format($formatData['所有部门总和'][0]['sum_asset_product'],2,'.',''))
-        ->setCellValue("J2",' '.number_format($formatData['所有部门总和'][0]['sum_finance_debt'],2,'.',''));
+        ->setCellValue("G2",' '.number_format($formatData['所有部门总和'][0]['sum_asset_money'],2,'.',''))
+        ->setCellValue("H2",' '.number_format($formatData['所有部门总和'][0]['sum_asset_product'],2,'.',''))
+        ->setCellValue("I2",' '.number_format($formatData['所有部门总和'][0]['sum_finance_debt'],2,'.',''))
+        ->setCellValue("G2",' '.number_format($formatData['所有部门总和'][0]['sum_finance_debt'],2,'.',''))
+        ->setCellValue("K2","");
     unset($formatData['所有部门总和']);
     $i = 3;
     foreach($formatData as $key=>$value){
