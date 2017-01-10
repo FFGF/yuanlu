@@ -34,4 +34,9 @@ class ExchangeRateModel extends Model{
         is_null($result)&&$flag = false;
         return $flag;
     }
+    //获得某天汇率数据
+    public function getOneDayExchangeRateData($date){
+        $maps['effect_date'] = $date;
+        return $this->where($maps)->find();
+    }
 }

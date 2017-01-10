@@ -39,7 +39,8 @@ class FinanceController extends ChannelsController{
     public function modifyExchangeRate(){
         $timestamp = I("effect_date");
         $date = date("Y-m-d",$timestamp);
-        $this->assign("date",$date);
+        $exchangeRateData = D("ExchangeRate")->getOneDayExchangeRateData($date);
+        $this->assign("exchangeRateData",$exchangeRateData);
         $this->display("Finance/modifyExchangeRate");
     }
     //保存修改的数据

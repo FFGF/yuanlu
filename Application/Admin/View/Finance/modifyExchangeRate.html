@@ -50,9 +50,9 @@
             <div class="right">
                 <div class="tip">汇率录入</div>
                 <ul>
-                    <li><i class="bold">日期：</i><input name="effect_date" id="effect_date" type="text" value="{$date}" readonly="true"></li>
-                    <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate"></li>
-                    <li><i class="bold">在岸汇率</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate"></li>
+                    <li><i class="bold">日期：</i><input name="effect_date" id="effect_date" type="text" value="{$exchangeRateData.effect_date}" readonly="true"></li>
+                    <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate" value="{$exchangeRateData.offshore_exchange_rate}"></li>
+                    <li><i class="bold">在岸汇率</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate" value="{$exchangeRateData.onshore_exchange_rate}"></li>
                 </ul>
                 <button class="leftButton" type="reset">取消</button><button class="rightButton" id="submit">提交</button>
             </div>

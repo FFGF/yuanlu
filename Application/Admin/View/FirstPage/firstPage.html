@@ -5,7 +5,9 @@
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style type="text/css">
        .souye .box .Structure{display: inline-block;line-height: 30px;margin-left: 185px;margin-top: 139px;text-align: right;position: relative}
-        .souye .box .Structure .data{position: absolute}
+       .souye .box .Structure .data{position: absolute}
+       .souye .box .top .btn{cursor: pointer;width: 98px;height: 30px;font-size: 16px;border-radius: 10px;border: 2px solid #8ccd5a;background-color: white; color: #8ccd5a}
+       .souye .box .top button::-moz-focus-inner{border:0px;}
     </style>
 </block>
 <block name="body">
@@ -25,6 +27,7 @@
                 <div  style="display: inline-block;margin-left: 100px">
                     <input type="text" id="end" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">
                 </div>
+                <button class="btn" id="btn1">搜索</button>
             </div>
             <div class="chart" id="container">
             </div>
@@ -42,11 +45,12 @@
                     </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: -50px">
-                    <input type="text" id="start1" class="time" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
+                    <input type="text" id="start1" class="time" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear">
                 </div>
                 <div  style="display: inline-block;margin-left: 100px">
                     <input type="text" id="end1" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePickerContrast">
                 </div>
+                <button class="btn" id="btn2">搜索</button>
             </div>
             <div class="chart" id="containerContrast"></div>
         </div>
@@ -60,10 +64,11 @@
                     </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: 36px;">
-                    <input type="text" id="" class="time" placeholder="选择日期" readonly data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePickerStructure">
+                    <input type="text" id="end3" class="time" placeholder="选择日期" readonly data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePickerStructure">
                 </div>
+                <button class="btn" style="margin-left: 128px" id="btn3">搜索</button>
             </div>
-            <div class="chart" id="containerStructure" style="width: 400px;float: left;margin-left: -140px;"></div>
+            <div class="chart" id="containerStructure" style="width: 400px;float: left;margin-left: -2px;"></div>
             <ul class="Structure">
                 <li>融资负债/授信：&emsp;<i class="data"></i></li>
                 <li>应收账款：&emsp;<i class="data"></i></li>
@@ -86,9 +91,9 @@
     <script type="text/javascript">
         //资产盈亏折线图
         $(function(){
-            myDatePicker.on("select",function(data){
+            $("#btn1").on("click",function(){
                 var start_date = $("#start").val();
-                var end_date = data.string;
+                var end_date = $("#end").val();;
                 var branch_name = $("#branch").val();
                 if(!branch_name){
                     alert('请选择部门')
@@ -96,6 +101,10 @@
                 }
                 if(!start_date){
                     alert('请选择开始时间')
+                    return
+                }
+                if(!end_date){
+                    alert('请选择结束时间')
                     return
                 }
                 if(DateToUnix(start_date)>DateToUnix(end_date)){
@@ -160,19 +169,24 @@
                     $('#container').highcharts(json);
                 })
             })
+
         })
         //部门业绩对比图
         $(function(){
-            myDatePickerContrast.on("select",function(data){
+            $("#btn2").on("click",function(){
                 var branch_name = $("#branch1").val();
                 var start_date = $("#start1").val();
-                var end_date = data.string;
+                var end_date = $("#end1").val();;
                 if(!branch_name){
                     alert('请选择部门')
                     return
                 }
                 if(!start_date){
                     alert('请选择开始时间')
+                    return
+                }
+                if(!end_date){
+                    alert('请选择结束时间')
                     return
                 }
                 if(DateToUnix(start_date)>DateToUnix(end_date)){
@@ -198,15 +212,15 @@
                     var series = [];
                     $.each(data,function(index,value){
                         var temp = {name:value[0]['name'],
-                                    data:value,
-                                    tooltip:{
-                                        valueSuffix: '',
-                                        useHTML: true,
-                                        headerFormat: '<small></small><table>',
-                                        pointFormat: '<tr><td style="color: {series.color}">浮动盈利率: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
-                                        +'<br><tr><td style="color: {series.color}">浮动盈亏: </td>' + '<td style="text-align: right"><b>{point.FloatProfit}</b></td></tr>',
-                                        footerFormat: '</table>'
-                                    }};
+                            data:value,
+                            tooltip:{
+                                valueSuffix: '',
+                                useHTML: true,
+                                headerFormat: '<small></small><table>',
+                                pointFormat: '<tr><td style="color: {series.color}">浮动盈利率: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
+                                +'<br><tr><td style="color: {series.color}">浮动盈亏: </td>' + '<td style="text-align: right"><b>{point.FloatProfit}</b></td></tr>',
+                                footerFormat: '</table>'
+                            }};
                         series.push(temp)
                     })
                     var json = {};
@@ -219,14 +233,19 @@
                     $('#containerContrast').highcharts(json);
                 })
             })
+
         })
         //部门资产结构图
         $(function(){
-            myDatePickerStructure.on("select",function(data){
-                var date = data.string;
+            $("#btn3").on("click",function(){
+                var date = $("#end3").val();
                 var branch_name = $("#branch2").val()
                 if(!branch_name){
                     alert("请选择部门");
+                    return;
+                }
+                if(!end3){
+                    alert("请选择时间");
                     return;
                 }
                 var url = 'admin/' + 'first_page-getbranchstructure.html';
@@ -288,6 +307,7 @@
 
                 })
             })
+
         })
 
         $(function(){

@@ -15,7 +15,7 @@ class FirstPageController extends ChannelsController{
         $Branch = D("Branch");
         $branch_name = $Branch->getBranchNameByPower(session('admin')['power'],session('admin')['branch_id']);
         $this->assign('branch_name',$branch_name);
-        $this->display();
+        $this->display("FirstPage/firstPage");
     }
     //获得资产盈亏数据
     public function getAssetProffitLoss(){

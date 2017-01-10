@@ -36,12 +36,12 @@
                             <volist name="result_cunhuo" id="item">
                                 <tr>
                                     <td>{$item['project_name']}</td>
-                                    <td class="tR">{$item['asset_money']}</td>
-                                    <td class="tR">{$item['asset_product']}</td>
-                                    <td class="tR">{$item['finance_debt']}</td>
-                                    <td class="tR">{$item['receivable']}</td>
-                                    <td class="tR">{$item['payable']}</td>
-                                    <td>{$item['remark']}</td>
+                                    <td class="tR">{$item['asset_money']|number_format=###,2}</td>
+                                    <td class="tR">{$item['asset_product']|number_format=###,2}</td>
+                                    <td class="tR">{$item['finance_debt']|number_format=###,2}</td>
+                                    <td class="tR">{$item['receivable']|number_format=###,2}</td>
+                                    <td class="tR">{$item['payable']|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="remark">{$item['remark']}</td>
                                 </tr>
                             </volist>
                             </tbody>
@@ -63,12 +63,12 @@
                             <volist name="result_qihuo" id="item">
                                 <tr>
                                     <td>{$item['project_name']}</td>
-                                    <td class="tR">{$item['asset_money']}</td>
-                                    <td class="tR">{$item['asset_product']}</td>
-                                    <td class="tR">{$item['finance_debt']}</td>
-                                    <td class="tR">{$item['receivable']}</td>
-                                    <td class="tR">{$item['payable']}</td>
-                                    <td>{$item['remark']}</td>
+                                    <td class="tR">{$item['asset_money']|number_format=###,2}</td>
+                                    <td class="tR">{$item['asset_product']|number_format=###,2}</td>
+                                    <td class="tR">{$item['finance_debt']|number_format=###,2}</td>
+                                    <td class="tR">{$item['receivable']|number_format=###,2}</td>
+                                    <td class="tR">{$item['payable']|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="remark">{$item['remark']}</td>
                                 </tr>
                             </volist>
                             </tbody>
@@ -90,12 +90,12 @@
                             <volist name="result_bank" id="item">
                                 <tr>
                                     <td>{$item['project_name']}</td>
-                                    <td class="tR">{$item['asset_money']}</td>
-                                    <td class="tR">{$item['asset_product']}</td>
-                                    <td class="tR">{$item['finance_debt']}</td>
-                                    <td class="tR">{$item['receivable']}</td>
-                                    <td class="tR">{$item['payable']}</td>
-                                    <td>{$item['remark']}</td>
+                                    <td class="tR">{$item['asset_money']|number_format=###,2}</td>
+                                    <td class="tR">{$item['asset_product']|number_format=###,2}</td>
+                                    <td class="tR">{$item['finance_debt']|number_format=###,2}</td>
+                                    <td class="tR">{$item['receivable']|number_format=###,2}</td>
+                                    <td class="tR">{$item['payable']|number_format=###,2}</td>
+                                    <td title="{$item.remark}" class="remark">{$item['remark']}</td>
                                 </tr>
                             </volist>
                             </tbody>
@@ -115,6 +115,15 @@
     <script src="__JS__/BeatPicker.min.js"></script>
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
+        $(function(){
+            $(".remark").each(function(){
+                var maxwidth=8;
+                if($(this).text().length>maxwidth){
+                    $(this).text($(this).text().substring(0,maxwidth));
+                    $(this).html($(this).html()+'…');
+                }
+            });
+        })
         var c=document.getElementById("canvas1");
         var ctx=c.getContext("2d");
         ctx.fillStyle="#FFFFFF";

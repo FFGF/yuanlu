@@ -28,7 +28,10 @@ class BranchModel extends Model{
     //如果是业务操作员只获得对应部门，如果是管理员或者财务操作员获得所有部门
     public function getBranchNameByPower($power,$branch_id){
         $maps['user.branch_id'] = $branch_id;
-        if($power>1)unset($maps['user.branch_id']);
+        if($power>1){
+            unset($maps['user.branch_id']);
+            $maps['user.power'] = array('eq','1');
+        };
         $result = $this->join('user on branch.id=user.branch_id')
                        ->where($maps)
                        ->field('branch.id,branch.name')
