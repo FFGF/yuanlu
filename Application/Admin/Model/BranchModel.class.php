@@ -47,4 +47,14 @@ class BranchModel extends Model{
     public function getBranchNameById($branch_id){
         return $this->where('id='.'\''.$branch_id.'\'')->getField('name',true)[0];
     }
+    //获得所有部门id,name除了管理员和银行部门
+    public function getBranchName(){
+        $maps['user.power'] = array('eq','1');
+        $result = $this->join('user on user.branch_id = branch.id')
+                        ->where($maps)
+                        ->field('branch.id,branch.name')
+                        ->select();
+        return $result;
+    }
+
 }

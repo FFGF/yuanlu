@@ -61,7 +61,7 @@
         var chineseToNumber = {'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,'十一':11,'十二':12};
         var numberToChinese = {'1':'一','2':'二','3':'三','4':'四','5':'五','6':'六','7':'七','8':'八','9':'九','10':'十','11':'十一','12':'十二'}
         function DatePaper(year,month,branch_name){
-            if(!branch){
+            if(!branch_name){
                 alert("请选择部门");
                 return;
             }
@@ -183,7 +183,7 @@
             $("#dateYear").text(date.getFullYear());
             $("#month").text(numberToChinese[date.getMonth() +1])
             //领导进来默认看到所有部门
-            var a = new DatePaper(date.getFullYear(),date.getMonth() +1,"现货1");
+            var a = new DatePaper(date.getFullYear(),date.getMonth() +1,"所有部门");
             a.display();
 
 

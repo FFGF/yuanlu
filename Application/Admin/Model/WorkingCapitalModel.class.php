@@ -32,4 +32,5 @@ class WorkingCapitalModel extends Model{
         return $working_capital_array;
     }
 
+
 }

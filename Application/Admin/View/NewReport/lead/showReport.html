@@ -22,7 +22,7 @@
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
                 <form method="post" action="{:U('admin/Report/showdata')}" onsubmit="return checkDate()">
-                    <a href="{:U('admin/NewReport/exportexcel')}" style="font-size:15px ;display: inline-block;border: 2px solid #8ccd5a;width: 100px;height: 23px;color: #8ccd5a;text-align: center;padding-top: 6px;margin-left: 400px;border-radius: 5px">导出</a>
+                    <a href="{:U('admin/NewReport/exportexcel',array('timestamp'=>strtotime($date)))}" style="font-size:15px ;display: inline-block;border: 2px solid #8ccd5a;width: 100px;height: 23px;color: #8ccd5a;text-align: center;padding-top: 6px;margin-left: 400px;border-radius: 5px">导出</a>
                 </form>
                 <volist name="formatdata" id="vo">
                     <button class="searchTo" onclick="hide_show(this)" flag="1" style="width:100px;margin-bottom: 5px;margin-left: 20px;border: 2px solid #8ccd5a;border-radius: 13px;cursor: pointer;color: #8ccd5a;background: white;">{$key}</button>

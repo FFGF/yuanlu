@@ -271,6 +271,27 @@ class PerdayDataItemModel extends Model{
         }
         //数据缓存
         S(session('admin')['id'].'formatData',array_reverse($formatData));
+        $WorkingCapital = D("WorkingCapital");
+        $working_capital_data = [];
+        //获得运营资金并缓存
+        if($branch_id == null){
+            //获得所有部门运营资金数据
+            $branch_name_array = $Branch->getBranchName();
+            $all = 0;
+            foreach($branch_name_array as $key=>$value){
+                $working_capital_data[$value['name']] = $WorkingCapital->getDataByBranchId($value['id'],[$date])[0];
+                $all += $working_capital_data[$value['name']];
+            }
+            $working_capital_data['所有部门总和'] = $all;
+        }else{
+            //获得某一个部门运营资金数据
+            $branch_name = $Branch->getBranchNameById($branch_id);
+            $working_capital_data[$branch_name] = $WorkingCapital->getDataByBranchId($branch_id,[$date])[0];
+            $working_capital_data['所有部门总和'] =  $working_capital_data[$branch_name];
+        }
+        //因为导出的数据表中需要一个日期，所以把数据日期存储到$working_capital_data里面得了
+        $working_capital_data['日期'] = $date;
+        S(session('admin')['id'].'workingCapital',$working_capital_data);
         return array_reverse($formatData);
     }
 }

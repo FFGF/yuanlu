@@ -158,20 +158,24 @@ class NewReportController extends ChannelsController{
         $branch_id = $Branch->getBranchIdByBranchName($branch_name);
         $data = $PerdayDataItem->getLeadData($date,$branch_id);
         $this->assign('formatdata',$data);
+        $this->assign("date",$date);
         $this->display('NewReport/lead/showReport');
     }
     //数据导出
-    public function exportExcel(){
+    public function exportExcel($timestamp=null){
+        $timestamp = I('timestamp')?I('timestamp'):$timestamp;
+        $date = date('Ymd',$timestamp);
         $objPHPExcel = exportExcel();
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
-        browser_export('Excel2007','源庐.xlsx');//输出到浏览器
+        browser_export('Excel2007','资产权益日报_'.$date.'.xlsx');//输出到浏览器
         $objWriter->save("php://output");
     }
     //财务人员导出数据
     public function exportExcelFinance(){
-        $date = date('Y-m-d',I('date'));
+        $timestamp = I('date');
+        $date = date('Y-m-d',$timestamp);
         $PerdayDataItem = D("PerdayDataItem");
         $data = $PerdayDataItem->getLeadData($date,null);
-        $this->exportExcel();
+        $this->exportExcel($timestamp);
     }
 }
