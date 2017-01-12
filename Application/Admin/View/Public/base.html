@@ -6,6 +6,40 @@
     <link rel="stylesheet" type="text/css" href="__CSS__/style.css">
     <script src="__JS__/jquery-1.11.0.min.js"></script>
     <block name="style"></block>
+    <script type="text/javascript">
+        $(function(){
+            function getBrowser() {
+                var ua = window.navigator.userAgent;
+                var isIE = window.ActiveXObject != undefined && ua.indexOf("MSIE") != -1;
+                var isFirefox = ua.indexOf("Firefox") != -1;
+                var isOpera = window.opr != undefined;
+                var isChrome = ua.indexOf("Chrome") && window.chrome;
+                var isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;
+                if (isIE) {
+                    return "IE";
+                } else if (isFirefox) {
+                    return "Firefox";
+                } else if (isOpera) {
+                    return "Opera";
+                } else if (isChrome) {
+                    return "Chrome";
+                } else if (isSafari) {
+                    return "Safari";
+                } else {
+                    return "Unkown";
+                }
+            }
+            var linkNode = document.createElement("link"),scriptNode = document.createElement("script");
+            linkNode.setAttribute("rel","stylesheet");
+            linkNode.setAttribute("type","text/css");
+            scriptNode.setAttribute("type", "text/javascript");
+
+            if(getBrowser()=="Chrome"){
+                linkNode.setAttribute("href","__CSS__/chrome.css");
+            }
+            document.head.appendChild(linkNode);
+        })
+    </script>
 </head>
 
 <body>
