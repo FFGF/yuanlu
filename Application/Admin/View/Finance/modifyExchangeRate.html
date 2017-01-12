@@ -18,9 +18,9 @@
         .hllr .right ul li{margin-bottom: 20px; border-bottom: 2px solid #f3f3f5; width: 300px;height: 30px;}
         .hllr .right ul li input{font-size: 16px;}
 
-        .hllr .right ul > li:nth-of-type(1) input{margin-left: 70px;}
-        .hllr .right ul > li:nth-of-type(2) input{margin-left: 39px;}
-        .hllr .right ul > li:nth-of-type(3) input{margin-left: 56px;}
+        .hllr .right ul > li:nth-of-type(1) input{margin-left: 50px;}
+        .hllr .right ul > li:nth-of-type(2) input{margin-left: 20px;}
+        .hllr .right ul > li:nth-of-type(3) input{margin-left: 20px;}
         .hllr .right ul > li:last-of-type{margin-bottom: 0px }
         .hllr .right .bold{color: black;font-size: 16px;font-weight: bold;}
         .hllr .right button{cursor: pointer;width: 100px;margin-top: 25px;font-size: 17px;border-radius: 5px;color: #e2e2e3;margin-top: 160px;background-color: white;}
@@ -52,7 +52,7 @@
                 <ul>
                     <li><i class="bold">日期：</i><input name="effect_date" id="effect_date" type="text" value="{$exchangeRateData.effect_date}" readonly="true"></li>
                     <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate" value="{$exchangeRateData.offshore_exchange_rate}"></li>
-                    <li><i class="bold">在岸汇率</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate" value="{$exchangeRateData.onshore_exchange_rate}"></li>
+                    <li><i class="bold">在岸汇率：</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate" value="{$exchangeRateData.onshore_exchange_rate}"></li>
                 </ul>
                 <button class="leftButton" type="reset">取消</button><button class="rightButton" id="submit">提交</button>
             </div>
