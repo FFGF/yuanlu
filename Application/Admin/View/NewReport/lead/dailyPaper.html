@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
     <link rel="stylesheet" href="__CSS__/newStyle.css"/>
     <style type="text/css">
-        /*;*/
          .dailyPaperYear ul{width: 100px;position: absolute;cursor: pointer;background: white;z-index: 1;display: none}
          .dailyPaperYear ul li{height: 20px;line-height: 20px;color: #918f8f;text-align: center;}
          .branchChooseLead{margin-left: 100px;position: relative; top: -4px;text-align: center;}
@@ -23,7 +22,7 @@
             <canvas id="YearRight" width="20px" height="50px" class="YearRight"></canvas>
         </div>
         <p style="display: inline-block; margin-left: 200px;"> <canvas id="leftArrow" class="leftArrow" width="20px" height="30px"></canvas><span id="month"></span>月<canvas id="rightArrow" class="rightArrow" width="20px" height="30px"></canvas></p>
-        <input type="text" id="branch" class="branchChooseLead" placeholder="选择部门" readonly autocomplete="off">
+        <input type="text" id="branch" class="branchChooseLead" placeholder="选择部门" readonly autocomplete="off" value="所有部门">
         <ul id="ul" style="left: 657px;top: 36px">
             <volist name="branch_name" id="item">
                 <li>{$item['name']}</li>

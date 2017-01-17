@@ -8,6 +8,7 @@
     <block name="style"></block>
     <script type="text/javascript">
         $(function(){
+//            http://blog.csdn.net/mazhili1991/article/details/53421779
             function getBrowser() {
                 var ua = window.navigator.userAgent;
                 var isIE = window.ActiveXObject != undefined && ua.indexOf("MSIE") != -1;
@@ -36,8 +37,11 @@
 
             if(getBrowser()=="Chrome"){
                 linkNode.setAttribute("href","__CSS__/chrome.css");
+            }else if(getBrowser() == "IE"){
+//                scriptNode.setAttribute("src", "__JS__/IE9.js");
             }
             document.head.appendChild(linkNode);
+//            document.head.appendChild(scriptNode);
         })
     </script>
 </head>

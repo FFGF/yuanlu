@@ -27,12 +27,12 @@
                     <button id="defaultToday" type="button">默认今日</button>
                     <div class="input-parent input-container" style="width: 30px;display: inline-block">
                         <input type="hidden" value="" id="dateChoose" name="dateChoose">
-                        <button type="button" class="otherDay" id="chooseOtherDay" data-beatpicker="true" data-beatpicker-module="clear" data-beatpicker-id="myDatePicker">选择其他日</button>
+                        <button type="button" class="otherDay" id="chooseOtherDay" data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePicker">选择其他日</button>
                     </div>
                 </div>
 
             </div>
-            <input type="submit" value="取消录入" class="cancelButton" formaction="">
+            <input type="submit" value="取消录入" class="cancelButton" formaction="{:U('admin/FirstPage/firstPage')}">
             <input type="submit" value="下一步" class="cancelButton nextButton" formaction="{:U('admin/NewReport/nextButtonDateChoose')}">
         </form>
     </div>
