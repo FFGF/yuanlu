@@ -127,7 +127,7 @@
                                                 <option selected="selected" style="display:none">请选择账号的所属部门</option>
 
                                                 <volist name="branchlist" id="vo">
-                                                    <option> {$vo.name}</option>
+                                                    <option value="{$vo.id}"> {$vo.name}</option>
                                                 </volist>
                                             </select>
                                         </div>
@@ -138,17 +138,23 @@
 
 
                                     <!--    权限等级     -->
-                                    <div style="margin-top:10px;width:530px;height:50px;line-height:50px;">
+                                    <!--<div style="margin-top:10px;width:530px;height:50px;line-height:50px;">-->
 
-                                        <div style="width:100px;float:left;text-align:left">
-                                            <font style="font-size:15px">权限等级：</font>
-                                        </div>
+                                        <!--<div style="width:100px;float:left;text-align:left">-->
+                                            <!--<font style="font-size:15px">权限等级：</font>-->
+                                        <!--</div>-->
 
-                                        <div style="margin-left:30px;width:400px;float:left">
-                                            <input type="text" name="power" placeholder="请输入使用人等级权限">
-                                        </div>
-                                        <div style="clear:both"></div>
-                                    </div>
+                                        <!--<div style="margin-left:30px;width:400px;float:left">-->
+                                            <!--&lt;!&ndash;<input type="text" name="power" placeholder="请输入使用人等级权限">&ndash;&gt;-->
+                                            <!--<select name="power">-->
+                                                <!--<option selected="selected" style="display:none">请选择使用人等级权限</option>-->
+                                                <!--<option value="1">业务</option>-->
+                                                <!--<option value="2">财务</option>-->
+                                                <!--<option value="3">管理员</option>-->
+                                            <!--</select>-->
+                                        <!--</div>-->
+                                        <!--<div style="clear:both"></div>-->
+                                    <!--</div>-->
 
 
                                     <!--    是否经理    -->

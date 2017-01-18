@@ -79,7 +79,7 @@ class PerdayDataItemModel extends Model{
         $result = $this->alias('pd')
                         ->join('project p on pd.project_id=p.id')
                         ->join('branch b on pd.branch_id=b.id')
-                        ->field('pd.*,p.category,p.name as project_name,b.name as branch_name')
+                        ->field('pd.*,p.category,p.name as project_name,b.name as branch_name,p.bank_category')
                         ->where($maps)->select();
         return $result;
     }

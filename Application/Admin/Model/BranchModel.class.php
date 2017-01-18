@@ -15,14 +15,24 @@ class BranchModel extends Model{
      */
     public function getBranchProjectByUserId($category,$user_id=null){
         $maps['user.id'] = $user_id;
-        if($user_id == null) unset($maps['user.id']);
         $maps['project.category'] = array('eq',$category);
+        if($user_id == null){
+            unset($maps['user.id']);
+            //因为领导突发奇想，有的银行账户不属于某一个部门，所以只能不写
+            $result = $this->join('project on project.branch_id = branch.id')
+                ->field('project.id,project.name as name_project,project.branch_id,branch.name as branch_name')
+                ->where($maps)
+                ->order('branch.name')
+                ->select();
+            return $result;
+        };
         $result = $this->join('user on user.branch_id = branch.id')
             ->join('project on project.branch_id = branch.id')
             ->field('project.id,project.name as name_project,project.branch_id,branch.name as branch_name')
             ->where($maps)
             ->order('branch.name')
             ->select();
+
         return $result;
     }
     //如果是业务操作员只获得对应部门，如果是管理员或者财务操作员获得所有部门

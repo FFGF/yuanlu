@@ -351,15 +351,19 @@ class AccountController extends ChannelsController{
     public function newusersave(){
 
         $data = I('post.');
-        $project = M('branch');
-        $maps['name'] = $data['branch_id'];
-        //本想着计算该账户表中有几条数据
-        $countnum=$project->count();
-        $result = $project->field('id')
-            ->where($maps)
-            ->select();
-        $data['branch_id']=$result[0]["id"];
-
+        $data['power'] = 1;
+        if($data['branch_id'] == 10) $data['power'] = 3;
+        if($data['branch_id'] == 12) $data['power'] = 2;
+//        $project = M('branch');
+//        $maps['name'] = $data['branch_id'];
+//        //本想着计算该账户表中有几条数据
+//        $countnum=$project->count();
+//        $result = $project->field('id')
+//            ->where($maps)
+//            ->select();
+//        $data['branch_id']=$result[0]["id"];
+//        dump($data);
+//        die();
         $user = M("user");
         $user->add($data);
         $this->success("插入数据成功");
@@ -388,11 +392,12 @@ class AccountController extends ChannelsController{
 
         $maps['user_name']=$tempusername;
 
-        $resultname=$user->field('id')->where($maps)->select();
+        $resultname=$user->join('branch on user.branch_id = branch.id')
+                        ->field('user.*,branch.name as branch_name')->where($maps)->find();
         //dump($resultname);
         //dump($resultname[0]);
 
-        $this->assign('uname',$resultname[0]['id']);
+        $this->assign('uname',$resultname);
         $this->display();
     }
 
@@ -401,14 +406,18 @@ class AccountController extends ChannelsController{
         //dump(updatenewuser());
 
         $data = I('post.');
-        $project = M('branch');
-        $maps['name'] = $data['branch_id'];
-        //本想着计算该账户表中有几条数据
-        $countnum=$project->count();
-        $result = $project->field('id')
-            ->where($maps)
-            ->select();
-        $data['branch_id']=$result[0]["id"];
+
+        $data['power'] = 1;
+        if($data['branch_id'] == 10) $data['power'] = 3;
+        if($data['branch_id'] == 12) $data['power'] = 2;
+//        $project = M('branch');
+//        $maps['name'] = $data['branch_id'];
+//        //本想着计算该账户表中有几条数据
+//        $countnum=$project->count();
+//        $result = $project->field('id')
+//            ->where($maps)
+//            ->select();
+//        $data['branch_id']=$result[0]["id"];
 
         //dump($data);
         //dump($data['uname']);
