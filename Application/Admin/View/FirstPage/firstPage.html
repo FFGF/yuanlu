@@ -22,12 +22,12 @@
                     </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: -50px" >
-                    <input type="text" id="start" class="time" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today">
+                    <input type="text" id="start" class="time" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerStart">
                 </div>
                 <div  style="display: inline-block;margin-left: 100px" class="endTimeChrome">
-                    <input type="text" id="end" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePicker">
+                    <input type="text" id="end" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerEnd">
                 </div>
-                <button class="btn searchButtonChrome" id="btn1">搜索</button>
+                <!--<button class="btn searchButtonChrome" id="btn1">搜索</button>-->
             </div>
             <div class="chart firstPageFirstChrome" id="container">
             </div>
@@ -45,12 +45,12 @@
                     </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: -50px">
-                    <input type="text" id="start1" class="time" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today">
+                    <input type="text" id="start1" class="time" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrastStart">
                 </div>
                 <div  style="display: inline-block;margin-left: 100px">
-                    <input type="text" id="end1" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrast">
+                    <input type="text" id="end1" class="time timeML" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrastEnd">
                 </div>
-                <button class="btn" id="btn2">搜索</button>
+                <!--<button class="btn" id="btn2">搜索</button>-->
             </div>
             <div class="chart" id="containerContrast"></div>
         </div>
@@ -66,7 +66,7 @@
                 <div  style="display: inline-block;margin-left: 36px;">
                     <input type="text" id="end3" class="time" placeholder="选择日期" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerStructure">
                 </div>
-                <button class="btn" style="margin-left: 128px" id="btn3">搜索</button>
+                <!--<button class="btn" style="margin-left: 128px" id="btn3">搜索</button>-->
             </div>
             <div class="chart" id="containerStructure" style="width: 400px;float: left;margin-left: -2px;"></div>
             <ul class="Structure">
@@ -89,104 +89,201 @@
     <script src="__JS__/changeDate.js"></script>
     <script src="__JS__/highcharts.js"></script>
     <script type="text/javascript">
-        //资产盈亏折线图
         $(function(){
-            $("#btn1").on("click",function(){
-                var start_date = $("#start").val();
-                var end_date = $("#end").val();;
-                var branch_name = $("#branch").val();
-                if(!branch_name){
-                    alert('请选择部门')
-                    return
-                }
-                if(!start_date){
-                    alert('请选择开始时间')
-                    return
-                }
-                if(!end_date){
-                    alert('请选择结束时间')
-                    return
-                }
-                if(DateToUnix(start_date)>DateToUnix(end_date)){
-                    alert("结束时间须大于开始时间")
-                    return
-                }
-                var url = 'admin/' + 'first_page-getassetproffitloss.html';
-                var data={'start_date':start_date,'end_date':end_date,'branch_name':branch_name};
-                $.get(url,data,function(response){
-                    var working_capital_data = response['working_capital_data'];
-                    var add_money_product = response['add_money_product'];
-                    var date_array = response['date_array'];
-                    var branch_name = response['branch_name'];
-                    var title = {text: '部门'};
-                    var subtitle = {text: branch_name};
-                    var xAxis = {categories:date_array};
-                    var yAxis = {title: {text: '金额 (元)'},
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }]
-                    };
-                    var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
-                    var series =  [
-                        {name: '运营资金', data: working_capital_data,
-                            color:'#d76364',
-                            tooltip:{
-                                valueSuffix: '元',
-                                shared:true,
-                                useHTML: true,
-                                headerFormat: '<small>{point.key}</small><table>',
-                                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-                                '<td style="text-align: right"><b>{point.y}</b></td></tr>',
-                                footerFormat: '</table>'
-                            }
-                        },
-                        {name: '可用资金',
-                            data:add_money_product,
-                            color:'#01b6e1',
-                            tooltip:{
-                                valueSuffix: '元',
-                                shared:true,
-                                useHTML: true,
-                                headerFormat: '<small></small><table>',
-                                pointFormat: '<tr><td style="color: {series.color}">运营资金: </td>' + '<td style="text-align: right"><b>{point.working}</b></td></tr>'
-                                +'<br><tr><td style="color: {series.color}">资产总和: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
-                                +'<br><tr width="100px"><td style="color: {series.color}">浮动盈亏：</td><td style="text-align: right"><b>{point.FloatProfit}元</b></td></tr>'
-                                +'<br><tr width="100px"><td style="color: {series.color}">资产现金浮动：</td><td style="text-align: right"><b>{point.FloatAssetMoney}元</b></td></tr>'
-                                +'<br><tr width="100px"><td style="color: {series.color}">资产品浮动：</td><td style="text-align: right"><b>{point.FloatAssetProduct}元</b></td></tr>',
-                                footerFormat: '</table>'
-                            }
-                        }
-                    ];
-                    var json = {};
-                    json.title = title;
-                    json.subtitle = subtitle;
-                    json.xAxis = xAxis;
-                    json.yAxis = yAxis;
-                    json.legend = legend;
-                    json.series = series;
-                    $('#container').highcharts(json);
+            //如果是业务人员，不能看到部门业绩对比图
+            if("{:session('admin')['power']}" == 1){
+                $(".box:eq(1)").remove()
+            }
+            $("#branch").on('click',function(event){
+                $('#ul').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul').hide()
+            })
+            $("#ul li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    $(this).css('background','white')
+                }).on('click',function(event){
+                    $("#branch").val($(this).text())
+//                    chartOne()
+                    //监听branch变化，就调用chartOne函数
+                    $("#branch").on("input",chartOne(),false)
+                    event.stopPropagation()
+                    $('#ul').hide()
                 })
             })
 
+            $("#branch1").on('click',function(event){
+                $('#ul1').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul1').hide()
+            })
+            //实现可以选择三个部门
+            var i = 0;
+            $("#ul1 li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    if(!$(this).attr('index')){
+                        $(this).css('background','white')
+                    }
+                }).on('click',function(event){
+                    if($(this).attr('index')){
+                        $(this).css('background','white')
+                        $(this).removeAttr('index')
+                    }else{
+                        $(this).attr('index',i);
+                        var branch = $("#branch1").val();
+                        if(branch){
+                            branch = branch +',' +$(this).text();
+                        }else{
+                            branch = $(this).text();
+                        }
+                        //如果超过三个部门，就把最初的那个删除掉
+                        if($("#ul1 li[index]").length > 3){
+                            var j = [];;
+                            $("#ul1 li[index]").each(function(index,value){
+                                j.push($(value).attr('index'))
+                            })
+                            var min = Math.min.apply(null, j)
+                            $("#ul1 li[index="+min +"]").css('background','white');
+                            $("#ul1 li[index="+min +"]").removeAttr('index');
+                            var branchArray = branch.split(',')
+                            branch = branchArray[1] +',' + branchArray[2] + ',' +branchArray[3]
+                        }
+                        i++;
+                        $("#branch1").val(branch);
+                    }
+                    event.stopPropagation()
+                })
+            })
+
+            $("#branch2").on('click',function(event){
+                $('#ul2').show()
+                event.stopPropagation()
+            })
+            $(document).on('click',function(){
+                $('#ul2').hide()
+            })
+            $("#ul2 li").each(function(index,value){
+                $(value).on('mouseover',function(){
+                    $(this).css('background','#dcd5ec')
+                }).on('mouseout',function(){
+                    $(this).css('background','white')
+                }).on('click',function(event){
+                    $("#branch2").val($(this).text())
+//                    chartThree()
+                    //监听branch2变化，就调用chartOne函数
+                    $("#branch2").on("input",chartThree(),false)
+                    event.stopPropagation()
+                    $('#ul2').hide()
+                })
+            })
+        })
+        //资产盈亏折线图
+        function chartOne(){
+            var start_date = $("#start").val();
+            var end_date = $("#end").val();;
+            var branch_name = $("#branch").val();
+            if(!branch_name){
+//                alert('请选择部门')
+                return
+            }
+            if(!start_date){
+//                alert('请选择开始时间')
+                return
+            }
+            if(!end_date){
+//                alert('请选择结束时间')
+                return
+            }
+            if(DateToUnix(start_date)>DateToUnix(end_date)){
+                alert("结束时间须大于开始时间")
+                return
+            }
+            var url = 'admin/' + 'first_page-getassetproffitloss.html';
+            var data={'start_date':start_date,'end_date':end_date,'branch_name':branch_name};
+            $.get(url,data,function(response){
+                var working_capital_data = response['working_capital_data'];
+                var add_money_product = response['add_money_product'];
+                var date_array = response['date_array'];
+                var branch_name = response['branch_name'];
+                var title = {text: '部门'};
+                var subtitle = {text: branch_name};
+                var xAxis = {categories:date_array};
+                var yAxis = {title: {text: '金额 (元)'},
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                };
+                var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
+                var series =  [
+                    {name: '运营资金', data: working_capital_data,
+                        color:'#d76364',
+                        tooltip:{
+                            valueSuffix: '元',
+                            shared:true,
+                            useHTML: true,
+                            headerFormat: '<small>{point.key}</small><table>',
+                            pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                            '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>'
+                        }
+                    },
+                    {name: '可用资金',
+                        data:add_money_product,
+                        color:'#01b6e1',
+                        tooltip:{
+                            valueSuffix: '元',
+                            shared:true,
+                            useHTML: true,
+                            headerFormat: '<small></small><table>',
+                            pointFormat: '<tr><td style="color: {series.color}">运营资金: </td>' + '<td style="text-align: right"><b>{point.working}</b></td></tr>'
+                            +'<br><tr><td style="color: {series.color}">资产总和: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
+                            +'<br><tr width="100px"><td style="color: {series.color}">浮动盈亏：</td><td style="text-align: right"><b>{point.FloatProfit}元</b></td></tr>'
+                            +'<br><tr width="100px"><td style="color: {series.color}">资产现金浮动：</td><td style="text-align: right"><b>{point.FloatAssetMoney}元</b></td></tr>'
+                            +'<br><tr width="100px"><td style="color: {series.color}">资产品浮动：</td><td style="text-align: right"><b>{point.FloatAssetProduct}元</b></td></tr>',
+                            footerFormat: '</table>'
+                        }
+                    }
+                ];
+                var json = {};
+                json.title = title;
+                json.subtitle = subtitle;
+                json.xAxis = xAxis;
+                json.yAxis = yAxis;
+                json.legend = legend;
+                json.series = series;
+                $('#container').highcharts(json);
+            })
+        }
+        $(function(){
+            myDatePickerStart.on("select",chartOne)
+            myDatePickerEnd.on("select", chartOne)
         })
         //部门业绩对比图
         $(function(){
-            $("#btn2").on("click",function(){
+            function chartTwo(){
                 var branch_name = $("#branch1").val();
                 var start_date = $("#start1").val();
                 var end_date = $("#end1").val();;
                 if(!branch_name){
-                    alert('请选择部门')
+//                    alert('请选择部门')
                     return
                 }
                 if(!start_date){
-                    alert('请选择开始时间')
+//                    alert('请选择开始时间')
                     return
                 }
                 if(!end_date){
-                    alert('请选择结束时间')
+//                    alert('请选择结束时间')
                     return
                 }
                 if(DateToUnix(start_date)>DateToUnix(end_date)){
@@ -232,173 +329,83 @@
                     json.series = series;
                     $('#containerContrast').highcharts(json);
                 })
-            })
-
+            }
+            myDatePickerContrastStart.on("select", chartTwo)
+            myDatePickerContrastEnd.on("select", chartTwo)
         })
         //部门资产结构图
-        $(function(){
-            $("#btn3").on("click",function(){
-                var date = $("#end3").val();
-                var branch_name = $("#branch2").val()
-                if(!branch_name){
-                    alert("请选择部门");
-                    return;
-                }
-                if(!end3){
-                    alert("请选择时间");
-                    return;
-                }
-                var url = 'admin/' + 'first_page-getbranchstructure.html';
-                var data = {'date':date,'branch_name':branch_name};
-                $.get(url,data,function(response){
-                    var branchStructureData = response['branchStructureData'];
-                    var lastBranchStructureData = response['lastBranchStructureData'];
-                    $(".Structure i:eq(0)").text(branchStructureData['finance_debt'])
-                    $(".Structure i:eq(1)").text(branchStructureData['receivable'])
-                    $(".Structure i:eq(2)").text(branchStructureData['payable'])
-                    $(".Structure i:eq(3)").text(lastBranchStructureData['asset_money'])
-                    $(".Structure i:eq(4)").text(lastBranchStructureData['asset_product'])
-                    $(".Structure i:eq(5)").text(lastBranchStructureData['finance_debt'])
-                    console.log(branchStructureData)
-                    console.log(lastBranchStructureData)
-
-                    var chart = {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    };
-                    var title = {text: ''};
-                    var tooltip = {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>{point.data}</b>'};
-                    var plotOptions = {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            },
-                            showInLegend: true
-                        }
-                    };
-                    var series= [ {
-                        type: 'pie',
-                        name: '金额',
-                        data: [{
-                            name: '资产品',
-                            y: branchStructureData['asset_product'],
-                            color: '#ff5154'
-                        }, {
-                            name: '资产现金',
-                            y:  branchStructureData['asset_money'],
-                            color: '#597aff'
-                        }]
-                    }
-                    ];
-
-                    var json = {};
-                    json.chart = chart;
-                    json.title = title;
-                    json.series = series;
-                    json.plotOptions = plotOptions;
-                    $('#containerStructure').highcharts(json);
-
-                })
-            })
-
-        })
-
-        $(function(){
-            //如果是业务人员，不能看到部门业绩对比图
-            if("{:session('admin')['power']}" == 1){
-                $(".box:eq(1)").remove()
+        function chartThree(){
+            var date = $("#end3").val();
+            var branch_name = $("#branch2").val()
+            if(!branch_name){
+//                alert("请选择部门");
+                return;
             }
-            $("#branch").on('click',function(event){
-               $('#ul').show()
-                event.stopPropagation()
-            })
-            $(document).on('click',function(){
-                $('#ul').hide()
-            })
-            $("#ul li").each(function(index,value){
-                $(value).on('mouseover',function(){
-                    $(this).css('background','#dcd5ec')
-                }).on('mouseout',function(){
-                    $(this).css('background','white')
-                }).on('click',function(event){
-                    $("#branch").val($(this).text())
-                    event.stopPropagation()
-                    $('#ul').hide()
-                })
-            })
+            if(!date){
+//                alert("请选择时间");
+                return;
+            }
+            var url = 'admin/' + 'first_page-getbranchstructure.html';
+            var data = {'date':date,'branch_name':branch_name};
+            $.get(url,data,function(response){
+                var branchStructureData = response['branchStructureData'];
+                var lastBranchStructureData = response['lastBranchStructureData'];
+                $(".Structure i:eq(0)").text(branchStructureData['finance_debt'])
+                $(".Structure i:eq(1)").text(branchStructureData['receivable'])
+                $(".Structure i:eq(2)").text(branchStructureData['payable'])
+                $(".Structure i:eq(3)").text(lastBranchStructureData['asset_money'])
+                $(".Structure i:eq(4)").text(lastBranchStructureData['asset_product'])
+                $(".Structure i:eq(5)").text(lastBranchStructureData['finance_debt'])
+                console.log(branchStructureData)
+                console.log(lastBranchStructureData)
 
-            $("#branch1").on('click',function(event){
-                $('#ul1').show()
-                event.stopPropagation()
-            })
-            $(document).on('click',function(){
-                $('#ul1').hide()
-            })
-            //实现可以选择三个部门
-            var i = 0;
-            $("#ul1 li").each(function(index,value){
-                $(value).on('mouseover',function(){
-                    $(this).css('background','#dcd5ec')
-                }).on('mouseout',function(){
-                    if(!$(this).attr('index')){
-                        $(this).css('background','white')
+                var chart = {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                };
+                var title = {text: ''};
+                var tooltip = {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>{point.data}</b>'};
+                var plotOptions = {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        showInLegend: true
                     }
-                }).on('click',function(event){
-                    if($(this).attr('index')){
-                        $(this).css('background','white')
-                        $(this).removeAttr('index')
-                    }else{
-                        $(this).attr('index',i);
-                        var branch = $("#branch1").val();
-                        if(branch){
-                            branch = branch +',' +$(this).text();
-                        }else{
-                            branch = $(this).text();
-                        }
-                        //如果超过三个部门，就把最初的那个删除掉
-                       if($("#ul1 li[index]").length > 3){
-                           var j = [];;
-                           $("#ul1 li[index]").each(function(index,value){
-                               j.push($(value).attr('index'))
-                           })
-                           var min = Math.min.apply(null, j)
-                           $("#ul1 li[index="+min +"]").css('background','white');
-                           $("#ul1 li[index="+min +"]").removeAttr('index');
-                           var branchArray = branch.split(',')
-                           branch = branchArray[1] +',' + branchArray[2] + ',' +branchArray[3]
-                       }
-                        i++;
-                        $("#branch1").val(branch);
-                    }
-                    event.stopPropagation()
-                })
-            })
+                };
+                var series= [ {
+                    type: 'pie',
+                    name: '金额',
+                    data: [{
+                        name: '资产品',
+                        y: branchStructureData['asset_product'],
+                        color: '#ff5154'
+                    }, {
+                        name: '资产现金',
+                        y:  branchStructureData['asset_money'],
+                        color: '#597aff'
+                    }]
+                }
+                ];
 
-            $("#branch2").on('click',function(event){
-                $('#ul2').show()
-                event.stopPropagation()
+                var json = {};
+                json.chart = chart;
+                json.title = title;
+                json.series = series;
+                json.plotOptions = plotOptions;
+                $('#containerStructure').highcharts(json);
+
             })
-            $(document).on('click',function(){
-                $('#ul2').hide()
-            })
-            $("#ul2 li").each(function(index,value){
-                $(value).on('mouseover',function(){
-                    $(this).css('background','#dcd5ec')
-                }).on('mouseout',function(){
-                    $(this).css('background','white')
-                }).on('click',function(event){
-                    $("#branch2").val($(this).text())
-                    event.stopPropagation()
-                    $('#ul2').hide()
-                })
-            })
+        }
+        $(function(){
+            myDatePickerStructure.on("select", chartThree)
         })
 
     </script>
