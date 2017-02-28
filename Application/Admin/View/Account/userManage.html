@@ -26,7 +26,7 @@
         .accountUserManageBottom .user .left .name{text-align: left;margin-left: 15px;margin-top: 15px;color: #000000B3;font-weight: bold;font-size: 15px;}
         .accountUserManageBottom .user .left .branch{text-align: left;margin-left: 15px;margin-top: 10px;color: #000000B3;font-size: 15px;font-weight: bold;}
         .accountUserManageBottom .user .right{margin-left: 40%;height: 100%;overflow: hidden}
-        .accountUserManageBottom .user .right img{margin-left: 10px;margin-top: 10px;width: 15px}
+        .accountUserManageBottom .user .right img{margin-top: 2px;width: 20px}
         .accountUserManageBottom .user .right p{margin-left: 15%;margin-top: 7px;color: #41d7dd}
 
     </style>
@@ -76,10 +76,10 @@ left: 375px;">
                 <div class="right">
 
                     <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
-                        <img  style="margin-left: 120px" src="__IMG__/editor.png">
+                        <img  style="margin-left: 120px" src="__IMG__/编辑.svg">
                     </a>
 
-                    <img  src="__IMG__/delete.png" data-name="{$key}" onclick="display_alert(this)" style="cursor: pointer">
+                    <img  src="__IMG__/删除.svg" data-name="{$key}" onclick="display_alert(this)" style="cursor: pointer;margin-left: 1px;width: 27px;margin-top: -1px;">
                     <script type="text/javascript">
                         function display_alert(that){
                             var mymessage=confirm("你确定删除")       ;

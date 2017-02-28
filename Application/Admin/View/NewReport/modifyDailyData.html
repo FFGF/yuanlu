@@ -10,7 +10,7 @@
 <block name="body">
     <!--填写账户信息-->
     <div class="txzhxx">
-        <div class="nav">资产日报 &gt; <i class="now">填写账户信息</i></div>
+        <div class="nav">资产日报 &gt; <i class="now" style="color:#01b6e1">资产日报录入</i></div>
         <div class="step">
             <div class="step1 fontColor">1.日期日报选择</div>
             <div class="step1 step2 border fontColor">2.填写账户信息</div>
@@ -24,16 +24,16 @@
                     <volist name="project_cunhuo" id="item">
                         <h2>{$item['project_name']}&emsp;[{$item['branch_name']}]</h2>
                         <div class="content">
-                            <label>资产现金：</label><input type="text" name='asset_money<?php echo ($item["project_id"]); ?>' value="{$item['asset_money']}"><i>(元)</i>
+                            <label>资&emsp;产&emsp;现&emsp;金：</label><input type="text" name='asset_money<?php echo ($item["project_id"]); ?>' value="{$item['asset_money']}"><i>(元)</i>
                             <label class="mL">资产品：</label><input type="text" name='asset_product<?php echo ($item["project_id"]); ?>' value="{$item['asset_product']}"><i>(元)</i>
                             <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name='payable<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['payable']}"><i>(元)</i>
+                            <label>应&emsp;&emsp;&emsp;&emsp;&emsp;付：</label><input type="text" name='payable<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['payable']}"><i>(元)</i>
                             <label class="mL">应&emsp;收：</label><input type="text" name='receivable<?php echo ($item["project_id"]); ?>' value="{$item['receivable']}"><i>(元)</i>
                             <br/>
-                            <label>融资负债/授信：</label><input type="text" name='finance_debt<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['finance_debt']}"><i>(元)</i>
+                            <label>融资负债 / 授信：</label><input type="text" name='finance_debt<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['finance_debt']}"><i>(元)</i>
                             <br/>
                             <br/>
-                            <label>备注：</label><textarea   cols="70" rows="5" name='remark<?php echo ($item["project_id"]); ?>' value="{$item['remark']}"></textarea>
+                            <label>备&emsp;&emsp;&emsp;&emsp;&emsp;注：</label><textarea   style="width:685px;height:96px" cols="83" rows="5" name='remark<?php echo ($item["project_id"]); ?>' value="{$item['remark']}"></textarea>
                         </div>
                     </volist>
                 </div>
@@ -46,16 +46,16 @@
                     <volist name="project_qihuo" id="item">
                         <h2>{$item['project_name']}&emsp;[{$item['branch_name']}]</h2>
                         <div class="content">
-                            <label>资产现金：</label><input type="text" name='asset_money<?php echo ($item["project_id"]); ?>' class="backcolor" value="{$item['asset_money']}"><i>(元)</i>
+                            <label>资&emsp;产&emsp;现&emsp;金：</label><input type="text" name='asset_money<?php echo ($item["project_id"]); ?>' class="backcolor" value="{$item['asset_money']}"><i>(元)</i>
                             <label class="mL">保证金：</label><input type="text" name='asset_product<?php echo ($item["project_id"]); ?>' class="backcolor" value="{$item['asset_product']}"><i>(元)</i>
                             <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name='payable<?php echo ($item["project_id"]); ?>' class="mT backcolor" value="{$item['payable']}"><i>(元)</i>
+                            <label>应&emsp;&emsp;&emsp;&emsp;&emsp;付：</label><input type="text" name='payable<?php echo ($item["project_id"]); ?>' class="mT backcolor" value="{$item['payable']}"><i>(元)</i>
                             <label class="mL">应&emsp;收：</label><input type="text" name='receivable<?php echo ($item["project_id"]); ?>' class="backcolor" value="{$item['receivable']}"><i>(元)</i>
                             <br/>
-                            <label>融资负债/授信：</label><input type="text" name='finance_debt<?php echo ($item["project_id"]); ?>' class="mT backcolor" value="{$item['finance_debt']}"><i>(元)</i>
+                            <label>融资负债 / 授信：</label><input type="text" name='finance_debt<?php echo ($item["project_id"]); ?>' class="mT backcolor" value="{$item['finance_debt']}"><i>(元)</i>
                             <br/>
                             <br/>
-                            <label>备注：</label><textarea name='remark<?php echo ($item["project_id"]); ?>' cols="70" rows="5" class="backcolor" value="{$item['remark']}"></textarea>
+                            <label>备&emsp;&emsp;&emsp;&emsp;&emsp;注：</label><textarea name='remark<?php echo ($item["project_id"]); ?>' style="width:685px;height:96px" cols="83" rows="5" class="backcolor" value="{$item['remark']}"></textarea>
                         </div>
                     </volist>
                 </div>
@@ -68,16 +68,16 @@
                     <volist name="project_bank" id="item">
                         <h2>{$item['project_name']}&emsp;[{$item['branch_name']}]</h2>
                         <div class="content">
-                            <label>资产现金：</label><input type="text" name='asset_money<?php echo ($item["project_id"]); ?>' value="{$item['asset_money']}"><i>(元)</i>
+                            <label>资&emsp;产&emsp;现&emsp;金：</label><input type="text" name='asset_money<?php echo ($item["project_id"]); ?>' value="{$item['asset_money']}"><i>(元)</i>
                             <label class="mL">资产品：</label><input type="text" name='asset_product<?php echo ($item["project_id"]); ?>' value="{$item['asset_product']}"><i>(元)</i>
                             <br/>
-                            <label>应&emsp;&emsp;付：</label><input type="text" name='payable<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['payable']}"><i>(元)</i>
+                            <label>应&emsp;&emsp;&emsp;&emsp;&emsp;付：</label><input type="text" name='payable<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['payable']}"><i>(元)</i>
                             <label class="mL">应&emsp;收：</label><input type="text" name='receivable<?php echo ($item["project_id"]); ?>' value="{$item['receivable']}"><i>(元)</i>
                             <br/>
-                            <label>融资负债/授信：</label><input type="text" name='finance_debt<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['finance_debt']}"><i>(元)</i>
+                            <label>融资负债 / 授信：</label><input type="text" name='finance_debt<?php echo ($item["project_id"]); ?>' class="mT" value="{$item['finance_debt']}"><i>(元)</i>
                             <br/>
                             <br/>
-                            <label>备注：</label><textarea name='remark<?php echo ($item["project_id"]); ?>' cols="70" rows="5" value="{$item['remark']}" onload="applyTextArea(this,this.value)"></textarea>
+                            <label>备&emsp;&emsp;&emsp;&emsp;&emsp;注：</label><textarea name='remark<?php echo ($item["project_id"]); ?>'  style="width:685px;height:96px" cols="83" rows="5" value="{$item['remark']}" onload="applyTextArea(this,this.value)"></textarea>
                         </div>
                     </volist>
                 </div>
