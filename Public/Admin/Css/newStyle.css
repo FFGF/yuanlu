@@ -4,7 +4,7 @@
 .step{height: 50px;background: white;margin-top: 8px;}
 
 .step .step1{float: left;line-height: 50px;font-size: 16px;margin-left: 21px;width: 150px;height: 45px;text-align: center;  }
-.step .step2{float: left;margin-left: 70px;color: #c7c6c6;border-bottom: 0px}
+.step .step2{float: left;margin-left: 125px;color: #c7c6c6;border-bottom: 0px}
 .step .border{border-bottom: 5px solid #01b6e1; }
 .step .fontColor{color: #01b6e1}
 
@@ -107,7 +107,7 @@ body .nextButton{background-color:  #8ccd5a;margin-left: 50px;color: white}
 .souye .top h2{width: 130px;float: left}
 .souye .top .branch{height: 24px;margin-left: 94px;width: 100px;text-align: center;color: #918f8f}
 .souye .top .branch1{margin-left: 50px;width: 140px;}
-.souye .top ul{width: 100px;position: absolute;left: 225px;cursor: pointer;display: none;background: white;z-index: 1}
+.souye .top ul{width: 100px;position: absolute;left: 188px;cursor: pointer;display: none;background: white;z-index: 1}
 .souye .top ul li{height: 20px;line-height: 20px;color: #918f8f;text-align: center;}
 .souye .time{margin-left: 52px;height: 24px;text-align: center;color: #918f8f}
 .souye .timeML{margin-left: -50px}

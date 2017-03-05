@@ -16,22 +16,18 @@
         <div class="box">
             <div class="top" style="position: relative">
                 <h2>资产盈亏折线图</h2>
-                <input type="text" id="branch" class="branch" placeholder="选择部门" readonly>
-                <img  class="downArrow" style="position: absolute;left: 306px;top: 3px;" id="downArrow1" onclick="javascript:$('#branch').trigger('click')">
+                <input type="text" id="branch" class="branch" style="width:120px;cursor:pointer;margin-left:42px;background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 95px 4px;" placeholder="选择部门" readonly >
                 <ul id="ul">
                     <volist name="branch_name" id="item">
                         <li>{$item['name']}</li>
                     </volist>
                 </ul>
-                <div  style="display: inline-block;margin-left: -50px" >
-                    <input type="text" id="start" class="time" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 106px 4px;" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerStart">
-                    <!--<img class="downArrow" style="position: absolute;left: 432px;top: 4px;">-->
+                <div  style="display: inline-block;margin-left: -20px" >
+                    <input type="text" id="start" class="time" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 120px 4px;" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerStart">
                 </div>
                 <div  style="display: inline-block;margin-left: 100px" class="endTimeChrome">
-                    <input type="text" id="end" class="time timeML" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 106px 4px;" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerEnd">
-                    <!--<img class="downArrow" style="position: absolute;left: 627px;top: 5px;">-->
+                    <input type="text" id="end" class="time timeML" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 120px 4px;" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerEnd">
                 </div>
-                <!--<button class="btn searchButtonChrome" id="btn1">搜索</button>-->
             </div>
             <div class="chart firstPageFirstChrome" id="container">
             </div>
@@ -39,9 +35,8 @@
         <div class="box mt">
             <div class="top">
                 <h2>部门业绩对比图</h2>
-                <input type="text" id="branch1" class="branch branch1" placeholder="选择部门" readonly autocomplete="off">
-                <img class="downArrow" style="position: absolute;left: 283px;top: 3px;" id="downArrow4">
-                <ul id="ul1" style="left: 198px">
+                <input type="text" id="branch1" class="branch branch1" style="cursor:pointer;background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 104px 4px;" placeholder="选择部门" readonly autocomplete="off">
+                <ul id="ul1" style="left: 207px">
                     <volist name="branch_name" id="item">
                         <if condition="$key neq (count($branch_name) - 1)">
                             <li>{$item['name']}</li>
@@ -50,32 +45,26 @@
                     </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: -50px">
-                    <input type="text" id="start1" class="time" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 106px 4px;" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrastStart">
-                    <!--<img class="downArrow" style="position: absolute;left: 428px;top: 3px;">-->
+                    <input type="text" id="start1" class="time" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 120px 4px;" placeholder="开始时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrastStart">
                 </div>
                 <div  style="display: inline-block;margin-left: 100px">
-                    <input type="text" id="end1" class="time timeML" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 106px 4px;" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrastEnd">
-                    <!--<img class="downArrow" style="position: absolute;left: 622px;top: 4px;">-->
+                    <input type="text" id="end1" class="time timeML" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 120px 4px;" placeholder="结束时间" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerContrastEnd">
                 </div>
-                <!--<button class="btn" id="btn2">搜索</button>-->
             </div>
             <div class="chart" id="containerContrast"></div>
         </div>
         <div class="box mt">
             <div class="top">
                 <h2>部门资产结构图</h2>
-                <input type="text" id="branch2" class="branch" placeholder="选择部门" readonly>
-                <img class="downArrow" style="position: absolute;left: 308px;top: 3px;" id="downArrow7">
-                <ul id="ul2">
+                <input type="text" id="branch2" class="branch" style="width:120px;cursor:pointer;margin-left:62px;background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 95px 4px;" placeholder="选择部门" readonly>
+                <ul id="ul2" style="left: 207px">
                     <volist name="branch_name" id="item">
                         <li>{$item['name']}</li>
                     </volist>
                 </ul>
                 <div  style="display: inline-block;margin-left: 36px;">
-                    <input type="text" id="end3" class="time" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 106px 4px;" placeholder="选择日期" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerStructure">
-                    <!--<img class="downArrow" style="position: absolute; left: 518px;top: 4px;">-->
+                    <input type="text" id="end3" class="time" style="background: url(../../../../Public/Admin/Images/向下-3.svg) no-repeat 120px 4px;" placeholder="选择日期" readonly data-beatpicker="true" data-beatpicker-module="clear,gotoDate,today" data-beatpicker-id="myDatePickerStructure">
                 </div>
-                <!--<button class="btn" style="margin-left: 128px" id="btn3">搜索</button>-->
             </div>
             <div class="chart" id="containerStructure" style="width: 400px;float: left;margin-left: -2px;"></div>
             <ul class="Structure">

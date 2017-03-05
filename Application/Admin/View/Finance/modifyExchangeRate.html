@@ -9,7 +9,7 @@
         .rbrqxz .step .marginLeft{margin-left: -20px}
         .hllr{margin-top: 10px;background-color: red;width: 900px;background: white;overflow: hidden;position: relative}
         .hllr .left{width: 50%;background-color: white;padding-top: 16px;float: left;padding-bottom: 100px}
-        .hllr .tip{font-size: 20px;width: 100px;margin: 0px auto;margin-bottom: 20px;text-align: center;border-bottom: 4px solid #01b6e1;height: 30px;}
+        .hllr .tip{font-size: 20px;width: 100px;margin: 0px auto;margin-bottom: 20px;text-align: center;border-bottom: 2px solid #01b6e1;height: 30px;}
         .hllr .left ul{width: 290px;margin: 30px auto;font-size: 15px; color: #d7d7db;}
         .hllr .left ul li{margin-bottom: 15px;line-height: 25px}
 
@@ -18,11 +18,11 @@
         .hllr .right ul li{margin-bottom: 20px; border-bottom: 2px solid #f3f3f5; width: 300px;height: 30px;}
         .hllr .right ul li input{font-size: 16px;}
 
-        .hllr .right ul > li:nth-of-type(1) input{margin-left: 50px;}
+        .hllr .right ul > li:nth-of-type(1) input{margin-left: 46px;}
         .hllr .right ul > li:nth-of-type(2) input{margin-left: 20px;}
         .hllr .right ul > li:nth-of-type(3) input{margin-left: 20px;}
         .hllr .right ul > li:last-of-type{margin-bottom: 0px }
-        .hllr .right .bold{color: black;font-size: 16px;font-weight: bold;}
+        .hllr .right .bold{color: black;font-size: 13px;font-weight: bold;}
         .hllr .right button{cursor: pointer;width: 100px;margin-top: 25px;font-size: 17px;border-radius: 5px;color: #e2e2e3;margin-top: 160px;background-color: white;}
         .hllr .right .leftButton{margin-left: 90px;border: 2px solid #8ccd5a;color:#8ccd5a}
         .hllr .right .rightButton{margin-left: 60px;border: 2px solid #8ccd5a;background-color: #8ccd5a;color: white}
@@ -51,10 +51,10 @@
                 <div class="tip">汇率录入</div>
                 <ul>
                     <li><i class="bold">日期：</i><input name="effect_date" id="effect_date" type="text" value="{$exchangeRateData.effect_date}" readonly="true"></li>
-                    <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate" value="{$exchangeRateData.offshore_exchange_rate}"></li>
-                    <li><i class="bold">在岸汇率：</i><input type="text" placeholder="请输入在岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate" value="{$exchangeRateData.onshore_exchange_rate}"></li>
+                    <li><i class="bold">离岸汇率：</i><input type="text" placeholder="请输入离岸汇率" name="offshore_exchange_rate" id="offshore_exchange_rate" value="{$exchangeRateData.offshore_exchange_rate}"></li>
+                    <li><i class="bold">在岸汇率：</i><input type="text" placeholder="请输入在岸汇率" name="onshore_exchange_rate" id="onshore_exchange_rate" value="{$exchangeRateData.onshore_exchange_rate}"></li>
                 </ul>
-                <button class="leftButton" type="reset">取消</button><button class="rightButton" id="submit">提交</button>
+                <button class="leftButton" type="reset" id="cancel">取消</button><button class="rightButton" id="submit">提交</button>
             </div>
             <div class="centerBarRed"></div>
             <div class="centerBarGray"></div>
@@ -69,6 +69,9 @@
     <script src="__JS__/changeDate.js"></script>
     <script type="text/javascript">
         $(function(){
+            $("#cancel").on('click',function(){
+                window.location.href="/admin/finance-inputExchangeRate.html"
+            })
 
             $("#submit").on('click',function(){
                 var effect_date = $("#effect_date").val();
@@ -86,12 +89,12 @@
                     alert("请输入在岸汇率");
                     return false;
                 }
-                var url = "/admin/finance-saveExchangeRate.html";
+                var url = "/admin/finance-modifyExchangeRateData.html";
                 var data = {"effect_date":effect_date,"onshore_exchange_rate":onshore_exchange_rate,"offshore_exchange_rate":offshore_exchange_rate};
                 $.get(url,data,function(response){
                     if(response['code'] == 1){
                         alert("数据修改成功");
-                        window.location.reload()
+                        window.location.href="/admin/finance-inputExchangeRate.html"
                     }else{
                         alert("数据修改失败")
                     }
