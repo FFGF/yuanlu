@@ -43,6 +43,7 @@ class BranchModel extends Model{
             $maps['user.power'] = array('eq','1');
         };
         $result = $this->join('user on branch.id=user.branch_id')
+                       ->distinct(true)
                        ->where($maps)
                        ->field('branch.id,branch.name')
                        ->select();

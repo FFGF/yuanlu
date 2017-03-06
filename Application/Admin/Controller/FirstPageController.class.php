@@ -84,7 +84,7 @@ class FirstPageController extends ChannelsController{
         $lastBranchStructureData = $this->getBranchStructureData($branch_id,$lastDate);
         //计算差值
         array_walk($lastBranchStructureData,function(&$value,$index)use($branchStructureData){$value = $branchStructureData[$index] - $value;});
-        $json['branchStructureData'] = $lastBranchStructureData;
+        $json['branchStructureData'] = $branchStructureData;
         $json['lastBranchStructureData'] = $lastBranchStructureData;
         $this->ajaxReturn($json);
     }
