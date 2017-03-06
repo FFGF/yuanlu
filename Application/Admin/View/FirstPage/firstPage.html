@@ -156,6 +156,9 @@
                         }
                         i++;
                         $("#branch1").val(branch);
+                        //监听branch1变化，就调用chartTwo函数
+                        $("#branch1").on("input",chartTwo(),false)
+
                     }
                     event.stopPropagation()
                 })
@@ -267,67 +270,67 @@
             myDatePickerEnd.on("select", chartOne)
         })
         //部门业绩对比图
-        $(function(){
-            function chartTwo(){
-                var branch_name = $("#branch1").val();
-                var start_date = $("#start1").val();
-                var end_date = $("#end1").val();;
-                if(!branch_name){
+        function chartTwo(){
+            var branch_name = $("#branch1").val();
+            var start_date = $("#start1").val();
+            var end_date = $("#end1").val();;
+            if(!branch_name){
 //                    alert('请选择部门')
-                    return
-                }
-                if(!start_date){
-//                    alert('请选择开始时间')
-                    return
-                }
-                if(!end_date){
-//                    alert('请选择结束时间')
-                    return
-                }
-                if(DateToUnix(start_date)>DateToUnix(end_date)){
-                    alert("结束时间须大于开始时间")
-                    return
-                }
-                var url = 'admin/' + 'first_page-getbranchcontrast.html';
-                var data={'start_date':start_date,'end_date':end_date,'branch_name':branch_name};
-                $.get(url,data,function(response){
-                    var date_array = response['date_array'];
-                    var data = response['data'];
-                    var title = {text: ''};
-                    var subtitle = {text: ""};
-                    var xAxis = {categories:date_array};
-                    var yAxis = {title: {text: '浮动盈利率'},
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }]
-                    };
-                    var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
-                    var series = [];
-                    $.each(data,function(index,value){
-                        var temp = {name:value[0]['name'],
-                            data:value,
-                            tooltip:{
-                                valueSuffix: '',
-                                useHTML: true,
-                                headerFormat: '<small></small><table>',
-                                pointFormat: '<tr><td style="color: {series.color}">浮动盈利率: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
-                                +'<br><tr><td style="color: {series.color}">浮动盈亏: </td>' + '<td style="text-align: right"><b>{point.FloatProfit}</b></td></tr>',
-                                footerFormat: '</table>'
-                            }};
-                        series.push(temp)
-                    })
-                    var json = {};
-                    json.title = title;
-                    json.subtitle = subtitle;
-                    json.xAxis = xAxis;
-                    json.yAxis = yAxis;
-                    json.legend = legend;
-                    json.series = series;
-                    $('#containerContrast').highcharts(json);
-                })
+                return
             }
+            if(!start_date){
+//                    alert('请选择开始时间')
+                return
+            }
+            if(!end_date){
+//                    alert('请选择结束时间')
+                return
+            }
+            if(DateToUnix(start_date)>DateToUnix(end_date)){
+                alert("结束时间须大于开始时间")
+                return
+            }
+            var url = 'admin/' + 'first_page-getbranchcontrast.html';
+            var data={'start_date':start_date,'end_date':end_date,'branch_name':branch_name};
+            $.get(url,data,function(response){
+                var date_array = response['date_array'];
+                var data = response['data'];
+                var title = {text: ''};
+                var subtitle = {text: ""};
+                var xAxis = {categories:date_array};
+                var yAxis = {title: {text: '浮动盈利率'},
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                };
+                var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
+                var series = [];
+                $.each(data,function(index,value){
+                    var temp = {name:value[0]['name'],
+                        data:value,
+                        tooltip:{
+                            valueSuffix: '',
+                            useHTML: true,
+                            headerFormat: '<small></small><table>',
+                            pointFormat: '<tr><td style="color: {series.color}">浮动盈利率: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
+                            +'<br><tr><td style="color: {series.color}">浮动盈亏: </td>' + '<td style="text-align: right"><b>{point.FloatProfit}</b></td></tr>',
+                            footerFormat: '</table>'
+                        }};
+                    series.push(temp)
+                })
+                var json = {};
+                json.title = title;
+                json.subtitle = subtitle;
+                json.xAxis = xAxis;
+                json.yAxis = yAxis;
+                json.legend = legend;
+                json.series = series;
+                $('#containerContrast').highcharts(json);
+            })
+        }
+        $(function(){
             myDatePickerContrastStart.on("select", chartTwo)
             myDatePickerContrastEnd.on("select", chartTwo)
         })
