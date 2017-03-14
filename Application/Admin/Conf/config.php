@@ -21,15 +21,5 @@ return array(
         '__CSS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/Css',
         '__JS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/Js',
     ),
-    
-    /*邮箱配置**********************************************/
-    'MAIL_HOST' =>'mail.grandcloud.cn',//smtp服务器的名称
-    'MAIL_SMTPAUTH' =>TRUE, //启用smtp认证
-    'MAIL_USERNAME' =>'support@grandcloud.cn',//你的邮箱名
-    'MAIL_FROM' =>'support@grandcloud.cn',//发件人地址
-    'MAIL_FROMNAME'=>'盛大云',//发件人姓名
-    'MAIL_PASSWORD' =>'gckf@13975',//邮箱密码
-    'MAIL_CHARSET' =>'utf-8',//设置邮件编码
-    'MAIL_ISHTML' =>TRUE, // 是否HTML格式邮件
 );
 
