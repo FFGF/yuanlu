@@ -21,7 +21,7 @@ return array(
         '__CSS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/Css',
         '__JS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/Js',
     ),
-    
+
     /*邮箱配置**********************************************/
     'MAIL_HOST' =>'',//smtp服务器的名称
     'MAIL_SMTPAUTH' =>TRUE, //启用smtp认证

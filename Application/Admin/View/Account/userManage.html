@@ -29,6 +29,24 @@
         .accountUserManageBottom .user .right img{margin-top: 2px;width: 20px}
         .accountUserManageBottom .user .right p{margin-left: 15%;margin-top: 7px;color: #41d7dd}
 
+        .accountManage{
+            width:16px;
+            height:16px;
+            float: left;
+            margin-top: 3px;
+            margin-right: 8px;
+            margin-left: 94px;
+        }
+
+        .accountManage .leftUp, .rightUp, .leftDown, .rightDown{
+            background-color: #0fcfe3;
+            width: 50%;
+            height: 50%;
+            float: left;
+            box-shadow: 0px 2px 2px #0fcfe3;
+            border-radius: 12px;
+        }
+
     </style>
 
 </block>
@@ -75,8 +93,16 @@ left: 375px;">
                 </div>
                 <div class="right">
 
+
+                    <a href="{:U('admin/Account/addaccount', array('branch_name'=>$item[0]))}"><div class="accountManage">
+                        <div class="leftUp"></div>
+                        <div class="rightUp"></div>
+                        <div class="leftDown"></div>
+                        <div class="rightDown"></div>
+                    </div></a>
+
                     <a href="{:U('admin/Account/updatenewuser',array('username'=>$key))}" >
-                        <img  style="margin-left: 120px" src="__IMG__/编辑.svg">
+                        <img src="__IMG__/编辑.svg">
                     </a>
 
                     <img  src="__IMG__/删除.svg" data-name="{$key}" onclick="display_alert(this)" style="cursor: pointer;margin-left: 1px;width: 27px;margin-top: -1px;">
@@ -92,8 +118,6 @@ left: 375px;">
 
                     </script>
 
-
-
                     <br>
                     <volist name="item" id="project">
                         <gt name="key" value="0">
@@ -103,10 +127,6 @@ left: 375px;">
                 </div>
             </div>
         </volist>
-
-        <!--
-        </form>
-          -->
 
     </div>
 </block>

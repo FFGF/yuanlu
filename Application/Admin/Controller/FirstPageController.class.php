@@ -28,10 +28,10 @@ class FirstPageController extends ChannelsController{
         //浮动盈亏 = 资产现金＋资产品－运营资金
         array_walk($add_money_product,function(&$value,$key) use($working_capital_data,$float_asset_money,$float_asset_product,$working_capital_data){
             $value = array('y'=>$value,
-                'FloatProfit'=>$value-$working_capital_data[$key],
-                'FloatAssetMoney'=>$float_asset_money[$key],
-                'FloatAssetProduct'=>$float_asset_product[$key],
-                'working'=>$working_capital_data[$key]);
+                'FloatProfit'=>number_format($value-$working_capital_data[$key], 2, '.', ','),
+                'FloatAssetMoney'=>number_format($float_asset_money[$key], 2, '.', ','),
+                'FloatAssetProduct'=>number_format($float_asset_product[$key], 2, '.', ','),
+                'working'=>number_format($working_capital_data[$key], 2, '.', ','));
         });
 
         $json['working_capital_data'] = $working_capital_data;

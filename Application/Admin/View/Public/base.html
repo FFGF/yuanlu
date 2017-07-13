@@ -121,6 +121,15 @@
                     <div class="out"></div>
                 </a>
             </div>
+            <if condition="CONTROLLER_NAME=='NewReport' AND ACTION_NAME=='getperdaydatalead'">
+               <div style="position: relative;left: -221px;top: 40px;font-size: 13px;font-weight: bold;">
+                   <i style="font-weight: bold;">资产日报 / </i>
+                   <i style="font-weight: bold;">资产日报查询 / </i>
+                   <i style="font-weight: bold;">数据呈现</i>
+               </div>
+                <else/>
+            </if>
+
         </div>
         <block name="body"></block>
     </div>

@@ -19,6 +19,9 @@
     <div class="platCon">
         <div class="platState white">
             <div class="platTitle"><h2>数据呈现</h2></div>
+            <image src="__IMG__/back_arrow.png" style="cursor: pointer; position: absolute; left: 5px;"
+                   onclick="javascript:window.history.back();"></image>
+            <p style="position: relative;left: 24px;top: 54px;font-size: 14px;color: #8ccd5a;">{$date}</p>
             <i class="refresh" onclick="javascript:location.reload(true);" title="刷新当前页面"></i>
             <div class="recordCou">
                 <form method="post" action="{:U('admin/Report/showdata')}" onsubmit="return checkDate()">

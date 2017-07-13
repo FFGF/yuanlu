@@ -324,14 +324,10 @@ class AccountController extends ChannelsController{
         $user_result = $User->getUserManage();
 
         //权限等级是3，表示是管理员权限
-        //dump($user_result);
-
+//        dump($user_result);
         $this->assign('user',$user_result);
         $this->display();
     }
-
-
-
 
     //添加新账户
     public function newuser(){
@@ -339,10 +335,6 @@ class AccountController extends ChannelsController{
         $branchlist=$branch->field('brancd.name','branch.id')->select();
         $this->assign('branchlist',$branchlist);
 
-        //使用thinkphp的U函数来传递----参数--人名---点击的是哪个人左上角的修改按钮
-        //打算获取人名后，先判断该人名是否存在（理论上存在，若不存在则提示用户重新输入）
-        //得到人名后----再数据库中找对应id，，然后update该条数据
-        //dump(I('username'));
 
         $this->display();
 
@@ -354,35 +346,17 @@ class AccountController extends ChannelsController{
         $data['power'] = 1;
         if($data['branch_id'] == 10) $data['power'] = 3;
         if($data['branch_id'] == 12) $data['power'] = 2;
-//        $project = M('branch');
-//        $maps['name'] = $data['branch_id'];
-//        //本想着计算该账户表中有几条数据
-//        $countnum=$project->count();
-//        $result = $project->field('id')
-//            ->where($maps)
-//            ->select();
-//        $data['branch_id']=$result[0]["id"];
-//        dump($data);
-//        die();
         $user = M("user");
         $user->add($data);
         $this->success("插入数据成功");
 
     }
 
-
-
     //更新账户信息
     public function updatenewuser(){
         $branch = M('branch');
         $branchlist=$branch->field('brancd.name','branch.id')->select();
         $this->assign('branchlist',$branchlist);
-
-
-        //dump(I('username'));
-        //使用thinkphp的U函数来传递----参数--人名---点击的是哪个人左上角的修改按钮
-        //打算获取人名后，先判断该人名是否存在（理论上存在，若不存在则提示用户重新输入）
-        //得到人名后----再数据库中找对应id，，然后update该条数据
 
 
         //先判断该人名如否存在nono,,,怎从账户管理页面跳转过来，肯定存在
@@ -394,8 +368,6 @@ class AccountController extends ChannelsController{
 
         $resultname=$user->join('branch on user.branch_id = branch.id')
                         ->field('user.*,branch.name as branch_name')->where($maps)->find();
-        //dump($resultname);
-        //dump($resultname[0]);
 
         $this->assign('uname',$resultname);
         $this->display();
@@ -403,27 +375,11 @@ class AccountController extends ChannelsController{
 
     public function updatenewusersave(){
 
-        //dump(updatenewuser());
-
         $data = I('post.');
 
         $data['power'] = 1;
         if($data['branch_id'] == 10) $data['power'] = 3;
         if($data['branch_id'] == 12) $data['power'] = 2;
-//        $project = M('branch');
-//        $maps['name'] = $data['branch_id'];
-//        //本想着计算该账户表中有几条数据
-//        $countnum=$project->count();
-//        $result = $project->field('id')
-//            ->where($maps)
-//            ->select();
-//        $data['branch_id']=$result[0]["id"];
-
-        //dump($data);
-        //dump($data['uname']);
-        //dump($data['user_name']);
-        //die();
-
 
         $user = M("user");
         $maps2['id']=$data['uname'];
@@ -431,8 +387,6 @@ class AccountController extends ChannelsController{
         $this->success("修改账户数据成功");
 
     }
-
-
 
     public function newbankaccount(){
         $branch = M('branch');
@@ -505,9 +459,6 @@ class AccountController extends ChannelsController{
         }
 
     }
-
-
-
 
     //从账户页面跳转   进入     建立对应用户的--新的银行账户
     public function newbankaccot(){
@@ -605,7 +556,6 @@ class AccountController extends ChannelsController{
 
     }
 
-
     //账户管理页面的   删除用户按钮
     public function deluser(){
         $tempuser=I('username');
@@ -625,6 +575,30 @@ class AccountController extends ChannelsController{
         $userlist->where($map2)->save($data);
         $this->success('该用户删除成功');
 
+    }
+
+
+
+
+    //部门下面添加账户
+    public function addAccount(){
+        //如果是get请求
+        if(IS_GET){
+            //根据部门名称获得部门id
+            $branch_id = D("Branch")->getBranchIdByBranchName(I("branch_name"));
+            //根据部门id获得部门下的项目
+            $result_project = D("Project")->where('branch_id='.'\''.$branch_id.'\'')->select();
+            $this->assign("result_project", $result_project);
+            $this->display();
+        }
+    }
+    //通过ajax技术添加从前台传送过来的数据
+    public function addProjectAjax(){
+        $data = I('post.');
+        $Project = M("Project");
+        $Project->add($data);
+        $json['code'] = 1;
+        $this->ajaxReturn($json);
     }
 
 

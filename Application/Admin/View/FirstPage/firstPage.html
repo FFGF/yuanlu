@@ -88,6 +88,13 @@
     <script src="__JS__/highcharts.js"></script>
     <script type="text/javascript">
         $(function(){
+            //位highchart设置全句的千分符
+            Highcharts.setOptions({
+                lang:{
+                    thousandsSep: ','
+                }
+            })
+
             //如果是业务人员，不能看到部门业绩对比图
             if("{:session('admin')['power']}" == 1){
                 $(".box:eq(1)").remove()
@@ -226,11 +233,13 @@
                 };
                 var legend = {layout: 'vertical', align: 'right', verticalAlign: 'large', borderWidth: 0};
                 var series =  [
-                    {name: '运营资金', data: working_capital_data,
+                    {name: '运营资金',
+                        data: working_capital_data,
                         color:'#d76364',
                         tooltip:{
+                            enabled: false,
                             valueSuffix: '元',
-                            shared:true,
+                            shared:false,
                             useHTML: true,
                             headerFormat: '<small>{point.key}</small><table>',
                             pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
@@ -244,9 +253,10 @@
                         tooltip:{
                             valueSuffix: '元',
                             shared:true,
+
                             useHTML: true,
-                            headerFormat: '<small></small><table>',
-                            pointFormat: '<tr><td style="color: {series.color}">运营资金: </td>' + '<td style="text-align: right"><b>{point.working}</b></td></tr>'
+                            headerFormat: '<small>{point.key}</small><br><table>',
+                            pointFormat: '<tr><td style="color: {series.color}">运营资金: </td>' + '<td style="text-align: right"><b>{point.working}元</b></td></tr>'
                             +'<br><tr><td style="color: {series.color}">资产总和: </td>' + '<td style="text-align: right"><b>{point.y}</b></td></tr>'
                             +'<br><tr width="100px"><td style="color: {series.color}">浮动盈亏：</td><td style="text-align: right"><b>{point.FloatProfit}元</b></td></tr>'
                             +'<br><tr width="100px"><td style="color: {series.color}">资产现金浮动：</td><td style="text-align: right"><b>{point.FloatAssetMoney}元</b></td></tr>'

@@ -9,6 +9,7 @@ function getCategory($vo){
     }
 }
 
+
 function rmbToDollar($value,$rate){
     $value = str_replace(',','',$value);
     return number_format($value/$rate,2);

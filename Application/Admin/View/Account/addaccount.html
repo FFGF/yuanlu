@@ -1,0 +1,120 @@
+<extend name="Public/base"/>
+
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/BeatPicker.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newStyle.css"/>
+
+    <script type="text/javascript"></script>
+    <style type="text/css">
+        .rbrqxz .now{color:#01b6e1;}
+        .rbrqxz .step .color{color:#918f8f}
+        .rbrqxz .step .marginLeft{margin-left: -20px}
+        .hllr{margin-top: 10px;background-color: red;width: 900px;background: white;overflow: hidden;position: relative}
+        .hllr .left{width: 50%;background-color: white;padding-top: 16px;float: left;padding-bottom: 100px}
+        .hllr .tip{font-size: 20px;width: 130px;margin: 0px auto;margin-bottom: 20px;text-align: center;border-bottom: 2px solid #01b6e1;height: 30px;}
+        .hllr .left .ul{color: #cdcdcd;font-size: 18px; margin-left: 100px;margin-top: 30px;width: 335px;}
+
+        .hllr .left .ul li{margin-top: 5px;text-align: left}
+
+        .hllr .right{padding-top: 16px;float: left;background-color: white;width: 50%;padding-bottom: 20px}
+        .hllr .right ul{margin-left: 100px;}
+        .hllr .right ul li{margin-bottom: 20px; border-bottom: 2px solid #f3f3f5; width: 313px;height: 30px;}
+        .hllr .right ul li select{width: 165px; height: 25px; border: 1px solid aliceblue;margin-left: 28px}
+
+        .hllr .right ul > li:nth-of-type(1) input{margin-left: 56px;}
+        .hllr .right ul > li:nth-of-type(2) input{margin-left: 35px;}
+        .hllr .right ul > li:nth-of-type(3) input{margin-left: 37px;}
+        .hllr .right ul > li:last-of-type{margin-bottom: 0px }
+        .hllr .right .bold{color: black;font-size: 15px;font-weight: bold;}
+        .hllr .right button{cursor: pointer;width: 100px;margin-top: 25px;font-size: 17px;border-radius: 5px;color: #e2e2e3;margin-top: 160px;background-color: white;}
+        .hllr .right .leftButton{margin-left: 90px;border: 2px solid #8ccd5a;color:#8ccd5a}
+        .hllr .right .rightButton{margin-left: 60px;border: 2px solid #8ccd5a;background-color: #8ccd5a;color: white}
+        .hllr .centerBarRed{position: absolute;background-color: #e15e6b;width: 5px;height: 214px;left: 50%;top: 20px;}
+        .hllr .centerBarGray{position: absolute;width: 5px;height: 200px;background-color: #e2e2e3;left: 50%;top: 234px;}
+    </style>
+
+</block>
+<block name="body">
+
+    <!--汇率录入-->
+    <div class="rbrqxz ">
+        <div class="nav">账户管理 &gt; <i class="now">账户列表</i> &gt; 添加新账户</div>
+        <div class="step">
+            <div class="step1 color marginLeft">添加新账户</div>
+        </div>
+        <div class="hllr">
+            <div class="left">
+                <div class="tip">部门账户列表</div>
+
+                <ul class="ul">
+
+                    <volist name="result_project" id="item">
+                        <li>{$item["name"]}</li>
+                    </volist>
+                </ul>
+
+
+            </div>
+            <div class="right">
+                <div class="tip">账户详情</div>
+                <input type="hidden" value="{$result_project[0]['branch_id']}" id="branch_id">
+                    <ul>
+                        <li><i class="bold">账户类型：</i>
+                            <select name="category" id="category">
+                            <option value=1>银行</option>
+                            <option value=2>期货</option>
+                            <option value=3>存货</option>
+                        </select>
+                        </li>
+
+                        <li><i class="bold">币&emsp;&emsp;种：</i>
+                            <select name="bank_category" id="bank_category">
+                                <option value=1>美元</option>
+                                <option value=0>人民币</option>
+                            </select>
+                        </li>
+                        <li><i class="bold">账户名称：</i><input type="text" name="project_name" id="project_name" placeholder="请输入账户名称"> </li>
+                    </ul>
+                    <button class="leftButton" type="reset">取消</button>
+                    <button class="rightButton" id="submit">提交</button>
+            </div>
+            <div class="centerBarRed"></div>
+            <div class="centerBarGray"></div>
+        </div>
+    </div>
+
+
+
+</block>
+<block name="script">
+    <script><if condition="($Think.request.status neq '') OR ($Think.request.s_time neq '') OR ($Think.request.e_time neq '') ">toggel("reSearchM");<else />toggel("RCsearch");</if></script>
+    <script src="__JS__/BeatPicker.min.js"></script>
+    <script src="__JS__/changeDate.js"></script>
+    <script type="text/javascript">
+
+        $("#submit").on('click',function(){
+            var project_name = $("#project_name").val()
+
+            if(!project_name){
+                alert("请输入账户名称");
+                return false;
+            }
+
+            var category = $("#category").val();
+            var bank_category = $("#bank_category").val();
+            var branch_id = $("#branch_id").val();
+
+            var url = "/admin/account-addprojectajax.html";
+            var data={"name":project_name, "branch_id":branch_id,"category":category, "bank_category":bank_category};
+            $.post(url, data, function(response){
+                if(response['code'] == 1){
+                    alert("账户添加成功");
+                    window.location.reload();
+                }
+            });
+
+
+
+        })
+    </script>
+</block>
